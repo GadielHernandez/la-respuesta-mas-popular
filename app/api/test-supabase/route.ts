@@ -5,8 +5,8 @@ export async function GET() {
   try {
     const supabase = await createClient()
 
-    // Test the connection by getting the current timestamp from the database
-    const { data, error } = await supabase
+    // Test the connection by querying a test table
+    const { error } = await supabase
       .from('_test')
       .select('*')
       .limit(1)

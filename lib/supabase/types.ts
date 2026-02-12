@@ -8,21 +8,14 @@ export type Json =
 
 export interface Database {
   public: {
-    Tables: {
-      // Tables will be defined as the schema evolves
-      // This is a placeholder structure
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      [_ in never]: never
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
+    Tables: Record<string, never>
+    Views: Record<string, never>
+    Functions: Record<string, never>
+    Enums: Record<string, never>
+    CompositeTypes: Record<string, never>
   }
 }
+
+// Note: This file contains placeholder types
+// When database tables are created, regenerate types using:
+// npx supabase gen types typescript --project-id <project-id> > lib/supabase/types.ts
