@@ -16,7 +16,12 @@ export async function GET() {
 
     if (error) {
       // If the error is about a missing table, the connection is working
-      if (error.message.includes('does not exist') || error.message.includes('relation')) {
+      if (
+        error.message.includes('does not exist') ||
+        error.message.includes('relation') ||
+        error.message.includes('Could not find the table') ||
+        error.message.includes('schema cache')
+      ) {
         return NextResponse.json({
           success: true,
           message: 'Supabase connection successful (no tables exist yet)',
