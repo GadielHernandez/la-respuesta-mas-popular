@@ -1,63 +1,117 @@
-import Image from "next/image";
+import { cn } from '@/lib/utils'
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="flex min-h-screen items-center justify-center bg-gray-50">
+      <main className="flex flex-col items-center gap-8 p-8 max-w-4xl w-full">
+        {/* Header */}
+        <div className="text-center">
+          <h1 className="text-4xl font-bold font-display mb-2">
+            La Respuesta más Popular
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-gray-600 font-sans">
+            Tailwind CSS Configuration Test
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Custom Colors Demo */}
+        <section className="w-full">
+          <h2 className="text-2xl font-semibold font-display mb-4">Custom Colors</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Primary Colors */}
+            <div className="space-y-2">
+              <h3 className="font-semibold text-sm">Primary (Blue)</h3>
+              <div className="bg-primary-light text-gray-900 p-4 rounded-lg">
+                primary-light
+              </div>
+              <div className="bg-primary text-white p-4 rounded-lg">
+                primary
+              </div>
+              <div className="bg-primary-dark text-white p-4 rounded-lg">
+                primary-dark
+              </div>
+            </div>
+
+            {/* Secondary Colors */}
+            <div className="space-y-2">
+              <h3 className="font-semibold text-sm">Secondary (Green)</h3>
+              <div className="bg-secondary-light text-gray-900 p-4 rounded-lg">
+                secondary-light
+              </div>
+              <div className="bg-secondary text-white p-4 rounded-lg">
+                secondary
+              </div>
+              <div className="bg-secondary-dark text-white p-4 rounded-lg">
+                secondary-dark
+              </div>
+            </div>
+
+            {/* Status Colors */}
+            <div className="space-y-2">
+              <h3 className="font-semibold text-sm">Status Colors</h3>
+              <div className="bg-danger text-white p-4 rounded-lg">
+                danger
+              </div>
+              <div className="bg-warning text-white p-4 rounded-lg">
+                warning
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* cn() Function Demo */}
+        <section className="w-full">
+          <h2 className="text-2xl font-semibold font-display mb-4">
+            cn() Function Test
+          </h2>
+          <div className="space-y-4">
+            <div
+              className={cn(
+                "p-4 rounded-lg",
+                "bg-primary text-white",
+                "font-semibold"
+              )}
+            >
+              This uses cn() to merge classes
+            </div>
+            <div
+              className={cn(
+                "p-4 rounded-lg bg-primary",
+                "bg-secondary text-white"
+              )}
+            >
+              cn() resolves conflicts: bg-secondary overrides bg-primary
+            </div>
+          </div>
+        </section>
+
+        {/* Font Demo */}
+        <section className="w-full">
+          <h2 className="text-2xl font-semibold font-display mb-4">
+            Custom Fonts
+          </h2>
+          <div className="space-y-4">
+            <div className="p-4 bg-white rounded-lg shadow">
+              <p className="font-sans text-lg">
+                This text uses <strong>Inter</strong> (font-sans) - the default body font
+              </p>
+            </div>
+            <div className="p-4 bg-white rounded-lg shadow">
+              <p className="font-display text-lg font-semibold">
+                This text uses <strong>Poppins</strong> (font-display) - for headings
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Success Message */}
+        <div className="w-full p-6 bg-secondary-light border-2 border-secondary rounded-lg text-center">
+          <p className="text-lg font-semibold text-secondary-dark">
+            ✅ Tailwind CSS is configured correctly!
+          </p>
+          <p className="text-sm text-gray-700 mt-2">
+            All custom colors, fonts, and utilities are working as expected.
+          </p>
         </div>
       </main>
     </div>
