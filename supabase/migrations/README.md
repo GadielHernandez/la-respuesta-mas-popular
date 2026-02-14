@@ -5,11 +5,13 @@ This directory contains all database migration files for the project.
 ## Naming Convention
 
 Migrations follow this format:
+
 ```
 <timestamp>_<description>.sql
 ```
 
 Example:
+
 ```
 20240210120000_create_question_sets_table.sql
 20240210130000_add_user_id_index.sql
@@ -44,6 +46,7 @@ supabase migration new create_games_table
 ### Manual Creation
 
 Create a new file following the naming convention:
+
 ```bash
 touch supabase/migrations/20240213140000_add_question_multipliers.sql
 ```
@@ -180,6 +183,7 @@ Before committing a migration, verify:
 ## Schema Reference
 
 See [DEVELOPMENT_PLAN.md](../../DEVELOPMENT_PLAN.md) for:
+
 - Complete database schema
 - All table definitions
 - Index specifications
@@ -189,23 +193,27 @@ See [DEVELOPMENT_PLAN.md](../../DEVELOPMENT_PLAN.md) for:
 ## Common Patterns
 
 ### Adding a Column
+
 ```sql
 ALTER TABLE table_name
 ADD COLUMN IF NOT EXISTS new_column TEXT;
 ```
 
 ### Creating an Index
+
 ```sql
 CREATE INDEX IF NOT EXISTS idx_table_column
 ON table_name(column_name);
 ```
 
 ### Enabling RLS
+
 ```sql
 ALTER TABLE table_name ENABLE ROW LEVEL SECURITY;
 ```
 
 ### Foreign Key
+
 ```sql
 user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE
 ```
@@ -213,12 +221,14 @@ user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE
 ## Troubleshooting
 
 ### Migration Failed
+
 1. Check SQL syntax
 2. Verify table/column names
 3. Check for conflicts with existing schema
 4. Review error logs: `supabase db logs`
 
 ### RLS Blocking Queries
+
 1. Verify policies are correct
 2. Test with `auth.uid()` function
 3. Check user permissions

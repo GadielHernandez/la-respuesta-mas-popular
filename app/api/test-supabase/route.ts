@@ -6,10 +6,7 @@ export async function GET() {
     const supabase = await createClient()
 
     // Test the connection by querying a test table
-    const { error } = await supabase
-      .from('_test')
-      .select('*')
-      .limit(1)
+    const { error } = await supabase.from('_test').select('*').limit(1)
 
     // Note: This query will fail if no tables exist yet, which is expected
     // The important thing is that we can connect to Supabase
@@ -25,27 +22,33 @@ export async function GET() {
         return NextResponse.json({
           success: true,
           message: 'Supabase connection successful (no tables exist yet)',
-          error: null
+          error: null,
         })
       }
 
-      return NextResponse.json({
-        success: false,
-        message: 'Supabase query failed',
-        error: error.message
-      }, { status: 500 })
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Supabase query failed',
+          error: error.message,
+        },
+        { status: 500 }
+      )
     }
 
     return NextResponse.json({
       success: true,
       message: 'Supabase connection successful',
-      error: null
+      error: null,
     })
   } catch (error) {
-    return NextResponse.json({
-      success: false,
-      message: 'Failed to connect to Supabase',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 })
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Failed to connect to Supabase',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    )
   }
 }

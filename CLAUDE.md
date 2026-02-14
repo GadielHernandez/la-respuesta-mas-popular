@@ -11,6 +11,7 @@
 ## Filosofía de Desarrollo
 
 ### Principios Core
+
 1. **Incremental & Iterative:** Desarrollar en pequeños pasos verificables
 2. **Type-Safe First:** TypeScript estricto, evitar `any`
 3. **Component Reusability:** DRY (Don't Repeat Yourself)
@@ -19,6 +20,7 @@
 6. **Performance:** Optimizar desde el inicio (lazy loading, memoization)
 
 ### Prioridades
+
 - ✅ Funcionalidad correcta > Features adicionales
 - ✅ Código legible > Código clever
 - ✅ Testing manual exhaustivo antes de merge
@@ -59,6 +61,7 @@ import { Button } from '../../../components/ui/Button'
 ```
 
 **Orden de imports:**
+
 1. Librerías externas (React, Next, etc.)
 2. Aliases internos (`@/`)
 3. Imports relativos (`./ ../`)
@@ -83,6 +86,7 @@ import { localFunction } from './helpers'
 ### TypeScript Configuration
 
 **tsconfig.json debe incluir:**
+
 ```json
 {
   "compilerOptions": {
@@ -103,6 +107,7 @@ import { localFunction } from './helpers'
 **Ubicación:** Siempre en `types/` directory
 
 **Naming:**
+
 - Interfaces: PascalCase con `I` prefix opcional
 - Types: PascalCase
 - Enums: PascalCase
@@ -127,6 +132,7 @@ export interface TeamData {
 ```
 
 **Reglas:**
+
 - ✅ Exportar todos los tipos
 - ✅ Usar tipos literales en lugar de enums cuando sea posible
 - ✅ Definir tipos de retorno explícitos en funciones
@@ -162,6 +168,7 @@ function formatDate(date: Date): string {
 **Naming:** PascalCase, un componente por archivo
 
 **Estructura de componente:**
+
 ```typescript
 // components/game/AnswerCard.tsx
 import React from 'react'
@@ -212,6 +219,7 @@ export const AnswerCard: React.FC<AnswerCardProps> = ({
 ```
 
 **Orden dentro del componente:**
+
 1. Props interface
 2. Component definition
 3. Hooks (useState, useEffect, custom hooks)
@@ -235,14 +243,14 @@ export const useGameState = (initialState: GameState) => {
   const revealAnswer = useCallback((answerIndex: number) => {
     setGameState(prev => ({
       ...prev,
-      revealedAnswers: [...prev.revealedAnswers, answerIndex]
+      revealedAnswers: [...prev.revealedAnswers, answerIndex],
     }))
   }, [])
 
   const addStrike = useCallback(() => {
     setGameState(prev => ({
       ...prev,
-      strikes: prev.strikes + 1
+      strikes: prev.strikes + 1,
     }))
   }, [])
 
@@ -258,10 +266,12 @@ export const useGameState = (initialState: GameState) => {
 ### Server vs Client Components
 
 **Next.js App Router:**
+
 - Por defecto, componentes son Server Components
 - Agregar `'use client'` solo cuando sea necesario
 
 **Cuándo usar 'use client':**
+
 - useState, useEffect, otros hooks de React
 - Event handlers (onClick, onChange, etc.)
 - Browser APIs (localStorage, window, etc.)
@@ -310,16 +320,16 @@ const config: Config = {
       colors: {
         primary: {
           DEFAULT: '#3B82F6', // blue-500
-          dark: '#1E40AF',    // blue-800
-          light: '#93C5FD',   // blue-300
+          dark: '#1E40AF', // blue-800
+          light: '#93C5FD', // blue-300
         },
         secondary: {
           DEFAULT: '#10B981', // green-500
-          dark: '#047857',    // green-700
-          light: '#6EE7B7',   // green-300
+          dark: '#047857', // green-700
+          light: '#6EE7B7', // green-300
         },
-        danger: '#EF4444',    // red-500
-        warning: '#F59E0B',   // amber-500
+        danger: '#EF4444', // red-500
+        warning: '#F59E0B', // amber-500
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
@@ -336,6 +346,7 @@ export default config
 ### Convenciones de Clases
 
 **Orden de clases Tailwind (recomendado):**
+
 1. Layout (display, position)
 2. Box model (width, height, padding, margin)
 3. Typography (font, text)
@@ -357,6 +368,7 @@ import { cn } from '@/lib/utils'
 ```
 
 **Responsive Design:**
+
 ```typescript
 // Mobile first approach
 <div className="w-full md:w-1/2 lg:w-1/3">
@@ -365,6 +377,7 @@ import { cn } from '@/lib/utils'
 ```
 
 **Componentes reutilizables con variants:**
+
 ```typescript
 // components/ui/Button.tsx
 interface ButtonProps {
@@ -419,6 +432,7 @@ export const Button: React.FC<ButtonProps> = ({
 ### Client Setup
 
 **lib/supabase/client.ts** (Client-side):
+
 ```typescript
 import { createBrowserClient } from '@supabase/ssr'
 
@@ -431,6 +445,7 @@ export const createClient = () => {
 ```
 
 **lib/supabase/server.ts** (Server-side):
+
 ```typescript
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
@@ -455,6 +470,7 @@ export const createClient = () => {
 ### Queries Organization
 
 **lib/supabase/queries.ts:**
+
 ```typescript
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { QuestionSet, Question } from '@/types/question.types'
@@ -500,7 +516,7 @@ export const gameQueries = {
   // Obtener historial
   async getGameHistory(supabase: SupabaseClient, userId: string) {
     // Implementation
-  }
+  },
 }
 ```
 
@@ -530,6 +546,7 @@ try {
 ### Strategy
 
 Para este proyecto usaremos:
+
 - **React Context + useReducer** para game state (complejo, muchas acciones)
 - **useState** para estado local de componentes
 - **Custom hooks** para encapsular lógica reutilizable
@@ -537,6 +554,7 @@ Para este proyecto usaremos:
 ### Game Context Example
 
 **contexts/GameContext.tsx:**
+
 ```typescript
 'use client'
 
@@ -636,6 +654,7 @@ export const useGame = () => {
 ### Storage Adapter Pattern
 
 **lib/storage/localStorage.ts:**
+
 ```typescript
 import type { QuestionSet, GameHistory } from '@/types'
 
@@ -694,11 +713,12 @@ export const localStorageAdapter = {
 
   clearCurrentGame(): void {
     localStorage.removeItem(STORAGE_KEYS.CURRENT_GAME)
-  }
+  },
 }
 ```
 
 **lib/storage/supabaseStorage.ts:**
+
 ```typescript
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { QuestionSet, GameHistory } from '@/types'
@@ -715,9 +735,7 @@ export const supabaseStorageAdapter = (supabase: SupabaseClient) => ({
   },
 
   async saveQuestionSet(set: QuestionSet, userId: string): Promise<void> {
-    const { error } = await supabase
-      .from('question_sets')
-      .upsert({ ...set, user_id: userId })
+    const { error } = await supabase.from('question_sets').upsert({ ...set, user_id: userId })
 
     if (error) throw error
   },
@@ -735,6 +753,7 @@ export const supabaseStorageAdapter = (supabase: SupabaseClient) => ({
 Antes de crear PR, verificar:
 
 **Game Flow:**
+
 - [ ] Revelar respuestas funciona correctamente
 - [ ] Sistema de strikes cuenta correctamente (máximo 3)
 - [ ] Cambio de turno funciona al llegar a 3 strikes
@@ -745,12 +764,14 @@ Antes de crear PR, verificar:
 - [ ] Navegación a siguiente pregunta funciona
 
 **Data Persistence:**
+
 - [ ] Modo sin login guarda en localStorage
 - [ ] Modo con login guarda en Supabase
 - [ ] Datos persisten al recargar página
 - [ ] No hay pérdida de datos durante el juego
 
 **UI/UX:**
+
 - [ ] Responsive en tablet/desktop
 - [ ] Botones y controles responden correctamente
 - [ ] Loading states visibles cuando aplique
@@ -760,6 +781,7 @@ Antes de crear PR, verificar:
 ### Unit Testing (futuro)
 
 Cuando se agreguen tests:
+
 ```typescript
 // __tests__/lib/game/scoring.test.ts
 import { calculateScore } from '@/lib/game/scoring'
@@ -788,6 +810,7 @@ docs/update-readme
 ```
 
 **Ejemplos:**
+
 - `feature/#12-create-game-engine`
 - `feature/#18-implement-gameboard`
 - `hotfix/scoring-calculation-bug`
@@ -797,6 +820,7 @@ docs/update-readme
 **Formato:** `<type>: <description>`
 
 **Types:**
+
 - `feat:` Nueva funcionalidad
 - `fix:` Corrección de bug
 - `refactor:` Refactorización sin cambio de funcionalidad
@@ -806,6 +830,7 @@ docs/update-readme
 - `chore:` Tareas de mantenimiento
 
 **Ejemplos:**
+
 ```
 feat: implement answer reveal animation
 fix: correct strike counter logic
@@ -819,24 +844,30 @@ docs: add setup instructions to README
 **Título:** `[#<issue-number>] Brief description`
 
 **Descripción:**
+
 ```markdown
 ## Descripción
+
 Breve explicación de qué se implementó y por qué.
 
 ## Cambios realizados
+
 - Cambio 1
 - Cambio 2
 - Cambio 3
 
 ## Cómo probar
+
 1. Paso 1
 2. Paso 2
 3. Resultado esperado
 
 ## Screenshots (si aplica)
+
 [Agregar screenshots de UI]
 
 ## Checklist
+
 - [ ] Código funciona correctamente
 - [ ] Testing manual completado
 - [ ] Sin errores de TypeScript
@@ -923,15 +954,10 @@ const { data } = await supabase
   .eq('user_id', userId)
 
 // ❌ Evitar select(*)
-const { data } = await supabase
-  .from('games')
-  .select('*') // Trae todo, incluso datos que no necesitas
+const { data } = await supabase.from('games').select('*') // Trae todo, incluso datos que no necesitas
 
 // ✅ Usar paginación
-const { data } = await supabase
-  .from('games')
-  .select('*')
-  .range(0, 9) // Primeros 10 resultados
+const { data } = await supabase.from('games').select('*').range(0, 9) // Primeros 10 resultados
 ```
 
 ---
@@ -1079,16 +1105,15 @@ export default async function Page() {
 
 ```typescript
 // Ver query SQL generado
-const { data, error } = await supabase
-  .from('games')
-  .select()
-  .eq('user_id', userId)
+const { data, error } = await supabase.from('games').select().eq('user_id', userId)
 
 console.log('Data:', data)
 console.log('Error:', error)
 
 // Ver session actual
-const { data: { session } } = await supabase.auth.getSession()
+const {
+  data: { session },
+} = await supabase.auth.getSession()
 console.log('Current session:', session)
 ```
 
@@ -1097,6 +1122,7 @@ console.log('Current session:', session)
 ## Resources
 
 ### Documentación Oficial
+
 - [Next.js Docs](https://nextjs.org/docs)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 - [Tailwind CSS Docs](https://tailwindcss.com/docs)
@@ -1104,6 +1130,7 @@ console.log('Current session:', session)
 - [React Docs](https://react.dev)
 
 ### Herramientas Útiles
+
 - [TypeScript Playground](https://www.typescriptlang.org/play)
 - [Tailwind Play](https://play.tailwindcss.com)
 - [Supabase Studio](https://app.supabase.com)
@@ -1113,6 +1140,7 @@ console.log('Current session:', session)
 ## Contacto y Soporte
 
 Si tienes dudas sobre estas convenciones:
+
 1. Revisa este documento primero
 2. Consulta el DEVELOPMENT_PLAN.md
 3. Pregunta en el issue correspondiente de GitHub

@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:wght@400;500;600;700;800&display=swap');
 
 /* Import Tailwind CSS */
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* CSS Variables for theme colors */
 :root {
@@ -10,18 +10,18 @@
   --foreground: #171717;
 
   /* Primary colors (Blue) */
-  --primary: #3B82F6;
-  --primary-dark: #1E40AF;
-  --primary-light: #93C5FD;
+  --primary: #3b82f6;
+  --primary-dark: #1e40af;
+  --primary-light: #93c5fd;
 
   /* Secondary colors (Green) */
-  --secondary: #10B981;
+  --secondary: #10b981;
   --secondary-dark: #047857;
-  --secondary-light: #6EE7B7;
+  --secondary-light: #6ee7b7;
 
   /* Status colors */
-  --danger: #EF4444;
-  --warning: #F59E0B;
+  --danger: #ef4444;
+  --warning: #f59e0b;
 }
 
 @theme inline {
@@ -60,7 +60,12 @@ body {
 }
 
 /* Heading styles using display font */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
 }
 

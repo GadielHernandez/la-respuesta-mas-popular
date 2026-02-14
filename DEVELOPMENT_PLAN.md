@@ -5,6 +5,7 @@
 **La Respuesta más Popular** es una aplicación web interactiva tipo "100 mexicanos dijeron" / Family Feud que permite a dos equipos competir respondiendo encuestas. El juego funciona tanto sin autenticación (usando localStorage) como con usuarios registrados (guardando datos en Supabase).
 
 ### Objetivos del Proyecto
+
 - ✅ Crear experiencia de juego completa y fluida para 2 equipos
 - ✅ Permitir juego inmediato sin registro (modo localStorage)
 - ✅ Ofrecer persistencia y funcionalidades avanzadas con registro
@@ -12,6 +13,7 @@
 - ✅ Historial y estadísticas detalladas de partidas
 
 ### Stack Tecnológico
+
 - **Framework:** Next.js 14+ (App Router)
 - **Lenguaje:** TypeScript
 - **Estilos:** Tailwind CSS
@@ -20,6 +22,7 @@
 - **Estado:** React Context API / Zustand (a definir por complejidad)
 
 ### Métricas de Éxito
+
 - Juego completamente funcional sin bugs críticos
 - Tiempo de carga < 2 segundos
 - UI responsive y clara en desktop/tablet
@@ -256,77 +259,77 @@ CREATE POLICY "Users can create rounds in own games" ON game_rounds FOR INSERT
 
 ```typescript
 // types/game.types.ts
-export type Team = 'team1' | 'team2';
-export type GamePhase = 'setup' | 'playing' | 'stealing' | 'finished';
+export type Team = 'team1' | 'team2'
+export type GamePhase = 'setup' | 'playing' | 'stealing' | 'finished'
 
 export interface TeamData {
-  name: string;
-  score: number;
+  name: string
+  score: number
 }
 
 export interface GameState {
-  id: string;
-  phase: GamePhase;
-  currentQuestionIndex: number;
-  currentRound: number;
-  team1: TeamData;
-  team2: TeamData;
-  activeTeam: Team;
-  strikes: number;
-  revealedAnswers: number[];
-  roundPoints: number;
-  multiplier: number;
+  id: string
+  phase: GamePhase
+  currentQuestionIndex: number
+  currentRound: number
+  team1: TeamData
+  team2: TeamData
+  activeTeam: Team
+  strikes: number
+  revealedAnswers: number[]
+  roundPoints: number
+  multiplier: number
 }
 
 export interface Answer {
-  id: string;
-  text: string;
-  points: number;
-  orderIndex: number;
-  isRevealed: boolean;
+  id: string
+  text: string
+  points: number
+  orderIndex: number
+  isRevealed: boolean
 }
 
 export interface Question {
-  id: string;
-  questionText: string;
-  answers: Answer[];
-  multiplier: number;
-  orderIndex: number;
+  id: string
+  questionText: string
+  answers: Answer[]
+  multiplier: number
+  orderIndex: number
 }
 
 export interface QuestionSet {
-  id: string;
-  name: string;
-  description?: string;
-  questions: Question[];
-  isPublic: boolean;
-  userId?: string;
-  createdAt: string;
+  id: string
+  name: string
+  description?: string
+  questions: Question[]
+  isPublic: boolean
+  userId?: string
+  createdAt: string
 }
 
 export interface GameHistory {
-  id: string;
-  setId: string;
-  team1Name: string;
-  team2Name: string;
-  team1Score: number;
-  team2Score: number;
-  winner: Team | 'tie';
-  startedAt: string;
-  finishedAt: string;
-  durationSeconds: number;
-  rounds: GameRound[];
+  id: string
+  setId: string
+  team1Name: string
+  team2Name: string
+  team1Score: number
+  team2Score: number
+  winner: Team | 'tie'
+  startedAt: string
+  finishedAt: string
+  durationSeconds: number
+  rounds: GameRound[]
 }
 
 export interface GameRound {
-  id: string;
-  roundNumber: number;
-  questionId: string;
-  teamTurn: Team;
-  strikes: number;
-  pointsEarned: number;
-  winner: Team | 'stolen';
-  answersRevealed: number[];
+  id: string
+  roundNumber: number
+  questionId: string
+  teamTurn: Team
+  strikes: number
+  pointsEarned: number
+  winner: Team | 'stolen'
+  answersRevealed: number[]
 }
 ```
 
@@ -335,6 +338,7 @@ export interface GameRound {
 ## Fases de Desarrollo
 
 ### 📋 **FASE 0: Setup Inicial** (Milestone: Project Setup)
+
 **Objetivo:** Configurar el entorno de desarrollo y estructura base del proyecto
 
 **Status:** 🔴 No iniciado | **Estimación:** 1-2 días
@@ -349,6 +353,7 @@ export interface GameRound {
 ---
 
 ### 🎨 **FASE 1: UI Foundation & Design System** (Milestone: UI Components)
+
 **Objetivo:** Crear componentes UI reutilizables y layout base
 
 **Status:** 🔴 No iniciado | **Estimación:** 2-3 días
@@ -362,6 +367,7 @@ export interface GameRound {
 ---
 
 ### 🎮 **FASE 2: Game Engine Core** (Milestone: Game Logic)
+
 **Objetivo:** Implementar lógica central del juego sin persistencia
 
 **Status:** 🔴 No iniciado | **Estimación:** 4-5 días
@@ -376,6 +382,7 @@ export interface GameRound {
 ---
 
 ### 🖥️ **FASE 3: Game UI Components** (Milestone: Game Interface)
+
 **Objetivo:** Crear interfaz visual del juego
 
 **Status:** 🔴 No iniciado | **Estimación:** 3-4 días
@@ -391,6 +398,7 @@ export interface GameRound {
 ---
 
 ### 💾 **FASE 4: LocalStorage Mode** (Milestone: Offline Game)
+
 **Objetivo:** Juego completamente funcional sin autenticación
 
 **Status:** 🔴 No iniciado | **Estimación:** 2-3 días
@@ -405,6 +413,7 @@ export interface GameRound {
 ---
 
 ### 🔐 **FASE 5: Authentication** (Milestone: User Auth)
+
 **Objetivo:** Sistema de autenticación con Supabase
 
 **Status:** 🔴 No iniciado | **Estimación:** 2-3 días
@@ -419,6 +428,7 @@ export interface GameRound {
 ---
 
 ### 🗄️ **FASE 6: Database Integration** (Milestone: Data Persistence)
+
 **Objetivo:** Migrar a Supabase para usuarios autenticados
 
 **Status:** 🔴 No iniciado | **Estimación:** 3-4 días
@@ -433,6 +443,7 @@ export interface GameRound {
 ---
 
 ### ✏️ **FASE 7: CRUD de Preguntas** (Milestone: Question Management)
+
 **Objetivo:** Sistema completo para crear y gestionar preguntas
 
 **Status:** 🔴 No iniciado | **Estimación:** 4-5 días
@@ -448,6 +459,7 @@ export interface GameRound {
 ---
 
 ### 📊 **FASE 8: Game History & Stats** (Milestone: History)
+
 **Objetivo:** Historial y estadísticas de partidas jugadas
 
 **Status:** 🔴 No iniciado | **Estimación:** 3-4 días
@@ -462,6 +474,7 @@ export interface GameRound {
 ---
 
 ### ⚙️ **FASE 9: Game Features Avanzados** (Milestone: Advanced Features)
+
 **Objetivo:** Timer, multiplicadores, y features adicionales
 
 **Status:** 🔴 No iniciado | **Estimación:** 2-3 días
@@ -476,6 +489,7 @@ export interface GameRound {
 ---
 
 ### 🎯 **FASE 10: Polish & Testing** (Milestone: Production Ready)
+
 **Objetivo:** Refinamiento, testing y preparación para producción
 
 **Status:** 🔴 No iniciado | **Estimación:** 3-4 días
@@ -493,6 +507,7 @@ export interface GameRound {
 ---
 
 ### 🚀 **FASE 11: Post-Launch Enhancements** (Milestone: V1.1)
+
 **Objetivo:** Features adicionales post-MVP (nice-to-have)
 
 **Status:** 🔴 No iniciado | **Estimación:** Variable
@@ -571,19 +586,20 @@ export interface GameRound {
 
 ## Riesgos y Mitigaciones
 
-| Riesgo | Probabilidad | Impacto | Mitigación |
-|--------|--------------|---------|------------|
-| Complejidad del game state | Media | Alto | Usar state management robusto (Context + reducer), testing exhaustivo |
-| Sincronización localStorage vs Supabase | Media | Medio | Crear abstracción clara, validaciones en ambos lados |
-| Performance en carga de preguntas | Baja | Medio | Paginación, caching, optimización de queries |
-| Bugs en sistema de scoring | Media | Alto | Unit tests para scoring, validaciones estrictas |
-| UX confusa en modo "stealing" | Media | Medio | Prototipar flujo, testing con usuarios reales |
+| Riesgo                                  | Probabilidad | Impacto | Mitigación                                                            |
+| --------------------------------------- | ------------ | ------- | --------------------------------------------------------------------- |
+| Complejidad del game state              | Media        | Alto    | Usar state management robusto (Context + reducer), testing exhaustivo |
+| Sincronización localStorage vs Supabase | Media        | Medio   | Crear abstracción clara, validaciones en ambos lados                  |
+| Performance en carga de preguntas       | Baja         | Medio   | Paginación, caching, optimización de queries                          |
+| Bugs en sistema de scoring              | Media        | Alto    | Unit tests para scoring, validaciones estrictas                       |
+| UX confusa en modo "stealing"           | Media        | Medio   | Prototipar flujo, testing con usuarios reales                         |
 
 ---
 
 ## Métricas de Progreso
 
 ### Por Fase
+
 - **Fase 0:** 0/6 issues completados (0%)
 - **Fase 1:** 0/5 issues completados (0%)
 - **Fase 2:** 0/6 issues completados (0%)
@@ -598,6 +614,7 @@ export interface GameRound {
 - **Fase 11:** 0/8 issues completados (0%)
 
 ### Overall
+
 **Progreso Total:** 0/78 issues (0%)
 
 ---
@@ -605,6 +622,7 @@ export interface GameRound {
 ## Convenciones de Código
 
 Ver archivo `CLAUDE.md` para detalles completos de:
+
 - Estándares de código TypeScript
 - Convenciones de naming
 - Estructura de componentes
@@ -625,8 +643,8 @@ Ver archivo `CLAUDE.md` para detalles completos de:
 
 ## Changelog
 
-| Fecha | Cambio | Autor |
-|-------|--------|-------|
+| Fecha      | Cambio              | Autor                      |
+| ---------- | ------------------- | -------------------------- |
 | 2026-02-10 | Plan inicial creado | Product Planning Architect |
 
 ---
