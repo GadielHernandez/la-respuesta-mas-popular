@@ -36,12 +36,14 @@
 ### Instalación
 
 1. **Clonar el repositorio**
+
 ```bash
 git clone https://github.com/tu-usuario/la-respuesta-mas-popular.git
 cd la-respuesta-mas-popular
 ```
 
 2. **Instalar dependencias**
+
 ```bash
 npm install
 # o
@@ -61,6 +63,7 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
 Para obtener tus credenciales de Supabase:
+
 - Crea un proyecto en [Supabase](https://supabase.com)
 - Ve a Settings > API
 - Copia la URL y la anon key
@@ -68,6 +71,7 @@ Para obtener tus credenciales de Supabase:
 4. **Configurar base de datos**
 
 Ejecuta las migraciones de Supabase:
+
 ```bash
 # Desde Supabase Studio, ejecuta los scripts en:
 supabase/migrations/001_initial_schema.sql
@@ -75,6 +79,7 @@ supabase/migrations/002_rls_policies.sql
 ```
 
 5. **Iniciar servidor de desarrollo**
+
 ```bash
 npm run dev
 ```
@@ -133,6 +138,7 @@ la-respuesta-mas-popular/
 ### Convenciones de Código
 
 Ver [CLAUDE.md](./CLAUDE.md) para:
+
 - Estándares de TypeScript
 - Convenciones de naming
 - Estructura de componentes
@@ -141,6 +147,7 @@ Ver [CLAUDE.md](./CLAUDE.md) para:
 ### Plan de Desarrollo
 
 Ver [DEVELOPMENT_PLAN.md](./DEVELOPMENT_PLAN.md) para:
+
 - Roadmap completo del proyecto
 - Fases de desarrollo
 - Issues detallados

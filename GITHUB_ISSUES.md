@@ -3,6 +3,7 @@
 Este archivo contiene todos los issues listos para crear en GitHub. Cada issue incluye título, descripción, labels, milestone, y prioridad.
 
 **Instrucciones:**
+
 1. Crear milestones en GitHub primero (nombrados como las fases)
 2. Copiar y pegar cada issue en GitHub
 3. Asignar el milestone correspondiente
@@ -22,6 +23,7 @@ Este archivo contiene todos los issues listos para crear en GitHub. Cada issue i
 Configurar el proyecto inicial de Next.js 14+ con App Router, TypeScript, y todas las configuraciones base necesarias.
 
 **Tareas:**
+
 - [ ] Ejecutar `npx create-next-app@latest` con opciones: TypeScript, App Router, Tailwind CSS
 - [ ] Configurar `tsconfig.json` con strict mode y path aliases (`@/`)
 - [ ] Configurar `next.config.js` (si necesario)
@@ -32,12 +34,14 @@ Configurar el proyecto inicial de Next.js 14+ con App Router, TypeScript, y toda
 - [ ] Verificar que el proyecto corre con `npm run dev`
 
 **Criterios de Aceptación:**
+
 - Proyecto Next.js funcional en http://localhost:3000
 - TypeScript configurado correctamente sin errores
 - Path aliases `@/` funcionan
 - Variables de entorno configuradas
 
 **Archivos a crear/modificar:**
+
 - `package.json`
 - `tsconfig.json`
 - `.env.local`
@@ -56,6 +60,7 @@ Configurar el proyecto inicial de Next.js 14+ con App Router, TypeScript, y toda
 Configurar Tailwind CSS con colores personalizados, fuentes, y utilidades adicionales para el proyecto.
 
 **Tareas:**
+
 - [ ] Configurar `tailwind.config.ts` con tema extendido (colores primary, secondary, danger)
 - [ ] Configurar fuentes (Inter para texto, Poppins para títulos)
 - [ ] Crear `app/globals.css` con estilos base
@@ -65,12 +70,14 @@ Configurar Tailwind CSS con colores personalizados, fuentes, y utilidades adicio
 - [ ] Probar configuración con componente de ejemplo
 
 **Criterios de Aceptación:**
+
 - Tailwind funciona correctamente
 - Colores personalizados disponibles (`bg-primary`, etc.)
 - Función `cn()` funciona para merge de classes
 - No hay warnings de Tailwind en consola
 
 **Archivos a crear/modificar:**
+
 - `tailwind.config.ts`
 - `app/globals.css`
 - `lib/utils.ts`
@@ -88,6 +95,7 @@ Configurar Tailwind CSS con colores personalizados, fuentes, y utilidades adicio
 Configurar conexión con Supabase, crear proyecto, y configurar clientes para server-side y client-side rendering.
 
 **Tareas:**
+
 - [ ] Crear proyecto en Supabase (si no existe)
 - [ ] Obtener URL y anon key del proyecto
 - [ ] Actualizar `.env.local` con credenciales reales
@@ -98,12 +106,14 @@ Configurar conexión con Supabase, crear proyecto, y configurar clientes para se
 - [ ] Documentar proceso de setup en README.md
 
 **Criterios de Aceptación:**
+
 - Conexión a Supabase funciona desde cliente y servidor
 - No hay errores de autenticación
 - Variables de entorno configuradas correctamente
 - README incluye instrucciones de setup de Supabase
 
 **Archivos a crear/modificar:**
+
 - `lib/supabase/client.ts`
 - `lib/supabase/server.ts`
 - `.env.local`
@@ -124,6 +134,7 @@ Ver CLAUDE.md sección "Supabase Integration" para ejemplos de código.
 Crear toda la estructura de carpetas del proyecto según lo definido en DEVELOPMENT_PLAN.md.
 
 **Tareas:**
+
 - [ ] Crear carpeta `components/` con subcarpetas: `game/`, `questions/`, `ui/`, `layout/`
 - [ ] Crear carpeta `lib/` con subcarpetas: `supabase/`, `game/`, `storage/`, `utils/`
 - [ ] Crear carpeta `hooks/`
@@ -135,11 +146,13 @@ Crear toda la estructura de carpetas del proyecto según lo definido en DEVELOPM
 - [ ] Crear archivos README.md en carpetas principales explicando su propósito
 
 **Criterios de Aceptación:**
+
 - Estructura de carpetas completa
 - Todas las carpetas trackeadas en Git
 - READMEs en carpetas principales
 
 **Estructura completa:**
+
 ```
 app/
 components/ (game/, questions/, ui/, layout/)
@@ -163,6 +176,7 @@ supabase/
 Configurar path mapping en TypeScript para usar imports absolutos con `@/`.
 
 **Tareas:**
+
 - [ ] Actualizar `tsconfig.json` con paths configuration
 - [ ] Verificar que `@/*` mapea a `./*`
 - [ ] Probar imports en archivo de ejemplo: `import { X } from '@/lib/utils'`
@@ -170,11 +184,13 @@ Configurar path mapping en TypeScript para usar imports absolutos con `@/`.
 - [ ] Documentar uso de path aliases en CLAUDE.md
 
 **Criterios de Aceptación:**
+
 - Imports con `@/` funcionan sin errores
 - VSCode autocomplete funciona
 - No hay errores de TypeScript
 
 **Configuración en tsconfig.json:**
+
 ```json
 {
   "compilerOptions": {
@@ -197,9 +213,11 @@ Configurar path mapping en TypeScript para usar imports absolutos con `@/`.
 Crear archivo CLAUDE.md que documenta todas las convenciones de código, patrones, y estándares del proyecto.
 
 **Tareas:**
+
 - [x] Ya fue creado en el setup inicial
 
 **Criterios de Aceptación:**
+
 - [x] Archivo CLAUDE.md existe en la raíz del proyecto
 - [x] Incluye todas las convenciones necesarias
 
@@ -217,6 +235,7 @@ Crear archivo CLAUDE.md que documenta todas las convenciones de código, patrone
 Crear componentes UI reutilizables que serán la base de toda la interfaz del juego.
 
 **Tareas:**
+
 - [ ] Crear `components/ui/Button.tsx` con variants (primary, secondary, danger) y sizes (sm, md, lg)
 - [ ] Crear `components/ui/Card.tsx` para contenedores
 - [ ] Crear `components/ui/Input.tsx` para formularios
@@ -226,6 +245,7 @@ Crear componentes UI reutilizables que serán la base de toda la interfaz del ju
 - [ ] Agregar Storybook o página de demo (opcional)
 
 **Criterios de Aceptación:**
+
 - Todos los componentes funcionan correctamente
 - Props typesafe con TypeScript
 - Estilos consistentes con sistema de diseño
@@ -233,6 +253,7 @@ Crear componentes UI reutilizables que serán la base de toda la interfaz del ju
 - Componentes reutilizables y composables
 
 **Ejemplo Button:**
+
 ```typescript
 interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'danger'
@@ -245,6 +266,7 @@ interface ButtonProps {
 ```
 
 **Archivos a crear:**
+
 - `components/ui/Button.tsx`
 - `components/ui/Card.tsx`
 - `components/ui/Input.tsx`
@@ -262,6 +284,7 @@ interface ButtonProps {
 Crear el layout principal de la aplicación con header, navegación, y footer.
 
 **Tareas:**
+
 - [ ] Crear `components/layout/Header.tsx`
 - [ ] Crear `components/layout/Navigation.tsx` con links principales
 - [ ] Actualizar `app/layout.tsx` con estructura base
@@ -271,18 +294,21 @@ Crear el layout principal de la aplicación con header, navegación, y footer.
 - [ ] Crear footer básico
 
 **Criterios de Aceptación:**
+
 - Header visible en todas las páginas
 - Navegación funcional (links a diferentes secciones)
 - Responsive en mobile/tablet/desktop
 - Layout consistente en toda la app
 
 **Páginas en navegación:**
+
 - Inicio
 - Jugar
 - Mis Preguntas (auth required)
 - Historial (auth required)
 
 **Archivos a crear:**
+
 - `components/layout/Header.tsx`
 - `components/layout/Navigation.tsx`
 - `app/layout.tsx` (modificar)
@@ -299,6 +325,7 @@ Crear el layout principal de la aplicación con header, navegación, y footer.
 Crear la página de inicio (landing page) que presenta el juego y permite iniciar partida o registrarse.
 
 **Tareas:**
+
 - [ ] Actualizar `app/page.tsx` con contenido de landing
 - [ ] Crear sección hero con título y descripción del juego
 - [ ] Agregar botones principales: "Jugar sin registro" y "Crear cuenta"
@@ -308,18 +335,21 @@ Crear la página de inicio (landing page) que presenta el juego y permite inicia
 - [ ] Optimizar imágenes (si hay)
 
 **Criterios de Aceptación:**
+
 - Landing page atractiva y clara
 - CTA buttons funcionan (links a /play y /register)
 - Responsive en todos los tamaños de pantalla
 - Contenido explica claramente el juego
 
 **Secciones:**
+
 1. Hero (título, subtítulo, CTA buttons)
 2. Cómo jugar (reglas básicas)
 3. Features (sin login, con login, personalizar preguntas)
 4. Footer
 
 **Archivos a crear/modificar:**
+
 - `app/page.tsx`
 
 ---
@@ -334,6 +364,7 @@ Crear la página de inicio (landing page) que presenta el juego y permite inicia
 Crear página donde usuarios configuran la partida antes de jugar (nombres de equipos, selección de set de preguntas).
 
 **Tareas:**
+
 - [ ] Crear `app/(game)/setup/page.tsx`
 - [ ] Crear formulario para nombres de equipos (Team 1, Team 2)
 - [ ] Crear selector de set de preguntas (dropdown o lista)
@@ -343,12 +374,14 @@ Crear página donde usuarios configuran la partida antes de jugar (nombres de eq
 - [ ] Guardar configuración en state/context
 
 **Criterios de Aceptación:**
+
 - Formulario completo y funcional
 - Validaciones previenen iniciar juego sin datos completos
 - Configuración se pasa correctamente a la página de juego
 - UI clara e intuitiva
 
 **Campos del formulario:**
+
 - Nombre Equipo 1 (input text, required)
 - Nombre Equipo 2 (input text, required)
 - Set de preguntas (select, required)
@@ -357,6 +390,7 @@ Crear página donde usuarios configuran la partida antes de jugar (nombres de eq
 - Habilitar multiplicadores (checkbox)
 
 **Archivos a crear:**
+
 - `app/(game)/setup/page.tsx`
 - `app/(game)/layout.tsx` (si necesario)
 
@@ -372,6 +406,7 @@ Crear página donde usuarios configuran la partida antes de jugar (nombres de eq
 Asegurar que todos los componentes creados hasta ahora son completamente responsive.
 
 **Tareas:**
+
 - [ ] Revisar breakpoints de Tailwind (sm, md, lg, xl)
 - [ ] Ajustar layout para tablet (768px+)
 - [ ] Ajustar layout para desktop (1024px+)
@@ -381,6 +416,7 @@ Asegurar que todos los componentes creados hasta ahora son completamente respons
 - [ ] Probar navegación mobile vs desktop
 
 **Criterios de Aceptación:**
+
 - Landing page responsive en todos los tamaños
 - Header/Navigation adapta a mobile (hamburger menu si necesario)
 - Setup page funciona bien en tablet/desktop
@@ -388,6 +424,7 @@ Asegurar que todos los componentes creados hasta ahora son completamente respons
 - Elementos mantienen proporciones correctas
 
 **Testing en:**
+
 - Mobile: 375px, 414px
 - Tablet: 768px, 1024px
 - Desktop: 1280px, 1920px
@@ -406,6 +443,7 @@ Asegurar que todos los componentes creados hasta ahora son completamente respons
 Definir todos los tipos TypeScript necesarios para el game engine y state management.
 
 **Tareas:**
+
 - [ ] Crear `types/game.types.ts` con tipos del juego
 - [ ] Definir `GameState` interface completo
 - [ ] Definir `Team`, `GamePhase` types
@@ -415,12 +453,14 @@ Definir todos los tipos TypeScript necesarios para el game engine y state manage
 - [ ] Exportar todos los tipos correctamente
 
 **Criterios de Aceptación:**
+
 - Todos los tipos necesarios definidos
 - No hay tipos `any`
 - Tipos son reutilizables y composables
 - Documentación con JSDoc en tipos complejos
 
 **Tipos principales:**
+
 ```typescript
 type Team = 'team1' | 'team2'
 type GamePhase = 'setup' | 'playing' | 'stealing' | 'finished'
@@ -441,6 +481,7 @@ interface GameState {
 ```
 
 **Archivos a crear:**
+
 - `types/game.types.ts`
 - `types/question.types.ts`
 - `types/database.types.ts`
@@ -457,6 +498,7 @@ interface GameState {
 Crear el motor del juego con toda la lógica de turnos, strikes, y reglas del juego.
 
 **Tareas:**
+
 - [ ] Crear `lib/game/gameEngine.ts`
 - [ ] Implementar función `revealAnswer()`
 - [ ] Implementar función `addStrike()`
@@ -468,6 +510,7 @@ Crear el motor del juego con toda la lógica de turnos, strikes, y reglas del ju
 - [ ] Agregar validaciones y edge cases
 
 **Criterios de Aceptación:**
+
 - Todas las reglas del juego implementadas correctamente
 - 3 strikes causa cambio de turno
 - Modo "stealing" funciona correctamente
@@ -475,6 +518,7 @@ Crear el motor del juego con toda la lógica de turnos, strikes, y reglas del ju
 - Código bien documentado y testeado manualmente
 
 **Funciones principales:**
+
 ```typescript
 export const gameEngine = {
   revealAnswer(state: GameState, answerIndex: number): GameState
@@ -487,9 +531,11 @@ export const gameEngine = {
 ```
 
 **Archivos a crear:**
+
 - `lib/game/gameEngine.ts`
 
 **Dependencias:**
+
 - Issue #12 (tipos)
 
 ---
@@ -504,6 +550,7 @@ export const gameEngine = {
 Implementar React Context con useReducer para manejar el estado global del juego.
 
 **Tareas:**
+
 - [ ] Crear `contexts/GameContext.tsx`
 - [ ] Definir action types para todas las acciones del juego
 - [ ] Implementar reducer con todos los casos
@@ -513,6 +560,7 @@ Implementar React Context con useReducer para manejar el estado global del juego
 - [ ] Integrar con gameEngine del issue #13
 
 **Criterios de Aceptación:**
+
 - Context funciona correctamente
 - Todas las acciones del juego disponibles
 - State updates son inmutables
@@ -520,6 +568,7 @@ Implementar React Context con useReducer para manejar el estado global del juego
 - Provider envuelve la app correctamente
 
 **Actions a implementar:**
+
 ```typescript
 type GameAction =
   | { type: 'REVEAL_ANSWER'; payload: number }
@@ -532,9 +581,11 @@ type GameAction =
 ```
 
 **Archivos a crear:**
+
 - `contexts/GameContext.tsx`
 
 **Dependencias:**
+
 - Issue #12 (tipos)
 - Issue #13 (gameEngine)
 
@@ -550,6 +601,7 @@ type GameAction =
 Crear lógica de puntuación detallada incluyendo multiplicadores por ronda.
 
 **Tareas:**
+
 - [ ] Crear `lib/game/scoring.ts`
 - [ ] Implementar `calculateScore(points, multiplier)`
 - [ ] Implementar `applyMultiplier(roundNumber)`
@@ -559,12 +611,14 @@ Crear lógica de puntuación detallada incluyendo multiplicadores por ronda.
 - [ ] Crear tests manuales de escenarios de scoring
 
 **Criterios de Aceptación:**
+
 - Puntuación básica funciona correctamente
 - Multiplicadores aplican correctamente según ronda
 - Puntos robados se calculan correctamente
 - Edge cases manejados (empates, cero puntos)
 
 **Funciones:**
+
 ```typescript
 export const scoring = {
   calculateScore(points: number, multiplier: number): number
@@ -575,14 +629,17 @@ export const scoring = {
 ```
 
 **Reglas de multiplicadores:**
+
 - Rondas 1-3: x1
 - Ronda 4: x2 (si hay 5 rondas)
 - Ronda 5: x3 (ronda final)
 
 **Archivos a crear:**
+
 - `lib/game/scoring.ts`
 
 **Dependencias:**
+
 - Issue #12 (tipos)
 
 ---
@@ -597,6 +654,7 @@ export const scoring = {
 Crear custom hook que encapsula toda la lógica de interacción con el game state, facilitando su uso en componentes.
 
 **Tareas:**
+
 - [ ] Crear `hooks/useGameState.ts`
 - [ ] Exportar funciones fáciles de usar para componentes
 - [ ] Implementar `revealAnswer(index)`
@@ -608,31 +666,29 @@ Crear custom hook que encapsula toda la lógica de interacción con el game stat
 - [ ] Tipar correctamente return value
 
 **Criterios de Aceptación:**
+
 - Hook funciona correctamente en componentes
 - API intuitiva y fácil de usar
 - TypeScript inference funciona
 - Memoización correcta de callbacks
 
 **API del hook:**
+
 ```typescript
 const {
   gameState,
   currentQuestion,
   isGameOver,
-  actions: {
-    revealAnswer,
-    addStrike,
-    nextQuestion,
-    attemptSteal,
-    resetGame
-  }
+  actions: { revealAnswer, addStrike, nextQuestion, attemptSteal, resetGame },
 } = useGameState()
 ```
 
 **Archivos a crear:**
+
 - `hooks/useGameState.ts`
 
 **Dependencias:**
+
 - Issue #14 (GameContext)
 
 ---
@@ -647,6 +703,7 @@ const {
 Agregar validaciones para asegurar que el juego sigue las reglas correctamente.
 
 **Tareas:**
+
 - [ ] Crear `lib/game/validation.ts`
 - [ ] Validar que no se revelen respuestas ya reveladas
 - [ ] Validar que no se exceda el límite de strikes
@@ -656,11 +713,13 @@ Agregar validaciones para asegurar que el juego sigue las reglas correctamente.
 - [ ] Agregar mensajes de error descriptivos
 
 **Criterios de Aceptación:**
+
 - Todas las acciones inválidas son bloqueadas
 - Mensajes de error claros y útiles
 - No es posible romper el estado del juego con acciones inválidas
 
 **Validaciones:**
+
 ```typescript
 export const validation = {
   canRevealAnswer(state: GameState, answerIndex: number): boolean
@@ -673,9 +732,11 @@ export const validation = {
 ```
 
 **Archivos a crear:**
+
 - `lib/game/validation.ts`
 
 **Dependencias:**
+
 - Issue #12 (tipos)
 - Issue #13 (gameEngine)
 
@@ -693,6 +754,7 @@ export const validation = {
 Crear el componente principal que contiene todo el tablero del juego y orquesta los demás componentes.
 
 **Tareas:**
+
 - [ ] Crear `components/game/GameBoard.tsx`
 - [ ] Diseñar layout del tablero (pregunta arriba, respuestas en grid, scores a los lados)
 - [ ] Integrar QuestionDisplay, AnswerCard, TeamScore, StrikeIndicator
@@ -702,6 +764,7 @@ Crear el componente principal que contiene todo el tablero del juego y orquesta 
 - [ ] Hacer responsive para tablet/desktop
 
 **Criterios de Aceptación:**
+
 - Tablero muestra todos los elementos del juego
 - Layout claro y organizado
 - Responsive en diferentes tamaños de pantalla
@@ -709,6 +772,7 @@ Crear el componente principal que contiene todo el tablero del juego y orquesta 
 - Transiciones suaves entre estados
 
 **Layout sugerido:**
+
 ```
 +----------------------------------+
 |        Equipo 1    |    Equipo 2 |
@@ -727,9 +791,11 @@ Crear el componente principal que contiene todo el tablero del juego y orquesta 
 ```
 
 **Archivos a crear:**
+
 - `components/game/GameBoard.tsx`
 
 **Dependencias:**
+
 - Issue #16 (useGameState)
 - Issues #19-23 (sub-componentes)
 
@@ -745,6 +811,7 @@ Crear el componente principal que contiene todo el tablero del juego y orquesta 
 Componente que muestra la pregunta actual del juego de forma destacada.
 
 **Tareas:**
+
 - [ ] Crear `components/game/QuestionDisplay.tsx`
 - [ ] Diseñar card grande para la pregunta
 - [ ] Mostrar número de ronda y multiplicador si aplica
@@ -753,12 +820,14 @@ Componente que muestra la pregunta actual del juego de forma destacada.
 - [ ] Props: `question`, `roundNumber`, `multiplier`
 
 **Criterios de Aceptación:**
+
 - Pregunta visible y legible
 - Información adicional (ronda, multiplicador) clara
 - Animación suave al cambiar pregunta
 - Responsive en todos los tamaños
 
 **Props interface:**
+
 ```typescript
 interface QuestionDisplayProps {
   question: string
@@ -769,9 +838,11 @@ interface QuestionDisplayProps {
 ```
 
 **Archivos a crear:**
+
 - `components/game/QuestionDisplay.tsx`
 
 **Dependencias:**
+
 - Issue #12 (tipos)
 
 ---
@@ -786,6 +857,7 @@ interface QuestionDisplayProps {
 Componente para cada respuesta que puede estar oculta o revelada, con animación de flip.
 
 **Tareas:**
+
 - [ ] Crear `components/game/AnswerCard.tsx`
 - [ ] Implementar estado oculto (mostrar solo número)
 - [ ] Implementar estado revelado (mostrar texto y puntos)
@@ -795,16 +867,19 @@ Componente para cada respuesta que puede estar oculta o revelada, con animación
 - [ ] Diseñar estilos atractivos (tipo Family Feud)
 
 **Criterios de Aceptación:**
+
 - Cards se ven profesionales
 - Animación de reveal es fluida y clara
 - Click y hotkeys funcionan correctamente
 - Estado oculto/revelado visualmente obvio
 
 **Estados del card:**
+
 1. **Oculto:** Muestra número (1-8), fondo neutro
 2. **Revelado:** Muestra texto de respuesta + puntos, fondo destacado
 
 **Props interface:**
+
 ```typescript
 interface AnswerCardProps {
   answer: Answer
@@ -816,9 +891,11 @@ interface AnswerCardProps {
 ```
 
 **Archivos a crear:**
+
 - `components/game/AnswerCard.tsx`
 
 **Dependencias:**
+
 - Issue #12 (tipos)
 
 ---
@@ -833,6 +910,7 @@ interface AnswerCardProps {
 Componente que muestra el nombre y score de cada equipo, destacando al equipo activo.
 
 **Tareas:**
+
 - [ ] Crear `components/game/TeamScore.tsx`
 - [ ] Mostrar nombre del equipo
 - [ ] Mostrar score actual
@@ -841,12 +919,14 @@ Componente que muestra el nombre y score de cada equipo, destacando al equipo ac
 - [ ] Responsive (side-by-side en desktop, stacked en mobile)
 
 **Criterios de Aceptación:**
+
 - Scores visibles y legibles
 - Equipo activo claramente identificable
 - Animación de score increment es clara
 - Layout funciona en diferentes tamaños
 
 **Props interface:**
+
 ```typescript
 interface TeamScoreProps {
   teamName: string
@@ -857,9 +937,11 @@ interface TeamScoreProps {
 ```
 
 **Archivos a crear:**
+
 - `components/game/TeamScore.tsx`
 
 **Dependencias:**
+
 - Issue #12 (tipos)
 
 ---
@@ -874,6 +956,7 @@ interface TeamScoreProps {
 Componente que muestra visualmente los strikes acumulados (máximo 3).
 
 **Tareas:**
+
 - [ ] Crear `components/game/StrikeIndicator.tsx`
 - [ ] Mostrar 3 indicadores (círculos o X)
 - [ ] Llenar indicadores según strikes actuales (0-3)
@@ -882,11 +965,13 @@ Componente que muestra visualmente los strikes acumulados (máximo 3).
 - [ ] Props: `strikes` (número 0-3)
 
 **Criterios de Aceptación:**
+
 - Strikes visibles y claros
 - Animación llama la atención al agregar strike
 - Diseño consistente con tema del juego
 
 **Visual:**
+
 ```
 Strikes: ⭕ ⭕ ⭕  (0 strikes)
 Strikes: ❌ ⭕ ⭕  (1 strike)
@@ -895,6 +980,7 @@ Strikes: ❌ ❌ ❌  (3 strikes - game over)
 ```
 
 **Props interface:**
+
 ```typescript
 interface StrikeIndicatorProps {
   strikes: number
@@ -903,6 +989,7 @@ interface StrikeIndicatorProps {
 ```
 
 **Archivos a crear:**
+
 - `components/game/StrikeIndicator.tsx`
 
 ---
@@ -917,6 +1004,7 @@ interface StrikeIndicatorProps {
 Componente de timer que cuenta regresivamente y puede usarse opcionalmente durante el juego.
 
 **Tareas:**
+
 - [ ] Crear `components/game/Timer.tsx`
 - [ ] Implementar countdown con useState/useEffect
 - [ ] Mostrar tiempo en formato MM:SS
@@ -926,6 +1014,7 @@ Componente de timer que cuenta regresivamente y puede usarse opcionalmente duran
 - [ ] Agregar sonido/alerta cuando expira (opcional)
 
 **Criterios de Aceptación:**
+
 - Timer cuenta correctamente
 - Visual clara y legible
 - Callback de onExpire funciona
@@ -933,6 +1022,7 @@ Componente de timer que cuenta regresivamente y puede usarse opcionalmente duran
 - Color/estilo cambia en últimos segundos
 
 **Props interface:**
+
 ```typescript
 interface TimerProps {
   duration: number // segundos
@@ -943,9 +1033,11 @@ interface TimerProps {
 ```
 
 **Archivos a crear:**
+
 - `components/game/Timer.tsx`
 
 **Dependencias:**
+
 - Ninguna (standalone component)
 
 ---
@@ -960,6 +1052,7 @@ interface TimerProps {
 Componente con botones de control del juego (siguiente pregunta, cambiar turno, reset, etc.).
 
 **Tareas:**
+
 - [ ] Crear `components/game/GameControls.tsx`
 - [ ] Botón "Siguiente Pregunta" (disabled si ronda no terminó)
 - [ ] Botón "Cambiar Turno Manualmente" (admin)
@@ -969,12 +1062,14 @@ Componente con botones de control del juego (siguiente pregunta, cambiar turno, 
 - [ ] Agregar tooltips explicativos
 
 **Criterios de Aceptación:**
+
 - Botones funcionan correctamente
 - Estados disabled cuando no aplican
 - Confirmaciones para acciones destructivas
 - Layout claro y organizado
 
 **Controles principales:**
+
 - Siguiente Pregunta
 - Agregar Strike Manual
 - Cambiar Turno
@@ -982,6 +1077,7 @@ Componente con botones de control del juego (siguiente pregunta, cambiar turno, 
 - Reiniciar Juego
 
 **Props interface:**
+
 ```typescript
 interface GameControlsProps {
   onNextQuestion: () => void
@@ -994,9 +1090,11 @@ interface GameControlsProps {
 ```
 
 **Archivos a crear:**
+
 - `components/game/GameControls.tsx`
 
 **Dependencias:**
+
 - Issue #16 (useGameState)
 - Issue #7 (Button component)
 
@@ -1014,6 +1112,7 @@ interface GameControlsProps {
 Crear un set de 10-15 preguntas demo en español estilo "100 mexicanos dijeron" para testing y juego sin login.
 
 **Tareas:**
+
 - [ ] Crear `data/demoQuestions.ts`
 - [ ] Escribir 10-15 preguntas divertidas y variadas
 - [ ] Cada pregunta con 5-8 respuestas
@@ -1022,12 +1121,14 @@ Crear un set de 10-15 preguntas demo en español estilo "100 mexicanos dijeron" 
 - [ ] Exportar como constante `DEMO_QUESTION_SET`
 
 **Criterios de Aceptación:**
+
 - Al menos 10 preguntas completas
 - Preguntas en español, culturalmente relevantes
 - Puntos balanceados (más populares tienen más puntos)
 - Tipos TypeScript correctos
 
 **Ejemplo de pregunta:**
+
 ```typescript
 {
   id: '1',
@@ -1045,9 +1146,11 @@ Crear un set de 10-15 preguntas demo en español estilo "100 mexicanos dijeron" 
 ```
 
 **Archivos a crear:**
+
 - `data/demoQuestions.ts`
 
 **Dependencias:**
+
 - Issue #12 (tipos)
 
 ---
@@ -1062,6 +1165,7 @@ Crear un set de 10-15 preguntas demo en español estilo "100 mexicanos dijeron" 
 Crear abstracción para guardar y cargar datos del juego en localStorage del navegador.
 
 **Tareas:**
+
 - [ ] Crear `lib/storage/localStorage.ts`
 - [ ] Implementar `getQuestionSets()`
 - [ ] Implementar `saveQuestionSet(set)`
@@ -1073,6 +1177,7 @@ Crear abstracción para guardar y cargar datos del juego en localStorage del nav
 - [ ] Agregar keys prefixados para evitar colisiones
 
 **Criterios de Aceptación:**
+
 - Datos se guardan correctamente en localStorage
 - Datos se recuperan correctamente al recargar página
 - Manejo de errores robusto
@@ -1080,6 +1185,7 @@ Crear abstracción para guardar y cargar datos del juego en localStorage del nav
 - Keys organizados con prefijo (`lrmp_`)
 
 **API del adaptador:**
+
 ```typescript
 export const localStorageAdapter = {
   getQuestionSets(): QuestionSet[]
@@ -1094,14 +1200,17 @@ export const localStorageAdapter = {
 ```
 
 **Storage keys:**
+
 - `lrmp_question_sets`
 - `lrmp_game_history`
 - `lrmp_current_game`
 
 **Archivos a crear:**
+
 - `lib/storage/localStorage.ts`
 
 **Dependencias:**
+
 - Issue #12 (tipos)
 
 ---
@@ -1116,6 +1225,7 @@ export const localStorageAdapter = {
 Custom hook que facilita el uso de localStorage en componentes React con sincronización automática.
 
 **Tareas:**
+
 - [ ] Crear `hooks/useLocalStorage.ts`
 - [ ] Implementar hook genérico `useLocalStorage<T>(key, initialValue)`
 - [ ] Sincronizar con localStorage automáticamente
@@ -1124,26 +1234,27 @@ Custom hook que facilita el uso de localStorage en componentes React con sincron
 - [ ] Agregar error handling
 
 **Criterios de Aceptación:**
+
 - Hook funciona como useState pero persiste en localStorage
 - Sincronización cross-tab funciona
 - TypeScript inference correcto
 - API simple y familiar
 
 **API del hook:**
+
 ```typescript
-const [value, setValue] = useLocalStorage<QuestionSet[]>(
-  'lrmp_question_sets',
-  []
-)
+const [value, setValue] = useLocalStorage<QuestionSet[]>('lrmp_question_sets', [])
 
 // Funciona como useState normal
 setValue(newValue)
 ```
 
 **Archivos a crear:**
+
 - `hooks/useLocalStorage.ts`
 
 **Dependencias:**
+
 - Ninguna (standalone hook)
 
 ---
@@ -1158,6 +1269,7 @@ setValue(newValue)
 Integrar localStorage adapter con GameContext para auto-guardar y restaurar estado del juego.
 
 **Tareas:**
+
 - [ ] Modificar GameContext para usar localStorage
 - [ ] Auto-guardar estado cuando cambia (debounced)
 - [ ] Cargar estado al iniciar si existe partida guardada
@@ -1166,12 +1278,14 @@ Integrar localStorage adapter con GameContext para auto-guardar y restaurar esta
 - [ ] Agregar indicator de "auto-save" en UI
 
 **Criterios de Aceptación:**
+
 - Estado se guarda automáticamente durante el juego
 - Al recargar página, se puede continuar partida
 - Usuario puede elegir continuar o iniciar nuevo juego
 - No hay pérdida de progreso
 
 **Flow:**
+
 1. Usuario inicia juego → estado se guarda
 2. Usuario recarga página → se detecta partida guardada
 3. Mostrar modal: "¿Continuar partida anterior?"
@@ -1179,10 +1293,12 @@ Integrar localStorage adapter con GameContext para auto-guardar y restaurar esta
 5. Si rechaza → iniciar juego nuevo
 
 **Archivos a modificar:**
+
 - `contexts/GameContext.tsx`
 - `app/(game)/play/page.tsx`
 
 **Dependencias:**
+
 - Issue #14 (GameContext)
 - Issue #26 (localStorage adapter)
 
@@ -1198,6 +1314,7 @@ Integrar localStorage adapter con GameContext para auto-guardar y restaurar esta
 Implementar flujo completo de juego sin autenticación usando solo localStorage.
 
 **Tareas:**
+
 - [ ] Crear página `app/(game)/play/page.tsx`
 - [ ] Cargar set de preguntas demo por defecto
 - [ ] Renderizar GameBoard con estado conectado
@@ -1206,20 +1323,24 @@ Implementar flujo completo de juego sin autenticación usando solo localStorage.
 - [ ] Agregar opción de exportar/importar datos (JSON)
 
 **Criterios de Aceptación:**
+
 - Juego funciona completamente sin login
 - Preguntas demo cargadas por defecto
 - Historial se guarda y visualiza correctamente
 - Usuario puede crear sets personalizados que persisten
 
 **Páginas a crear:**
+
 - `app/(game)/play/page.tsx` (juego principal)
 - `app/(game)/history-local/page.tsx` (historial localStorage)
 
 **Archivos a crear:**
+
 - `app/(game)/play/page.tsx`
 - `app/(game)/history-local/page.tsx`
 
 **Dependencias:**
+
 - Issue #18 (GameBoard)
 - Issue #25 (demo questions)
 - Issue #26 (localStorage adapter)
@@ -1237,6 +1358,7 @@ Implementar flujo completo de juego sin autenticación usando solo localStorage.
 Testing exhaustivo del modo sin login para asegurar que todo funciona correctamente.
 
 **Tareas:**
+
 - [ ] Crear checklist de testing completo
 - [ ] Probar flujo completo: setup → juego → finalizar
 - [ ] Probar guardar/cargar estado
@@ -1247,12 +1369,14 @@ Testing exhaustivo del modo sin login para asegurar que todo funciona correctame
 - [ ] Crear issues para bugs críticos
 
 **Criterios de Aceptación:**
+
 - Todos los flujos principales funcionan
 - No hay bugs críticos
 - Experiencia de usuario es fluida
 - Documentación de issues encontrados
 
 **Escenarios de testing:**
+
 1. Primera vez (localStorage vacío)
 2. Juego completo inicio a fin
 3. Pausar y continuar partida
@@ -1263,9 +1387,11 @@ Testing exhaustivo del modo sin login para asegurar que todo funciona correctame
 8. Edge cases (cerrar tab, network offline)
 
 **Archivos a crear:**
+
 - `TESTING_CHECKLIST.md` (documentación)
 
 **Dependencias:**
+
 - Issues #25-29 (todas las features de localStorage)
 
 ---
@@ -1282,6 +1408,7 @@ Testing exhaustivo del modo sin login para asegurar que todo funciona correctame
 Configurar autenticación de usuarios con Supabase usando email y password.
 
 **Tareas:**
+
 - [ ] Habilitar Email Auth en Supabase dashboard
 - [ ] Configurar redirect URLs
 - [ ] Crear funciones de auth en `lib/supabase/auth.ts`
@@ -1292,6 +1419,7 @@ Configurar autenticación de usuarios con Supabase usando email y password.
 - [ ] Configurar email templates en Supabase
 
 **Criterios de Aceptación:**
+
 - Sign up funciona correctamente
 - Sign in funciona correctamente
 - Sign out funciona correctamente
@@ -1299,6 +1427,7 @@ Configurar autenticación de usuarios con Supabase usando email y password.
 - Errores se manejan apropiadamente
 
 **Funciones a crear:**
+
 ```typescript
 export const auth = {
   async signUp(email: string, password: string)
@@ -1311,9 +1440,11 @@ export const auth = {
 ```
 
 **Archivos a crear:**
+
 - `lib/supabase/auth.ts`
 
 **Dependencias:**
+
 - Issue #3 (Supabase setup)
 
 ---
@@ -1328,6 +1459,7 @@ export const auth = {
 Crear páginas de login y registro con formularios completos y validaciones.
 
 **Tareas:**
+
 - [ ] Crear `app/login/page.tsx`
 - [ ] Crear `app/register/page.tsx`
 - [ ] Implementar formularios con validación (email, password)
@@ -1338,6 +1470,7 @@ Crear páginas de login y registro con formularios completos y validaciones.
 - [ ] "Olvidé mi contraseña" link
 
 **Criterios de Aceptación:**
+
 - Formularios funcionan correctamente
 - Validaciones client-side (email válido, password mínimo)
 - Errores de auth se muestran claramente
@@ -1345,15 +1478,18 @@ Crear páginas de login y registro con formularios completos y validaciones.
 - Responsive en mobile/desktop
 
 **Validaciones:**
+
 - Email: formato válido
 - Password: mínimo 8 caracteres
 - Password confirmation en register
 
 **Archivos a crear:**
+
 - `app/login/page.tsx`
 - `app/register/page.tsx`
 
 **Dependencias:**
+
 - Issue #31 (auth functions)
 - Issue #7 (UI components)
 
@@ -1369,6 +1505,7 @@ Crear páginas de login y registro con formularios completos y validaciones.
 Crear context de autenticación para manejar estado de usuario en toda la app.
 
 **Tareas:**
+
 - [ ] Crear `contexts/AuthContext.tsx`
 - [ ] Manejar estado de usuario (loading, authenticated, user data)
 - [ ] Escuchar cambios de auth state (onAuthStateChange)
@@ -1377,28 +1514,24 @@ Crear context de autenticación para manejar estado de usuario en toda la app.
 - [ ] Persistir sesión en cookies (SSR compatible)
 
 **Criterios de Aceptación:**
+
 - Context funciona en toda la app
 - Estado de usuario sincronizado
 - Hook fácil de usar en componentes
 - SSR compatible (sesión persiste en server)
 
 **API del context:**
+
 ```typescript
-const {
-  user,
-  session,
-  isLoading,
-  isAuthenticated,
-  signIn,
-  signUp,
-  signOut
-} = useAuth()
+const { user, session, isLoading, isAuthenticated, signIn, signUp, signOut } = useAuth()
 ```
 
 **Archivos a crear:**
+
 - `contexts/AuthContext.tsx`
 
 **Dependencias:**
+
 - Issue #31 (auth functions)
 
 ---
@@ -1413,6 +1546,7 @@ const {
 Implementar middleware de Next.js para proteger rutas que requieren autenticación.
 
 **Tareas:**
+
 - [ ] Crear `middleware.ts` en root del proyecto
 - [ ] Definir rutas protegidas (dashboard, my-questions, history)
 - [ ] Verificar sesión en cada request
@@ -1421,20 +1555,24 @@ Implementar middleware de Next.js para proteger rutas que requieren autenticaci�
 - [ ] Agregar matchers de rutas
 
 **Criterios de Aceptación:**
+
 - Rutas protegidas inaccesibles sin login
 - Redirects funcionan correctamente
 - No hay flashes de contenido protegido
 - Performance no afectada
 
 **Rutas protegidas:**
+
 - `/dashboard`
 - `/my-questions`
 - `/history`
 
 **Archivos a crear:**
+
 - `middleware.ts`
 
 **Dependencias:**
+
 - Issue #33 (AuthContext)
 
 ---
@@ -1449,6 +1587,7 @@ Implementar middleware de Next.js para proteger rutas que requieren autenticaci�
 Crear página de dashboard que muestra resumen de actividad del usuario autenticado.
 
 **Tareas:**
+
 - [ ] Crear `app/(auth)/dashboard/page.tsx`
 - [ ] Mostrar información del usuario (email, username)
 - [ ] Mostrar estadísticas: total partidas, sets creados
@@ -1458,22 +1597,26 @@ Crear página de dashboard que muestra resumen de actividad del usuario autentic
 - [ ] Diseño limpio y profesional
 
 **Criterios de Aceptación:**
+
 - Dashboard muestra info relevante
 - Links funcionan correctamente
 - Solo accesible con login
 - Responsive en todos los tamaños
 
 **Secciones del dashboard:**
+
 1. Header con nombre de usuario
 2. Stats cards (partidas, sets, win rate)
 3. Quick actions (botones principales)
 4. Recent games (últimas 5)
 
 **Archivos a crear:**
+
 - `app/(auth)/dashboard/page.tsx`
 - `app/(auth)/layout.tsx`
 
 **Dependencias:**
+
 - Issue #33 (useAuth)
 - Issue #34 (middleware)
 
@@ -1489,6 +1632,7 @@ Crear página de dashboard que muestra resumen de actividad del usuario autentic
 Implementar lógica completa de logout y limpieza de sesión.
 
 **Tareas:**
+
 - [ ] Implementar botón de logout en header/dashboard
 - [ ] Crear función `handleLogout()` que limpia todo
 - [ ] Limpiar localStorage de usuario al logout
@@ -1497,12 +1641,14 @@ Implementar lógica completa de logout y limpieza de sesión.
 - [ ] Implementar auto-logout por sesión expirada
 
 **Criterios de Aceptación:**
+
 - Logout funciona correctamente
 - Sesión se limpia completamente
 - Redirect apropiado
 - No quedan datos sensibles en localStorage
 
 **Flow de logout:**
+
 1. Usuario click en "Cerrar Sesión"
 2. Confirmar acción (modal opcional)
 3. Llamar a `supabase.auth.signOut()`
@@ -1510,10 +1656,12 @@ Implementar lógica completa de logout y limpieza de sesión.
 5. Redirect a `/`
 
 **Archivos a modificar:**
+
 - `components/layout/Header.tsx`
 - `lib/supabase/auth.ts`
 
 **Dependencias:**
+
 - Issue #33 (useAuth)
 
 ---
@@ -1530,6 +1678,7 @@ Implementar lógica completa de logout y limpieza de sesión.
 Crear y ejecutar migraciones para crear todas las tablas de la base de datos.
 
 **Tareas:**
+
 - [ ] Crear `supabase/migrations/001_initial_schema.sql`
 - [ ] Definir tablas: profiles, question_sets, questions, answers, games, game_rounds
 - [ ] Agregar constraints, foreign keys, indexes
@@ -1538,12 +1687,14 @@ Crear y ejecutar migraciones para crear todas las tablas de la base de datos.
 - [ ] Verificar schema en Supabase Studio
 
 **Criterios de Aceptación:**
+
 - Todas las tablas creadas correctamente
 - Relaciones (foreign keys) funcionan
 - Indexes creados para performance
 - Schema match con diseño en DEVELOPMENT_PLAN.md
 
 **Tablas a crear:**
+
 - profiles (extensión de auth.users)
 - question_sets
 - questions
@@ -1552,9 +1703,11 @@ Crear y ejecutar migraciones para crear todas las tablas de la base de datos.
 - game_rounds
 
 **Archivos a crear:**
+
 - `supabase/migrations/001_initial_schema.sql`
 
 **Dependencias:**
+
 - Issue #3 (Supabase setup)
 
 ---
@@ -1569,6 +1722,7 @@ Crear y ejecutar migraciones para crear todas las tablas de la base de datos.
 Implementar RLS policies para asegurar que usuarios solo accedan a sus propios datos.
 
 **Tareas:**
+
 - [ ] Crear `supabase/migrations/002_rls_policies.sql`
 - [ ] Habilitar RLS en todas las tablas
 - [ ] Crear policies para profiles (SELECT, UPDATE own)
@@ -1580,12 +1734,14 @@ Implementar RLS policies para asegurar que usuarios solo accedan a sus propios d
 - [ ] Probar policies con diferentes usuarios
 
 **Criterios de Aceptación:**
+
 - RLS habilitado en todas las tablas
 - Usuarios solo ven sus propios datos
 - Sets públicos visibles para todos
 - No hay leaks de datos entre usuarios
 
 **Policies principales:**
+
 ```sql
 -- Profiles
 CREATE POLICY "Users view own profile" ON profiles FOR SELECT USING (auth.uid() = id);
@@ -1596,9 +1752,11 @@ CREATE POLICY "Users view own sets" ON question_sets FOR SELECT USING (auth.uid(
 ```
 
 **Archivos a crear:**
+
 - `supabase/migrations/002_rls_policies.sql`
 
 **Dependencias:**
+
 - Issue #37 (schema)
 
 ---
@@ -1613,6 +1771,7 @@ CREATE POLICY "Users view own sets" ON question_sets FOR SELECT USING (auth.uid(
 Crear funciones reutilizables para todas las operaciones de base de datos.
 
 **Tareas:**
+
 - [ ] Crear `lib/supabase/queries.ts`
 - [ ] Implementar queries para question_sets (CRUD)
 - [ ] Implementar queries para questions (CRUD)
@@ -1624,12 +1783,14 @@ Crear funciones reutilizables para todas las operaciones de base de datos.
 - [ ] Agregar JSDoc comments
 
 **Criterios de Aceptación:**
+
 - Todas las queries funcionan correctamente
 - Error handling apropiado
 - TypeScript types correctos
 - API limpia y consistente
 
 **Queries principales:**
+
 ```typescript
 export const questionSetQueries = {
   getUserSets(supabase, userId): Promise<QuestionSet[]>
@@ -1647,9 +1808,11 @@ export const gameQueries = {
 ```
 
 **Archivos a crear:**
+
 - `lib/supabase/queries.ts`
 
 **Dependencias:**
+
 - Issue #37 (schema)
 - Issue #38 (RLS)
 
@@ -1665,6 +1828,7 @@ export const gameQueries = {
 Crear adaptador equivalente al localStorage pero usando Supabase como backend.
 
 **Tareas:**
+
 - [ ] Crear `lib/storage/supabaseStorage.ts`
 - [ ] Implementar misma API que localStorageAdapter
 - [ ] Usar queries de Issue #39
@@ -1673,12 +1837,14 @@ Crear adaptador equivalente al localStorage pero usando Supabase como backend.
 - [ ] Agregar loading states
 
 **Criterios de Aceptación:**
+
 - API idéntica a localStorageAdapter
 - Funciona correctamente con Supabase
 - Error handling robusto
 - Performance aceptable
 
 **API del adaptador:**
+
 ```typescript
 export const supabaseStorageAdapter = (supabase: SupabaseClient) => ({
   async getQuestionSets(userId: string): Promise<QuestionSet[]>
@@ -1690,9 +1856,11 @@ export const supabaseStorageAdapter = (supabase: SupabaseClient) => ({
 ```
 
 **Archivos a crear:**
+
 - `lib/storage/supabaseStorage.ts`
 
 **Dependencias:**
+
 - Issue #39 (queries)
 
 ---
@@ -1707,6 +1875,7 @@ export const supabaseStorageAdapter = (supabase: SupabaseClient) => ({
 Crear capa de abstracción que automáticamente usa localStorage o Supabase según si el usuario está autenticado.
 
 **Tareas:**
+
 - [ ] Crear `lib/storage/storageManager.ts`
 - [ ] Implementar función que detecta si usuario está autenticado
 - [ ] Retornar adaptador apropiado (local o Supabase)
@@ -1714,12 +1883,14 @@ Crear capa de abstracción que automáticamente usa localStorage o Supabase seg�
 - [ ] Agregar migración de localStorage a Supabase al hacer login
 
 **Criterios de Aceptación:**
+
 - Abstracción funciona transparentemente
 - Switch automático según auth state
 - Migración de datos al login funciona
 - API consistente en ambos casos
 
 **API del manager:**
+
 ```typescript
 export const getStorageAdapter = (user?: User) => {
   if (user) {
@@ -1736,10 +1907,12 @@ export const useStorage = () => {
 ```
 
 **Archivos a crear:**
+
 - `lib/storage/storageManager.ts`
 - `hooks/useStorage.ts`
 
 **Dependencias:**
+
 - Issue #26 (localStorage adapter)
 - Issue #40 (Supabase adapter)
 - Issue #33 (useAuth)
@@ -1756,6 +1929,7 @@ export const useStorage = () => {
 Testing completo de persistencia de datos con Supabase.
 
 **Tareas:**
+
 - [ ] Crear usuario de prueba
 - [ ] Probar crear sets de preguntas
 - [ ] Probar editar/eliminar sets
@@ -1766,12 +1940,14 @@ Testing completo de persistencia de datos con Supabase.
 - [ ] Documentar bugs encontrados
 
 **Criterios de Aceptación:**
+
 - Todos los flujos de datos funcionan
 - RLS policies funcionan correctamente
 - No hay data leaks
 - Migración funciona sin pérdida de datos
 
 **Escenarios de testing:**
+
 1. Usuario nuevo (sin datos en localStorage)
 2. Usuario con datos en localStorage hace login (migración)
 3. Usuario crea set de preguntas
@@ -1780,9 +1956,11 @@ Testing completo de persistencia de datos con Supabase.
 6. Usuario logout y vuelve a login (datos persisten)
 
 **Archivos a crear:**
+
 - `TESTING_SUPABASE.md` (documentación)
 
 **Dependencias:**
+
 - Issues #37-41 (todas las features de Supabase)
 
 ---
@@ -1799,6 +1977,7 @@ Testing completo de persistencia de datos con Supabase.
 Página que lista todos los sets de preguntas del usuario con opciones de crear, editar, eliminar.
 
 **Tareas:**
+
 - [ ] Crear `app/(auth)/my-questions/page.tsx`
 - [ ] Obtener sets del usuario (localStorage o Supabase)
 - [ ] Mostrar lista de sets en cards
@@ -1809,12 +1988,14 @@ Página que lista todos los sets de preguntas del usuario con opciones de crear,
 - [ ] Empty state (sin sets aún)
 
 **Criterios de Aceptación:**
+
 - Lista muestra todos los sets del usuario
 - Botones de acción funcionan
 - Confirmación de delete previene eliminación accidental
 - Responsive en todos los tamaños
 
 **Info mostrada por set:**
+
 - Nombre del set
 - Descripción
 - Número de preguntas
@@ -1822,9 +2003,11 @@ Página que lista todos los sets de preguntas del usuario con opciones de crear,
 - Acciones (editar, eliminar, jugar)
 
 **Archivos a crear:**
+
 - `app/(auth)/my-questions/page.tsx`
 
 **Dependencias:**
+
 - Issue #41 (storage abstraction)
 
 ---
@@ -1839,6 +2022,7 @@ Página que lista todos los sets de preguntas del usuario con opciones de crear,
 Página/modal para crear o editar un set completo de preguntas.
 
 **Tareas:**
+
 - [ ] Crear `app/(auth)/my-questions/edit/[id]/page.tsx`
 - [ ] Formulario: nombre del set, descripción
 - [ ] Lista de preguntas del set (drag & drop para reordenar)
@@ -1849,6 +2033,7 @@ Página/modal para crear o editar un set completo de preguntas.
 - [ ] Preview del set
 
 **Criterios de Aceptación:**
+
 - Editor completo y funcional
 - Se puede crear nuevo set o editar existente
 - Reordenar preguntas funciona (drag & drop o botones)
@@ -1856,15 +2041,18 @@ Página/modal para crear o editar un set completo de preguntas.
 - UX fluida y clara
 
 **Estructura del editor:**
+
 1. Información del set (nombre, descripción, público/privado)
 2. Lista de preguntas (QuestionForm inline)
 3. Botones de acción (Guardar, Cancelar, Preview)
 
 **Archivos a crear:**
+
 - `app/(auth)/my-questions/edit/[id]/page.tsx`
 - `app/(auth)/my-questions/new/page.tsx`
 
 **Dependencias:**
+
 - Issue #43 (lista de sets)
 - Issue #45 (QuestionForm)
 
@@ -1880,6 +2068,7 @@ Página/modal para crear o editar un set completo de preguntas.
 Componente de formulario para crear o editar una pregunta individual con sus respuestas.
 
 **Tareas:**
+
 - [ ] Crear `components/questions/QuestionForm.tsx`
 - [ ] Input para texto de la pregunta
 - [ ] Lista dinámica de respuestas (añadir/eliminar)
@@ -1890,12 +2079,14 @@ Componente de formulario para crear o editar una pregunta individual con sus res
 - [ ] Botones: Guardar, Cancelar
 
 **Criterios de Aceptación:**
+
 - Formulario completo y funcional
 - Validaciones previenen guardar pregunta inválida
 - Añadir/eliminar respuestas funciona fluidamente
 - UX clara e intuitiva
 
 **Campos:**
+
 - Texto de pregunta (textarea)
 - Respuestas (array):
   - Texto de respuesta (input)
@@ -1905,15 +2096,18 @@ Componente de formulario para crear o editar una pregunta individual con sus res
 - Multiplicador (select: 1x, 2x, 3x)
 
 **Validaciones:**
+
 - Pregunta no vacía
 - Mínimo 2 respuestas
 - Cada respuesta tiene texto y puntos > 0
 - Puntos en orden descendente (opcional, sugerencia)
 
 **Archivos a crear:**
+
 - `components/questions/QuestionForm.tsx`
 
 **Dependencias:**
+
 - Issue #12 (tipos)
 - Issue #7 (UI components)
 
@@ -1929,6 +2123,7 @@ Componente de formulario para crear o editar una pregunta individual con sus res
 Componente específico para manejar el array de respuestas dentro de QuestionForm.
 
 **Tareas:**
+
 - [ ] Crear `components/questions/AnswerManager.tsx`
 - [ ] Lista de respuestas con inputs inline
 - [ ] Botón "+" para agregar respuesta
@@ -1938,12 +2133,14 @@ Componente específico para manejar el array de respuestas dentro de QuestionFor
 - [ ] Auto-sugerir orden por puntos
 
 **Criterios de Aceptación:**
+
 - Gestión de respuestas fluida
 - Añadir/eliminar sin bugs
 - Reordenar funciona correctamente
 - UI clara y no cluttered
 
 **Props interface:**
+
 ```typescript
 interface AnswerManagerProps {
   answers: Answer[]
@@ -1954,9 +2151,11 @@ interface AnswerManagerProps {
 ```
 
 **Archivos a crear:**
+
 - `components/questions/AnswerManager.tsx`
 
 **Dependencias:**
+
 - Issue #45 (QuestionForm)
 
 ---
@@ -1971,6 +2170,7 @@ interface AnswerManagerProps {
 Implementar validaciones completas para preguntas y respuestas.
 
 **Tareas:**
+
 - [ ] Crear `lib/validation/questionValidation.ts`
 - [ ] Validar estructura de pregunta completa
 - [ ] Validar número de respuestas (mínimo 2, máximo 8)
@@ -1980,11 +2180,13 @@ Implementar validaciones completas para preguntas y respuestas.
 - [ ] Integrar con QuestionForm
 
 **Criterios de Aceptación:**
+
 - Todas las validaciones funcionan
 - Mensajes de error claros y útiles
 - Se previene guardar datos inválidos
 
 **Validaciones:**
+
 ```typescript
 export const questionValidation = {
   validateQuestion(question: Question): ValidationResult
@@ -1999,15 +2201,18 @@ interface ValidationResult {
 ```
 
 **Reglas:**
+
 - Pregunta: texto no vacío, min 10 caracteres
 - Respuestas: mínimo 2, máximo 8
 - Cada respuesta: texto no vacío, puntos > 0
 - No respuestas duplicadas (mismo texto)
 
 **Archivos a crear:**
+
 - `lib/validation/questionValidation.ts`
 
 **Dependencias:**
+
 - Issue #12 (tipos)
 
 ---
@@ -2022,6 +2227,7 @@ interface ValidationResult {
 Permitir a usuarios exportar sus sets de preguntas como JSON e importar sets externos.
 
 **Tareas:**
+
 - [ ] Crear botón "Exportar" en lista de sets
 - [ ] Generar archivo JSON descargable
 - [ ] Crear botón "Importar"
@@ -2031,12 +2237,14 @@ Permitir a usuarios exportar sus sets de preguntas como JSON e importar sets ext
 - [ ] Manejar errores de formato
 
 **Criterios de Aceptación:**
+
 - Exportar genera JSON válido y completo
 - Importar acepta JSON en formato correcto
 - Validaciones previenen importar datos corruptos
 - UX clara con feedback de éxito/error
 
 **Formato JSON:**
+
 ```json
 {
   "name": "Nombre del Set",
@@ -2055,10 +2263,12 @@ Permitir a usuarios exportar sus sets de preguntas como JSON e importar sets ext
 ```
 
 **Archivos a modificar:**
+
 - `app/(auth)/my-questions/page.tsx`
 - Crear `lib/utils/importExport.ts`
 
 **Dependencias:**
+
 - Issue #43 (lista de sets)
 - Issue #47 (validaciones)
 
@@ -2074,6 +2284,7 @@ Permitir a usuarios exportar sus sets de preguntas como JSON e importar sets ext
 Modal o página que muestra preview de un set completo antes de usarlo en una partida.
 
 **Tareas:**
+
 - [ ] Crear componente `QuestionSetPreview`
 - [ ] Mostrar información del set (nombre, descripción, total preguntas)
 - [ ] Listar todas las preguntas (sin respuestas visibles)
@@ -2082,21 +2293,25 @@ Modal o página que muestra preview de un set completo antes de usarlo en una pa
 - [ ] Modal o página dedicada
 
 **Criterios de Aceptación:**
+
 - Preview muestra información completa
 - No revela respuestas (para no spoilear)
 - Botones funcionan correctamente
 - Diseño limpio y profesional
 
 **Info en preview:**
+
 - Nombre y descripción del set
 - Total de preguntas
 - Listado de preguntas (solo texto)
 - Metadata (creado por, fecha)
 
 **Archivos a crear:**
+
 - `components/questions/QuestionSetPreview.tsx`
 
 **Dependencias:**
+
 - Issue #43 (lista de sets)
 
 ---
@@ -2113,6 +2328,7 @@ Modal o página que muestra preview de un set completo antes de usarlo en una pa
 Implementar lógica para guardar partidas completadas con todos los detalles en Supabase.
 
 **Tareas:**
+
 - [ ] Modificar GameContext para detectar cuando juego termina
 - [ ] Construir objeto GameHistory completo
 - [ ] Guardar en Supabase usando queries del Issue #39
@@ -2122,12 +2338,14 @@ Implementar lógica para guardar partidas completadas con todos los detalles en 
 - [ ] Mostrar confirmación al usuario
 
 **Criterios de Aceptación:**
+
 - Partidas se guardan automáticamente al terminar
 - Datos completos (equipos, scores, rondas)
 - No se pierde información
 - Usuario recibe confirmación
 
 **Datos a guardar:**
+
 ```typescript
 interface GameHistory {
   setId: string
@@ -2144,10 +2362,12 @@ interface GameHistory {
 ```
 
 **Archivos a modificar:**
+
 - `contexts/GameContext.tsx`
 - Usar `lib/supabase/queries.ts`
 
 **Dependencias:**
+
 - Issue #39 (queries)
 - Issue #41 (storage abstraction)
 
@@ -2163,6 +2383,7 @@ interface GameHistory {
 Página que muestra lista de todas las partidas jugadas por el usuario.
 
 **Tareas:**
+
 - [ ] Crear `app/(auth)/history/page.tsx`
 - [ ] Obtener historial de partidas (Supabase o localStorage)
 - [ ] Mostrar lista en tabla o cards
@@ -2173,12 +2394,14 @@ Página que muestra lista de todas las partidas jugadas por el usuario.
 - [ ] Empty state (sin partidas aún)
 
 **Criterios de Aceptación:**
+
 - Historial completo visible
 - Información clara por partida
 - Click para ver detalle funciona
 - Responsive en todos los tamaños
 
 **Info mostrada:**
+
 - Fecha y hora
 - Set de preguntas usado
 - Nombres de equipos
@@ -2187,9 +2410,11 @@ Página que muestra lista de todas las partidas jugadas por el usuario.
 - Duración de partida
 
 **Archivos a crear:**
+
 - `app/(auth)/history/page.tsx`
 
 **Dependencias:**
+
 - Issue #50 (guardar partidas)
 - Issue #41 (storage abstraction)
 
@@ -2205,6 +2430,7 @@ Página que muestra lista de todas las partidas jugadas por el usuario.
 Página de detalle que muestra información completa de una partida específica, incluyendo todas las rondas.
 
 **Tareas:**
+
 - [ ] Crear `app/(auth)/history/[id]/page.tsx`
 - [ ] Obtener datos completos de la partida
 - [ ] Mostrar header con resumen (equipos, scores, winner)
@@ -2214,21 +2440,25 @@ Página de detalle que muestra información completa de una partida específica,
 - [ ] Botón "Jugar de nuevo con este set"
 
 **Criterios de Aceptación:**
+
 - Detalle completo visible
 - Información clara y organizada
 - Timeline/rondas fáciles de seguir
 - Botón de replay funciona
 
 **Estructura de la página:**
+
 1. Header: Resumen (fecha, equipos, scores, winner)
 2. Stats: Duración, total rondas, multiplicadores usados
 3. Timeline: Lista de rondas con detalles
 4. Actions: Jugar de nuevo, Compartir (futuro)
 
 **Archivos a crear:**
+
 - `app/(auth)/history/[id]/page.tsx`
 
 **Dependencias:**
+
 - Issue #51 (lista de historial)
 
 ---
@@ -2243,6 +2473,7 @@ Página de detalle que muestra información completa de una partida específica,
 Página o sección que muestra estadísticas agregadas de todas las partidas del usuario.
 
 **Tareas:**
+
 - [ ] Crear `app/(auth)/stats/page.tsx` o sección en dashboard
 - [ ] Calcular total de partidas jugadas
 - [ ] Calcular win rate (si jugó siempre con mismo equipo)
@@ -2253,12 +2484,14 @@ Página o sección que muestra estadísticas agregadas de todas las partidas del
 - [ ] Gráficos simples (barras, líneas) opcional
 
 **Criterios de Aceptación:**
+
 - Stats se calculan correctamente
 - Visualización clara y atractiva
 - Información útil e interesante
 - Performance aceptable (cálculos optimizados)
 
 **Estadísticas a mostrar:**
+
 - Total partidas jugadas
 - Sets creados
 - Sets públicos usados
@@ -2267,9 +2500,11 @@ Página o sección que muestra estadísticas agregadas de todas las partidas del
 - Tendencias (opcional)
 
 **Archivos a crear:**
+
 - `app/(auth)/stats/page.tsx`
 
 **Dependencias:**
+
 - Issue #51 (historial)
 
 ---
@@ -2284,6 +2519,7 @@ Página o sección que muestra estadísticas agregadas de todas las partidas del
 Agregar capacidad de filtrar y buscar en el historial de partidas.
 
 **Tareas:**
+
 - [ ] Agregar barra de búsqueda (buscar por nombre de equipo)
 - [ ] Filtro por set de preguntas usado
 - [ ] Filtro por fecha (última semana, último mes, personalizado)
@@ -2292,12 +2528,14 @@ Agregar capacidad de filtrar y buscar en el historial de partidas.
 - [ ] Limpiar filtros
 
 **Criterios de Aceptación:**
+
 - Búsqueda funciona correctamente
 - Filtros se aplican sin recargar página
 - Combinar múltiples filtros funciona
 - UX fluida y responsive
 
 **Filtros:**
+
 - Búsqueda por texto (nombre equipo)
 - Set de preguntas (dropdown)
 - Fecha (datepicker o presets)
@@ -2305,9 +2543,11 @@ Agregar capacidad de filtrar y buscar en el historial de partidas.
 - Ordenar (dropdown)
 
 **Archivos a modificar:**
+
 - `app/(auth)/history/page.tsx`
 
 **Dependencias:**
+
 - Issue #51 (historial)
 
 ---
@@ -2322,6 +2562,7 @@ Agregar capacidad de filtrar y buscar en el historial de partidas.
 Agregar gráficos visuales para estadísticas usando librería como Recharts.
 
 **Tareas:**
+
 - [ ] Instalar librería de gráficos (Recharts, Chart.js)
 - [ ] Crear gráfico de línea: partidas por día/semana
 - [ ] Crear gráfico de barras: sets más usados
@@ -2330,21 +2571,25 @@ Agregar gráficos visuales para estadísticas usando librería como Recharts.
 - [ ] Responsive (adaptar a mobile)
 
 **Criterios de Aceptación:**
+
 - Gráficos visualizan datos correctamente
 - Responsive en todos los tamaños
 - Performance aceptable
 - Tooltips/leyendas claras
 
 **Gráficos sugeridos:**
+
 1. Partidas por fecha (línea)
 2. Sets más populares (barras)
 3. Win rate (pie o donut)
 4. Scores promedio (barras)
 
 **Archivos a modificar:**
+
 - `app/(auth)/stats/page.tsx`
 
 **Dependencias:**
+
 - Issue #53 (stats)
 - Librería externa: `recharts` o similar
 
@@ -2362,6 +2607,7 @@ Agregar gráficos visuales para estadísticas usando librería como Recharts.
 Integrar Timer component completamente en el flujo del juego con lógica de expiración.
 
 **Tareas:**
+
 - [ ] Conectar Timer con GameContext
 - [ ] Configurar duración desde setup del juego
 - [ ] Pausar/reanudar timer funciona
@@ -2371,23 +2617,27 @@ Integrar Timer component completamente en el flujo del juego con lógica de expi
 - [ ] Visual feedback cuando está por expirar (últimos 10 seg)
 
 **Criterios de Aceptación:**
+
 - Timer funciona en partida real
 - Expiración causa strike automáticamente
 - Se puede habilitar/deshabilitar desde setup
 - UX clara, no confunde
 
 **Comportamiento:**
+
 1. Timer inicia cuando se revela pregunta
 2. Si expira sin respuestas: +1 strike
 3. Timer se resetea en cada nueva pregunta
 4. Se puede pausar manualmente
 
 **Archivos a modificar:**
+
 - `contexts/GameContext.tsx`
 - `components/game/GameBoard.tsx`
 - `app/(game)/setup/page.tsx`
 
 **Dependencias:**
+
 - Issue #23 (Timer component)
 - Issue #14 (GameContext)
 
@@ -2403,6 +2653,7 @@ Integrar Timer component completamente en el flujo del juego con lógica de expi
 Implementar completamente la lógica de multiplicadores que incrementan puntos en rondas finales.
 
 **Tareas:**
+
 - [ ] Conectar scoring con multiplicadores
 - [ ] Mostrar multiplicador actual en UI (x1, x2, x3)
 - [ ] Aplicar multiplicador al calcular puntos de ronda
@@ -2411,21 +2662,25 @@ Implementar completamente la lógica de multiplicadores que incrementan puntos e
 - [ ] Probar cálculos exhaustivamente
 
 **Criterios de Aceptación:**
+
 - Multiplicadores aplican correctamente
 - UI muestra multiplicador claramente
 - Puntos se calculan correctamente con multiplicadores
 - No hay bugs en scoring
 
 **Reglas por defecto:**
+
 - 5 rondas: rondas 1-3 (x1), ronda 4 (x2), ronda 5 (x3)
 - 3 rondas: rondas 1-2 (x1), ronda 3 (x2)
 
 **Archivos a modificar:**
+
 - `lib/game/scoring.ts`
 - `components/game/QuestionDisplay.tsx`
 - `contexts/GameContext.tsx`
 
 **Dependencias:**
+
 - Issue #15 (scoring)
 - Issue #19 (QuestionDisplay)
 
@@ -2441,6 +2696,7 @@ Implementar completamente la lógica de multiplicadores que incrementan puntos e
 Implementar ronda especial de desempate cuando hay empate al final del juego.
 
 **Tareas:**
+
 - [ ] Detectar empate al finalizar todas las rondas
 - [ ] Mostrar modal "¡Desempate!"
 - [ ] Seleccionar pregunta extra automáticamente
@@ -2449,12 +2705,14 @@ Implementar ronda especial de desempate cuando hay empate al final del juego.
 - [ ] Opción de desactivar desempate en setup
 
 **Criterios de Aceptación:**
+
 - Desempate se activa correctamente en empate
 - Lógica de "primera respuesta gana" funciona
 - UI clara y emocionante
 - Se puede desactivar desde configuración
 
 **Flow de desempate:**
+
 1. Game termina en empate
 2. Modal: "¡Desempate! Primera respuesta correcta gana"
 3. Se muestra pregunta extra
@@ -2462,11 +2720,13 @@ Implementar ronda especial de desempate cuando hay empate al final del juego.
 5. Se actualiza winner y se guarda partida
 
 **Archivos a modificar:**
+
 - `contexts/GameContext.tsx`
 - `lib/game/gameEngine.ts`
 - `app/(game)/setup/page.tsx`
 
 **Dependencias:**
+
 - Issue #13 (gameEngine)
 - Issue #14 (GameContext)
 
@@ -2482,6 +2742,7 @@ Implementar ronda especial de desempate cuando hay empate al final del juego.
 Agregar funcionalidad para pausar y reanudar partida en progreso.
 
 **Tareas:**
+
 - [ ] Botón "Pausar" en GameControls
 - [ ] Modal de pausa con opciones: Reanudar, Salir
 - [ ] Pausar timer si está activo
@@ -2490,23 +2751,27 @@ Agregar funcionalidad para pausar y reanudar partida en progreso.
 - [ ] Prevenir acciones del juego mientras pausado
 
 **Criterios de Aceptación:**
+
 - Pausa bloquea todas las acciones del juego
 - Reanudar continúa exactamente donde quedó
 - Timer se pausa/reanuda correctamente
 - UX clara, no confunde
 
 **Modal de pausa:**
+
 - Mensaje: "Juego pausado"
 - Botón "Reanudar"
 - Botón "Salir" (con confirmación)
 - Mostrar tiempo transcurrido
 
 **Archivos a modificar:**
+
 - `contexts/GameContext.tsx`
 - `components/game/GameControls.tsx`
 - Crear `components/game/PauseModal.tsx`
 
 **Dependencias:**
+
 - Issue #24 (GameControls)
 
 ---
@@ -2521,6 +2786,7 @@ Agregar funcionalidad para pausar y reanudar partida en progreso.
 Expandir página de setup con opciones avanzadas configurables.
 
 **Tareas:**
+
 - [ ] Agregar opción: Número de rondas (3, 5, 7, todas las preguntas)
 - [ ] Agregar opción: Permitir desempate (sí/no)
 - [ ] Agregar opción: Modo estricto (3 strikes = pérdida inmediata)
@@ -2529,12 +2795,14 @@ Expandir página de setup con opciones avanzadas configurables.
 - [ ] Guardar preferencias en localStorage (defaults)
 
 **Criterios de Aceptación:**
+
 - Todas las opciones funcionan correctamente
 - Configuración afecta comportamiento del juego
 - Preferencias persisten entre sesiones
 - UI no abruma con opciones (colapsable)
 
 **Opciones avanzadas:**
+
 - Número de rondas: 3 / 5 / 7 / Todas
 - Timer: Activar/desactivar, duración (segundos)
 - Multiplicadores: Auto / Manual / Desactivado
@@ -2543,10 +2811,12 @@ Expandir página de setup con opciones avanzadas configurables.
 - Revelar puntos: Antes / Después
 
 **Archivos a modificar:**
+
 - `app/(game)/setup/page.tsx`
 - `types/game.types.ts` (GameConfig interface)
 
 **Dependencias:**
+
 - Issue #10 (setup page)
 
 ---
@@ -2561,6 +2831,7 @@ Expandir página de setup con opciones avanzadas configurables.
 Implementar atajos de teclado para revelar respuestas rápidamente (presionar número 1-8).
 
 **Tareas:**
+
 - [ ] Agregar event listener de teclado en GameBoard
 - [ ] Mapear teclas 1-8 a respuestas
 - [ ] Tecla 'X' o 'S' para agregar strike
@@ -2570,12 +2841,14 @@ Implementar atajos de teclado para revelar respuestas rápidamente (presionar n�
 - [ ] Prevenir hotkeys cuando hay modals abiertos
 
 **Criterios de Aceptación:**
+
 - Hotkeys funcionan correctamente
 - No interfieren con inputs de texto
 - Ayuda de hotkeys accesible y clara
 - Mejora velocidad de juego significativamente
 
 **Hotkeys principales:**
+
 - `1-8`: Revelar respuesta correspondiente
 - `Space` o `X`: Agregar strike
 - `Enter` o `N`: Siguiente pregunta
@@ -2584,10 +2857,12 @@ Implementar atajos de teclado para revelar respuestas rápidamente (presionar n�
 - `Esc`: Cerrar modals
 
 **Archivos a modificar:**
+
 - `components/game/GameBoard.tsx`
 - Crear `components/game/HotkeysHelp.tsx`
 
 **Dependencias:**
+
 - Issue #18 (GameBoard)
 
 ---
@@ -2604,6 +2879,7 @@ Implementar atajos de teclado para revelar respuestas rápidamente (presionar n�
 Testing completo de toda la aplicación, todos los flujos y casos de uso.
 
 **Tareas:**
+
 - [ ] Crear checklist completo de testing
 - [ ] Probar flujo sin login (localStorage)
 - [ ] Probar flujo con login (Supabase)
@@ -2616,12 +2892,14 @@ Testing completo de toda la aplicación, todos los flujos y casos de uso.
 - [ ] Crear issues para bugs críticos
 
 **Criterios de Aceptación:**
+
 - Todos los flujos principales probados
 - Documentación de bugs completa
 - Priorización de bugs (críticos vs menores)
 - Plan de corrección establecido
 
 **Flujos a probar:**
+
 1. Landing → Setup → Juego → Finalizar (sin login)
 2. Register → Dashboard → Crear preguntas → Jugar
 3. Login → Ver historial → Ver detalle partida
@@ -2632,10 +2910,12 @@ Testing completo de toda la aplicación, todos los flujos y casos de uso.
 8. Performance (loading times, query speed)
 
 **Archivos a crear:**
+
 - `TESTING_FINAL.md` (checklist y resultados)
 - `BUGS.md` (lista de bugs encontrados)
 
 **Dependencias:**
+
 - Todos los issues anteriores completos
 
 ---
@@ -2650,6 +2930,7 @@ Testing completo de toda la aplicación, todos los flujos y casos de uso.
 Corregir todos los bugs críticos y de alta prioridad identificados en Issue #62.
 
 **Tareas:**
+
 - [ ] Revisar lista de bugs de BUGS.md
 - [ ] Priorizar bugs (P0 > P1 > P2 > P3)
 - [ ] Crear issues separados para bugs complejos
@@ -2658,12 +2939,14 @@ Corregir todos los bugs críticos y de alta prioridad identificados en Issue #62
 - [ ] Actualizar BUGS.md con status
 
 **Criterios de Aceptación:**
+
 - Todos los bugs P0 corregidos
 - Mayoría de bugs P1 corregidos
 - Bugs P2/P3 documentados para futuro
 - Re-testing confirma correcciones
 
 **Dependencias:**
+
 - Issue #62 (testing)
 
 ---
@@ -2678,6 +2961,7 @@ Corregir todos los bugs críticos y de alta prioridad identificados en Issue #62
 Optimizar performance de la aplicación para mejorar tiempos de carga y experiencia de usuario.
 
 **Tareas:**
+
 - [ ] Analizar performance con Lighthouse
 - [ ] Optimizar queries de Supabase (indexes, select only needed)
 - [ ] Implementar lazy loading de componentes pesados
@@ -2688,12 +2972,14 @@ Optimizar performance de la aplicación para mejorar tiempos de carga y experien
 - [ ] Medir mejoras con Lighthouse
 
 **Criterios de Aceptación:**
+
 - Lighthouse score > 90 en Performance
 - Tiempo de carga inicial < 2 segundos
 - Queries DB optimizadas
 - No re-renders innecesarios
 
 **Optimizaciones:**
+
 1. Lazy load game components (solo cargar al jugar)
 2. Memoizar cálculos pesados (scores, stats)
 3. Implementar virtual scrolling en listas largas (historial)
@@ -2701,11 +2987,13 @@ Optimizar performance de la aplicación para mejorar tiempos de carga y experien
 5. Cachear question sets en memoria
 
 **Herramientas:**
+
 - Lighthouse (Chrome DevTools)
 - React DevTools Profiler
 - Next.js Bundle Analyzer
 
 **Dependencias:**
+
 - Ninguna (optimización post-features)
 
 ---
@@ -2720,6 +3008,7 @@ Optimizar performance de la aplicación para mejorar tiempos de carga y experien
 Mejorar manejo de errores en toda la aplicación con mensajes claros y recovery strategies.
 
 **Tareas:**
+
 - [ ] Crear componente ErrorBoundary
 - [ ] Implementar error handling en todas las queries
 - [ ] Mostrar errores de red claramente
@@ -2729,12 +3018,14 @@ Mejorar manejo de errores en toda la aplicación con mensajes claros y recovery 
 - [ ] Mensajes de error user-friendly
 
 **Criterios de Aceptación:**
+
 - App no crashea con errores no manejados
 - Errores se muestran claramente al usuario
 - Retry logic funciona donde aplique
 - Logs ayudan a debugging
 
 **Tipos de errores a manejar:**
+
 1. Network errors (offline, timeout)
 2. Supabase errors (auth, permissions, queries)
 3. Validation errors (formularios)
@@ -2742,10 +3033,12 @@ Mejorar manejo de errores en toda la aplicación con mensajes claros y recovery 
 5. Unexpected errors (catch-all)
 
 **Archivos a crear:**
+
 - `components/ErrorBoundary.tsx`
 - `lib/utils/errorHandling.ts`
 
 **Dependencias:**
+
 - Ninguna (mejora general)
 
 ---
@@ -2760,6 +3053,7 @@ Mejorar manejo de errores en toda la aplicación con mensajes claros y recovery 
 Implementar loading states y skeleton screens para mejorar UX durante cargas.
 
 **Tareas:**
+
 - [ ] Crear componentes Skeleton para cada tipo de contenido
 - [ ] Implementar loading states en todas las queries
 - [ ] Spinner/loader para acciones (submit, delete)
@@ -2769,22 +3063,26 @@ Implementar loading states y skeleton screens para mejorar UX durante cargas.
 - [ ] Shimmer effect para skeletons
 
 **Criterios de Aceptación:**
+
 - Todas las cargas muestran feedback visual
 - Skeletons match el layout real
 - UX se siente más fluida
 - No hay pantallas blancas durante carga
 
 **Componentes skeleton:**
+
 - QuestionSetSkeleton (cards de sets)
 - GameHistorySkeleton (tabla/cards de historial)
 - StatsSkeleton (cards de stats)
 - GameBoardSkeleton (tablero de juego)
 
 **Archivos a crear:**
+
 - `components/ui/Skeleton.tsx`
 - `components/skeletons/*.tsx`
 
 **Dependencias:**
+
 - Ninguna (mejora de UX)
 
 ---
@@ -2799,6 +3097,7 @@ Implementar loading states y skeleton screens para mejorar UX durante cargas.
 Crear páginas de error personalizadas (404, 500) y error boundaries.
 
 **Tareas:**
+
 - [ ] Crear `app/not-found.tsx` (404 page)
 - [ ] Crear `app/error.tsx` (error boundary page)
 - [ ] Diseñar páginas de error amigables
@@ -2807,22 +3106,26 @@ Crear páginas de error personalizadas (404, 500) y error boundaries.
 - [ ] Agregar ilustración o imagen
 
 **Criterios de Aceptación:**
+
 - Páginas 404 y error funcionan
 - Diseño consistente con la app
 - Navegación de vuelta funciona
 - Experiencia no frustrante
 
 **Contenido de 404:**
+
 - "Página no encontrada"
 - Mensaje amigable
 - Botón "Volver al inicio"
 - Link a páginas principales
 
 **Archivos a crear:**
+
 - `app/not-found.tsx`
 - `app/error.tsx`
 
 **Dependencias:**
+
 - Issue #65 (error handling)
 
 ---
@@ -2837,6 +3140,7 @@ Crear páginas de error personalizadas (404, 500) y error boundaries.
 Revisar y mejorar accesibilidad básica de la aplicación.
 
 **Tareas:**
+
 - [ ] Auditar con Lighthouse a11y score
 - [ ] Agregar aria-labels donde falten
 - [ ] Verificar contrast ratios (WCAG AA)
@@ -2847,12 +3151,14 @@ Revisar y mejorar accesibilidad básica de la aplicación.
 - [ ] Corregir issues encontrados
 
 **Criterios de Aceptación:**
+
 - Lighthouse a11y score > 90
 - Keyboard navigation funciona completa
 - Screen reader puede navegar la app
 - Contrast ratios WCAG AA compliant
 
 **Checklist a11y:**
+
 - [ ] Todas las imágenes tienen alt text
 - [ ] Botones tienen aria-labels descriptivos
 - [ ] Forms tienen labels asociados
@@ -2861,6 +3167,7 @@ Revisar y mejorar accesibilidad básica de la aplicación.
 - [ ] Color no es único indicador de info
 
 **Dependencias:**
+
 - Ninguna (mejora general)
 
 ---
@@ -2875,6 +3182,7 @@ Revisar y mejorar accesibilidad básica de la aplicación.
 Configurar variables de entorno correctas para producción en Vercel.
 
 **Tareas:**
+
 - [ ] Revisar todas las variables usadas
 - [ ] Configurar variables en Vercel dashboard
 - [ ] Asegurar NEXT_PUBLIC_SUPABASE_URL correcto
@@ -2884,12 +3192,14 @@ Configurar variables de entorno correctas para producción en Vercel.
 - [ ] Documentar variables en README
 
 **Criterios de Aceptación:**
+
 - Todas las variables configuradas en Vercel
 - App funciona en preview deployment
 - No hay errores de variables faltantes
 - Documentación completa
 
 **Variables necesarias:**
+
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJxxx
@@ -2897,9 +3207,11 @@ NEXT_PUBLIC_APP_URL=https://tu-app.vercel.app
 ```
 
 **Archivos a modificar:**
+
 - `README.md` (documentar setup)
 
 **Dependencias:**
+
 - Ninguna (pre-deployment)
 
 ---
@@ -2914,6 +3226,7 @@ NEXT_PUBLIC_APP_URL=https://tu-app.vercel.app
 Hacer el primer deploy de la aplicación a Vercel y verificar que todo funciona en producción.
 
 **Tareas:**
+
 - [ ] Conectar repositorio con Vercel
 - [ ] Configurar settings de build (Next.js)
 - [ ] Configurar variables de entorno
@@ -2924,12 +3237,14 @@ Hacer el primer deploy de la aplicación a Vercel y verificar que todo funciona 
 - [ ] Configurar analytics (Vercel Analytics)
 
 **Criterios de Aceptación:**
+
 - App deployada y accesible públicamente
 - Todas las funcionalidades funcionan en prod
 - Supabase conecta correctamente
 - No hay errores en consola de producción
 
 **Checklist post-deploy:**
+
 - [ ] Landing page carga
 - [ ] Login/Register funcionan
 - [ ] Juego funciona (con y sin login)
@@ -2939,6 +3254,7 @@ Hacer el primer deploy de la aplicación a Vercel y verificar que todo funciona 
 - [ ] Performance aceptable
 
 **Dependencias:**
+
 - Issue #69 (env vars)
 - Todos los features completados
 
@@ -2956,6 +3272,7 @@ Hacer el primer deploy de la aplicación a Vercel y verificar que todo funciona 
 Implementar sonidos para hacer el juego más inmersivo y divertido.
 
 **Tareas:**
+
 - [ ] Buscar/crear sound effects (buzzer, correct, applause, etc.)
 - [ ] Agregar sounds a `/public/sounds/`
 - [ ] Crear hook `useSound()` para reproducir sonidos
@@ -2967,12 +3284,14 @@ Implementar sonidos para hacer el juego más inmersivo y divertido.
 - [ ] Control de volumen
 
 **Criterios de Aceptación:**
+
 - Sonidos mejoran experiencia sin ser molestos
 - Se pueden desactivar fácilmente
 - No hay lag al reproducir sonidos
 - Volumen controlable
 
 **Sonidos necesarios:**
+
 - Reveal answer (ding)
 - Strike (buzzer)
 - Round win (applause)
@@ -2980,10 +3299,12 @@ Implementar sonidos para hacer el juego más inmersivo y divertido.
 - Game win (celebration)
 
 **Archivos a crear:**
+
 - `hooks/useSound.ts`
 - `public/sounds/*.mp3`
 
 **Dependencias:**
+
 - Ninguna (enhancement post-MVP)
 
 ---
@@ -2998,6 +3319,7 @@ Implementar sonidos para hacer el juego más inmersivo y divertido.
 Agregar animaciones fluidas y profesionales usando Framer Motion.
 
 **Tareas:**
+
 - [ ] Instalar framer-motion
 - [ ] Animar reveal de respuestas (flip, slide)
 - [ ] Animar cambio de turnos
@@ -3008,12 +3330,14 @@ Agregar animaciones fluidas y profesionales usando Framer Motion.
 - [ ] Configuración para reducir animaciones (prefers-reduced-motion)
 
 **Criterios de Aceptación:**
+
 - Animaciones mejoran UX sin ralentizar
 - Consistentes en toda la app
 - Respetan prefers-reduced-motion
 - No causan bugs de UI
 
 **Animaciones principales:**
+
 1. Answer cards: flip reveal
 2. Scores: count up animation
 3. Strikes: shake + appear
@@ -3022,6 +3346,7 @@ Agregar animaciones fluidas y profesionales usando Framer Motion.
 6. Team switch: slide
 
 **Dependencias:**
+
 - Librería: `framer-motion`
 
 ---
@@ -3036,6 +3361,7 @@ Agregar animaciones fluidas y profesionales usando Framer Motion.
 Implementar tema oscuro alternativo con toggle en UI.
 
 **Tareas:**
+
 - [ ] Configurar Tailwind para dark mode
 - [ ] Agregar dark variants en todos los componentes
 - [ ] Crear toggle de tema (light/dark/system)
@@ -3045,12 +3371,14 @@ Implementar tema oscuro alternativo con toggle en UI.
 - [ ] Icono de sol/luna para toggle
 
 **Criterios de Aceptación:**
+
 - Dark mode funciona en toda la app
 - Toggle funciona correctamente
 - Preferencia persiste
 - Contraste adecuado (a11y)
 
 **Implementación:**
+
 ```typescript
 // tailwind.config.ts
 darkMode: 'class'
@@ -3060,11 +3388,13 @@ darkMode: 'class'
 ```
 
 **Archivos a modificar:**
+
 - `tailwind.config.ts`
 - Todos los componentes (agregar dark: variants)
 - `components/layout/Header.tsx` (theme toggle)
 
 **Dependencias:**
+
 - Ninguna (enhancement)
 
 ---
@@ -3079,6 +3409,7 @@ darkMode: 'class'
 Permitir que usuarios hagan sus sets públicos y otros usuarios puedan usarlos.
 
 **Tareas:**
+
 - [ ] Agregar toggle "Público" en QuestionSetEditor
 - [ ] Crear página "Explorar Sets Públicos"
 - [ ] Listar sets públicos de todos los usuarios
@@ -3088,12 +3419,14 @@ Permitir que usuarios hagan sus sets públicos y otros usuarios puedan usarlos.
 - [ ] Implementar sistema de likes/favoritos (opcional)
 
 **Criterios de Aceptación:**
+
 - Usuarios pueden marcar sets como públicos
 - Sets públicos visibles para todos
 - Otros usuarios pueden copiar sets públicos
 - Attribution del autor visible
 
 **Página "Explorar":**
+
 - Lista de sets públicos (cards)
 - Búsqueda por nombre/descripción
 - Filtro por número de preguntas
@@ -3101,9 +3434,11 @@ Permitir que usuarios hagan sus sets públicos y otros usuarios puedan usarlos.
 - Preview del set
 
 **Archivos a crear:**
+
 - `app/(auth)/explore/page.tsx`
 
 **Dependencias:**
+
 - Issue #38 (RLS policies públicos)
 - Issue #44 (QuestionSetEditor)
 
@@ -3119,6 +3454,7 @@ Permitir que usuarios hagan sus sets públicos y otros usuarios puedan usarlos.
 Implementar sistema de roles para diferentes tipos de usuarios.
 
 **Tareas:**
+
 - [ ] Agregar columna `role` en profiles table
 - [ ] Definir roles: admin, host, player
 - [ ] Admin: puede moderar contenido público
@@ -3128,21 +3464,25 @@ Implementar sistema de roles para diferentes tipos de usuarios.
 - [ ] UI adaptada según rol
 
 **Criterios de Aceptación:**
+
 - Sistema de roles funciona correctamente
 - Permisos respetados en cliente y servidor
 - UI se adapta según rol
 - Admin tiene panel de moderación
 
 **Roles:**
+
 - **Admin:** Acceso total, moderar sets públicos
 - **Host:** Crear sets, gestionar partidas, ver stats completas
 - **Player:** Jugar partidas, ver historial propio
 
 **Archivos a crear:**
+
 - `lib/auth/roles.ts`
 - `app/(admin)/moderate/page.tsx` (admin panel)
 
 **Dependencias:**
+
 - Issue #38 (RLS policies - modificar)
 
 ---
@@ -3157,6 +3497,7 @@ Implementar sistema de roles para diferentes tipos de usuarios.
 Implementar modo donde el host controla el juego en una pantalla y jugadores ven otra vista en sus dispositivos.
 
 **Tareas:**
+
 - [ ] Diseñar arquitectura (WebSockets, real-time)
 - [ ] Crear room system (códigos de partida)
 - [ ] Vista de host (control total)
@@ -3166,6 +3507,7 @@ Implementar modo donde el host controla el juego en una pantalla y jugadores ven
 - [ ] Manejar desconexiones
 
 **Criterios de Aceptación:**
+
 - Host controla juego desde su dispositivo
 - Jugadores ven actualizaciones en tiempo real
 - Sincronización funciona sin lag significativo
@@ -3174,6 +3516,7 @@ Implementar modo donde el host controla el juego en una pantalla y jugadores ven
 **Nota:** Esta feature es compleja y requiere Supabase Realtime. Considerar si vale la pena para el scope del proyecto.
 
 **Dependencias:**
+
 - Supabase Realtime configurado
 
 ---
@@ -3188,6 +3531,7 @@ Implementar modo donde el host controla el juego en una pantalla y jugadores ven
 Convertir la app en PWA para permitir instalación en dispositivos y funcionalidad offline.
 
 **Tareas:**
+
 - [ ] Configurar next-pwa
 - [ ] Crear manifest.json
 - [ ] Agregar service worker
@@ -3197,17 +3541,20 @@ Convertir la app en PWA para permitir instalación en dispositivos y funcionalid
 - [ ] Iconos en diferentes tamaños
 
 **Criterios de Aceptación:**
+
 - App puede instalarse en mobile/desktop
 - Funcionalidad básica offline (localStorage mode)
 - Lighthouse PWA score > 90
 - Iconos y splash screens correctos
 
 **Archivos a crear:**
+
 - `public/manifest.json`
 - `public/icons/*.png`
 - Configuración en `next.config.js`
 
 **Dependencias:**
+
 - Librería: `next-pwa`
 
 ---
@@ -3222,6 +3569,7 @@ Convertir la app en PWA para permitir instalación en dispositivos y funcionalid
 Agregar soporte para múltiples idiomas (Español, Inglés).
 
 **Tareas:**
+
 - [ ] Instalar next-intl o react-i18next
 - [ ] Extraer todos los strings a archivos de traducción
 - [ ] Traducir a inglés
@@ -3231,21 +3579,25 @@ Agregar soporte para múltiples idiomas (Español, Inglés).
 - [ ] Probar en ambos idiomas
 
 **Criterios de Aceptación:**
+
 - Toda la UI traducible
 - Switch entre idiomas funciona
 - Preferencia persiste
 - Traducciones completas y correctas
 
 **Idiomas:**
+
 - Español (default)
 - Inglés
 
 **Archivos a crear:**
+
 - `locales/es.json`
 - `locales/en.json`
 - `lib/i18n.ts`
 
 **Dependencias:**
+
 - Librería: `next-intl` o `react-i18next`
 
 ---
@@ -3261,11 +3613,13 @@ Agregar soporte para múltiples idiomas (Español, Inglés).
 **Estimación total:** ~200-250 horas de desarrollo
 
 **Fases críticas (MVP):**
+
 - Fase 0-6: Setup, UI, Game Logic, Storage
 - Fase 7-8: CRUD y Historial
 - Fase 9: Features avanzados
 
 **Fases opcionales (Post-MVP):**
+
 - Fase 10: Polish (recomendado antes de launch)
 - Fase 11: Enhancements (nice-to-have)
 

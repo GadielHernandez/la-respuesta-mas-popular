@@ -5,6 +5,7 @@ This directory contains utility functions and helper modules used across the app
 ## Purpose
 
 Functions in this folder provide:
+
 - Common utility functions (formatters, validators, etc.)
 - Helper functions for data manipulation
 - Constants and configuration helpers
@@ -26,6 +27,7 @@ utils/
 ## Usage
 
 All utilities should:
+
 - Be pure functions when possible
 - Have explicit TypeScript types
 - Include JSDoc comments

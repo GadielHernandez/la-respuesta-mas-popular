@@ -5,6 +5,7 @@ This directory contains layout and structural components used throughout the app
 ## Purpose
 
 Components in this folder handle:
+
 - Page layouts and containers
 - Header and navigation
 - Footer components
@@ -25,6 +26,7 @@ layout/
 ## Usage
 
 All components should follow the project conventions defined in `CLAUDE.md`:
+
 - Use TypeScript with strict types
 - Follow naming conventions (PascalCase for components)
 - Use Tailwind CSS for styling

@@ -5,6 +5,7 @@ This directory contains Supabase-related configuration files and database migrat
 ## Purpose
 
 This folder manages:
+
 - Database migrations (SQL schema changes)
 - Database seed data (optional)
 - Supabase CLI configuration
@@ -27,6 +28,7 @@ supabase/
 The database schema follows the structure defined in [DEVELOPMENT_PLAN.md](../DEVELOPMENT_PLAN.md):
 
 ### Core Tables
+
 - **profiles** - User profiles (extends Supabase Auth users)
 - **question_sets** - User's custom question collections
 - **questions** - Individual questions within sets
@@ -35,6 +37,7 @@ The database schema follows the structure defined in [DEVELOPMENT_PLAN.md](../DE
 - **game_rounds** - Detailed round-by-round game data
 
 ### Security
+
 - Row Level Security (RLS) enabled on all tables
 - Users can only access their own data
 - Public question sets are viewable by all
@@ -43,6 +46,7 @@ The database schema follows the structure defined in [DEVELOPMENT_PLAN.md](../DE
 ## Migrations
 
 Database migrations should:
+
 - Be numbered sequentially with timestamps
 - Have descriptive names (e.g., `20240210120000_create_question_sets_table.sql`)
 - Be idempotent when possible
@@ -52,6 +56,7 @@ Database migrations should:
 ### Creating Migrations
 
 If using Supabase CLI locally:
+
 ```bash
 supabase migration new create_games_table
 ```
@@ -59,12 +64,14 @@ supabase migration new create_games_table
 ### Applying Migrations
 
 For local development:
+
 ```bash
 supabase db reset      # Reset and apply all migrations
 supabase db push       # Apply pending migrations
 ```
 
 For production (via Supabase Dashboard or CLI):
+
 ```bash
 supabase db push --linked  # Push to linked project
 ```

@@ -5,9 +5,11 @@ This directory contains the Supabase client configuration for the application.
 ## Files
 
 ### `client.ts`
+
 Browser-side Supabase client using `@supabase/ssr`.
 
 **Usage in Client Components:**
+
 ```typescript
 'use client'
 
@@ -22,9 +24,11 @@ export function MyComponent() {
 ```
 
 ### `server.ts`
+
 Server-side Supabase client with cookie support for Next.js App Router.
 
 **Usage in Server Components:**
+
 ```typescript
 import { createClient } from '@/lib/supabase/server'
 
@@ -39,6 +43,7 @@ export default async function Page() {
 ```
 
 **Usage in API Routes:**
+
 ```typescript
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
@@ -52,9 +57,11 @@ export async function GET() {
 ```
 
 ### `types.ts`
+
 TypeScript type definitions for the database schema. This file will be updated as the database schema evolves.
 
 **Note:** For production applications, you can auto-generate this file using:
+
 ```bash
 npx supabase gen types typescript --project-id <project-id> > lib/supabase/types.ts
 ```

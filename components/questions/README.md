@@ -5,6 +5,7 @@ This directory contains React components related to question management and disp
 ## Purpose
 
 Components in this folder handle:
+
 - Question display and rendering
 - Question creation and editing forms
 - Question set management UI
@@ -27,6 +28,7 @@ questions/
 ## Usage
 
 All components should follow the project conventions defined in `CLAUDE.md`:
+
 - Use TypeScript with strict types
 - Follow naming conventions (PascalCase for components)
 - Use Tailwind CSS for styling
