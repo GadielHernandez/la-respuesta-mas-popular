@@ -10,21 +10,26 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#3B82F6', // blue-500
-          dark: '#1E40AF', // blue-800
-          light: '#93C5FD', // blue-300
+          DEFAULT: '#fdb42d', // gold
+          dark: '#e39402', // gold-dark
+          light: '#fed68b', // gold-light
         },
         secondary: {
-          DEFAULT: '#10B981', // green-500
-          dark: '#047857', // green-700
-          light: '#6EE7B7', // green-300
+          DEFAULT: '#4ecdc4', // teal
+          dark: '#3ab5ac', // teal-dark
+          light: '#6ee7e0', // teal-light
         },
-        danger: '#EF4444', // red-500
-        warning: '#F59E0B', // amber-500
+        danger: '#ef4444',
+        warning: '#ff8c42',
+        game: {
+          bg: '#1b2134',
+          card: '#232b42',
+          section: '#2a3550',
+        },
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        display: ['Poppins', 'sans-serif'],
+        sans: ['var(--font-nunito)', 'Nunito', 'sans-serif'],
+        display: ['var(--font-poppins)', 'Poppins', 'sans-serif'],
       },
     },
   },

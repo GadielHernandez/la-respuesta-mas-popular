@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
-import { Inter, Poppins } from 'next/font/google'
+import { Nunito, Poppins } from 'next/font/google'
+import { ThemeModeScript } from 'flowbite-react'
 import './globals.css'
 
-const inter = Inter({
+const nunito = Nunito({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-nunito',
   display: 'swap',
+  weight: ['400', '500', '600', '700', '800', '900'],
 })
 
 const poppins = Poppins({
@@ -26,8 +28,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es">
-      <body className={`${inter.variable} ${poppins.variable} antialiased`}>{children}</body>
+    <html lang="es" className="dark" suppressHydrationWarning>
+      <head>
+        <ThemeModeScript />
+      </head>
+      <body className={`${nunito.variable} ${poppins.variable} antialiased`}>{children}</body>
     </html>
   )
 }

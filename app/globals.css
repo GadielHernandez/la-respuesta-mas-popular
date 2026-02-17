@@ -1,34 +1,31 @@
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:wght@400;500;600;700;800&display=swap');
-
-/* Import Tailwind CSS */
+/* Import Tailwind CSS + Flowbite */
 @import 'tailwindcss';
+@plugin 'flowbite/plugin';
+@source '../node_modules/flowbite';
 
-/* CSS Variables for theme colors */
+/* ═══════════════════════════════════════════════
+   CSS VARIABLES — LRMP Dark Blue + Gold Theme
+   ═══════════════════════════════════════════════ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Primary — Gold */
+  --primary: #fdb42d;
+  --primary-dark: #e39402;
+  --primary-light: #fed68b;
 
-  /* Primary colors (Blue) */
-  --primary: #3b82f6;
-  --primary-dark: #1e40af;
-  --primary-light: #93c5fd;
+  /* Secondary — Teal */
+  --secondary: #4ecdc4;
+  --secondary-dark: #3ab5ac;
+  --secondary-light: #6ee7e0;
 
-  /* Secondary colors (Green) */
-  --secondary: #10b981;
-  --secondary-dark: #047857;
-  --secondary-light: #6ee7b7;
-
-  /* Status colors */
+  /* Status */
   --danger: #ef4444;
-  --warning: #f59e0b;
+  --warning: #ff8c42;
 }
 
+/* ═══════════════════════════════════════════════
+   TAILWIND THEME — Utility class generation
+   ═══════════════════════════════════════════════ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-
-  /* Custom theme colors */
   --color-primary: var(--primary);
   --color-primary-dark: var(--primary-dark);
   --color-primary-light: var(--primary-light);
@@ -38,40 +35,325 @@
   --color-danger: var(--danger);
   --color-warning: var(--warning);
 
-  /* Custom fonts */
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-nunito), 'Nunito', ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-poppins), 'Poppins', ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ═══════════════════════════════════════════════
+   FLOWBITE COMPONENT THEME
+   ═══════════════════════════════════════════════ */
+@theme {
+  /* TYPOGRAPHY */
+  --font-body: var(--font-nunito), 'Nunito', 'ui-sans-serif', 'system-ui', 'sans-serif';
+  --font-mono: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono',
+    'Courier New', 'monospace';
+
+  --text-2xs: 0.625rem;
+  --spacing-8xl: 90rem;
+  --leading-9: 36px;
+  --leading-7: 28px;
+  --leading-8: 32px;
+  --leading-6: 24px;
+  --leading-4: 16px;
+  --leading-none: 1px;
+  --leading-5: 20px;
+  --tracking-tighter: -0.8px;
+  --leading-heading-none: 60px;
+  --tracking-tight: -0.4px;
+
+  /* BORDER RADIUS — Generoso (lúdico/premium) */
+  --radius-0: 0px;
+  --radius-xxs: 4px;
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-base: 14px;
+  --radius-lg: 16px;
+
+  --default-border-width: 1px;
+
+  /* TEXT COLORS */
+  --color-body: var(--color-gray-600);
+  --color-body-subtle: var(--color-gray-500);
+  --color-heading: var(--color-gray-900);
+  --color-fg-brand-subtle: #ede1ca;
+  --color-fg-brand: #bb7a02;
+  --color-fg-brand-strong: #654201;
+  --color-fg-success: var(--color-emerald-700);
+  --color-fg-success-strong: var(--color-emerald-900);
+  --color-fg-danger: var(--color-rose-700);
+  --color-fg-danger-strong: var(--color-rose-900);
+  --color-fg-warning-subtle: var(--color-orange-600);
+  --color-fg-warning: var(--color-orange-900);
+  --color-fg-yellow: var(--color-yellow-400);
+  --color-fg-disabled: var(--color-gray-400);
+  --color-fg-purple: var(--color-purple-600);
+  --color-fg-cyan: var(--color-cyan-600);
+  --color-fg-indigo: var(--color-indigo-600);
+  --color-fg-pink: var(--color-pink-600);
+  --color-fg-lime: var(--color-lime-600);
+
+  /* BACKGROUND COLORS */
+  --color-neutral-primary-soft: var(--color-white);
+  --color-neutral-primary: var(--color-white);
+  --color-neutral-primary-medium: var(--color-white);
+  --color-neutral-primary-strong: var(--color-white);
+  --color-neutral-secondary-soft: var(--color-gray-50);
+  --color-neutral-secondary: var(--color-gray-50);
+  --color-neutral-secondary-medium: var(--color-gray-50);
+  --color-neutral-secondary-strong: var(--color-gray-50);
+  --color-neutral-secondary-strongest: var(--color-gray-50);
+  --color-neutral-tertiary-soft: var(--color-gray-100);
+  --color-neutral-tertiary: var(--color-gray-100);
+  --color-neutral-tertiary-medium: var(--color-gray-100);
+  --color-neutral-quaternary: var(--color-gray-200);
+  --color-neutral-quaternary-medium: var(--color-gray-200);
+  --color-gray: var(--color-gray-300);
+  --color-brand-softer: #faf8f5;
+  --color-brand-soft: #f2efe8;
+  --color-brand: #bb7a02;
+  --color-brand-medium: #ede1ca;
+  --color-brand-strong: #8d5c01;
+  --color-success-soft: var(--color-emerald-50);
+  --color-success: var(--color-emerald-700);
+  --color-success-medium: var(--color-emerald-100);
+  --color-success-strong: var(--color-emerald-800);
+  --color-danger-soft: var(--color-rose-50);
+  --color-danger: var(--color-rose-700);
+  --color-danger-medium: var(--color-rose-100);
+  --color-danger-strong: var(--color-rose-800);
+  --color-warning-soft: var(--color-orange-50);
+  --color-warning: var(--color-orange-500);
+  --color-warning-medium: var(--color-orange-100);
+  --color-warning-strong: var(--color-orange-700);
+  --color-dark-soft: var(--color-gray-800);
+  --color-dark: var(--color-gray-800);
+  --color-dark-strong: var(--color-gray-900);
+  --color-disabled: var(--color-gray-100);
+  --color-purple: var(--color-purple-500);
+  --color-sky: var(--color-sky-500);
+  --color-teal: var(--color-teal-600);
+  --color-pink: var(--color-pink-600);
+  --color-cyan: var(--color-cyan-500);
+  --color-fuchsia: var(--color-fuchsia-600);
+  --color-indigo: var(--color-indigo-600);
+  --color-orange: var(--color-orange-400);
+
+  /* BORDER COLORS */
+  --color-buffer: var(--color-white);
+  --color-buffer-medium: var(--color-white);
+  --color-buffer-strong: var(--color-white);
+  --color-muted: var(--color-gray-50);
+  --color-light-subtle: var(--color-gray-100);
+  --color-light: var(--color-gray-100);
+  --color-light-medium: var(--color-gray-100);
+  --color-default-subtle: var(--color-gray-200);
+  --color-default: var(--color-gray-200);
+  --color-default-medium: var(--color-gray-200);
+  --color-default-strong: var(--color-gray-200);
+  --color-success-subtle: var(--color-emerald-200);
+  --color-danger-subtle: var(--color-rose-200);
+  --color-warning-subtle: var(--color-orange-200);
+  --color-brand-subtle: #ede1ca;
+  --color-brand-light: #e39402;
+  --color-dark-subtle: var(--color-gray-800);
+  --color-dark-backdrop: var(--color-gray-950);
+
+  --color-shiki-fg-brand: #79b8ff;
+  --color-shiki-fg-brand-subtle: #9ecbff;
 }
 
-/* Base styles */
+/* ═══════════════════════════════════════════════
+   DARK MODE — Azul oscuro profundo + Gold
+   ═══════════════════════════════════════════════ */
+.dark {
+  /* Text */
+  --color-body: #b8bcc8;
+  --color-body-subtle: #8891a5;
+  --color-heading: #ffffff;
+  --color-fg-brand-subtle: #fed68b;
+  --color-fg-brand: #fdb42d;
+  --color-fg-brand-strong: #fdc253;
+  --color-fg-success: #4ecdc4;
+  --color-fg-success-strong: #6ee7e0;
+  --color-fg-danger: var(--color-rose-500);
+  --color-fg-danger-strong: var(--color-rose-300);
+  --color-fg-warning-subtle: #ff8c42;
+  --color-fg-warning: #ffac75;
+  --color-fg-yellow: var(--color-yellow-400);
+  --color-fg-disabled: var(--color-gray-600);
+  --color-fg-purple: var(--color-purple-400);
+  --color-fg-cyan: #4ecdc4;
+  --color-fg-indigo: var(--color-indigo-400);
+  --color-fg-pink: var(--color-pink-400);
+  --color-fg-lime: var(--color-lime-400);
+
+  /* Backgrounds */
+  --color-neutral-primary-soft: #1b2134;
+  --color-neutral-primary: #1b2134;
+  --color-neutral-primary-medium: #232b42;
+  --color-neutral-primary-strong: #2a3550;
+  --color-neutral-secondary-soft: #232b42;
+  --color-neutral-secondary: #232b42;
+  --color-neutral-secondary-medium: #2a3550;
+  --color-neutral-secondary-strong: #2a3550;
+  --color-neutral-secondary-strongest: #31405e;
+  --color-neutral-tertiary-soft: #2a3550;
+  --color-neutral-tertiary: #2a3550;
+  --color-neutral-tertiary-medium: #31405e;
+  --color-neutral-quaternary: #31405e;
+  --color-neutral-quaternary-medium: #3a4d72;
+  --color-gray: #4a5a7a;
+  --color-brand-softer: #1f1a0a;
+  --color-brand-soft: #2e2007;
+  --color-brand: #fdb42d;
+  --color-brand-medium: #3b2907;
+  --color-brand-strong: #e39402;
+  --color-success-soft: #0a2020;
+  --color-success: #4ecdc4;
+  --color-success-medium: #0f2e2c;
+  --color-success-strong: #3ab5ac;
+  --color-danger-soft: var(--color-rose-950);
+  --color-danger: var(--color-rose-600);
+  --color-danger-medium: var(--color-rose-900);
+  --color-danger-strong: var(--color-rose-700);
+  --color-warning-soft: #1f1205;
+  --color-warning: #ff8c42;
+  --color-warning-medium: #2e1b08;
+  --color-warning-strong: #e07030;
+  --color-dark-soft: #232b42;
+  --color-dark: #1b2134;
+  --color-dark-strong: #141927;
+  --color-disabled: #2a3550;
+  --color-purple: var(--color-purple-400);
+  --color-sky: var(--color-sky-400);
+  --color-teal: #4ecdc4;
+  --color-pink: var(--color-pink-400);
+  --color-cyan: #4ecdc4;
+  --color-fuchsia: var(--color-fuchsia-400);
+  --color-indigo: var(--color-indigo-400);
+  --color-orange: #ff8c42;
+
+  /* Borders */
+  --color-buffer: #1b2134;
+  --color-buffer-medium: #232b42;
+  --color-buffer-strong: #2a3550;
+  --color-muted: #232b42;
+  --color-light-subtle: #2a3550;
+  --color-light: #2a3550;
+  --color-light-medium: #31405e;
+  --color-default-subtle: #2a3550;
+  --color-default: #31405e;
+  --color-default-medium: #3a4d72;
+  --color-default-strong: #4a5a7a;
+  --color-success-subtle: #0f2e2c;
+  --color-danger-subtle: var(--color-rose-900);
+  --color-warning-subtle: #2e1b08;
+  --color-brand-subtle: rgba(253, 180, 45, 0.15);
+  --color-brand-light: #fdb42d;
+  --color-dark-subtle: #2a3550;
+  --color-dark-backdrop: #141927;
+}
+
+/* ═══════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════ */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  background-color: #1b2134;
+  color: #e8eaed;
+  font-family: var(--font-nunito), 'Nunito', ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Heading styles using display font */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-poppins), 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  color: #ffffff;
 }
 
-/* Remove default margins */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/* ═══════════════════════════════════════════════
+   CUSTOM UTILITIES — Gold Glow & Game Effects
+   ═══════════════════════════════════════════════ */
+
+.glow-gold {
+  box-shadow:
+    0 0 16px rgba(253, 180, 45, 0.35),
+    0 0 32px rgba(253, 180, 45, 0.15);
+}
+
+.glow-gold-sm {
+  box-shadow: 0 0 8px rgba(253, 180, 45, 0.25);
+}
+
+.card-gold {
+  background-color: #232b42;
+  border: 1px solid rgba(253, 180, 45, 0.2);
+  border-radius: var(--radius-lg);
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.card-gold:hover {
+  border-color: rgba(253, 180, 45, 0.5);
+  box-shadow: 0 0 12px rgba(253, 180, 45, 0.2);
+}
+
+.btn-gold {
+  background-color: #fdb42d;
+  color: #1b2134;
+  font-weight: 700;
+  border-radius: var(--radius-base);
+  padding: 0.625rem 1.25rem;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.btn-gold:hover {
+  background-color: #fdc253;
+  transform: scale(1.05);
+  box-shadow: 0 0 16px rgba(253, 180, 45, 0.45);
+}
+
+.btn-gold-outline {
+  background-color: transparent;
+  color: #fdb42d;
+  border: 2px solid #fdb42d;
+  font-weight: 700;
+  border-radius: var(--radius-base);
+  padding: 0.625rem 1.25rem;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.btn-gold-outline:hover {
+  background-color: rgba(253, 180, 45, 0.1);
+  box-shadow: 0 0 12px rgba(253, 180, 45, 0.3);
+}
+
+.focus-gold:focus-visible {
+  outline: 2px solid #fdb42d;
+  outline-offset: 2px;
+}
+
+.text-glow-gold {
+  text-shadow: 0 0 12px rgba(253, 180, 45, 0.6);
+}
+
+.bg-game {
+  background: linear-gradient(135deg, #1b2134 0%, #232b42 50%, #1e2540 100%);
 }
