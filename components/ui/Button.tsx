@@ -1,5 +1,9 @@
-import React from 'react'
-import { cn } from '@/lib/utils'
+'use client'
+
+import { Button as FlowbiteButton } from 'flowbite-react'
+import type { ComponentProps } from 'react'
+
+type FlowbiteButtonProps = ComponentProps<typeof FlowbiteButton>
 
 interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'danger'
@@ -12,6 +16,18 @@ interface ButtonProps {
   ariaLabel?: string
 }
 
+const variantMap: Record<NonNullable<ButtonProps['variant']>, FlowbiteButtonProps['color']> = {
+  primary: 'yellow',
+  secondary: 'teal',
+  danger: 'failure',
+}
+
+const sizeMap: Record<NonNullable<ButtonProps['size']>, FlowbiteButtonProps['size']> = {
+  sm: 'sm',
+  md: 'md',
+  lg: 'lg',
+}
+
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
@@ -22,31 +38,17 @@ export const Button: React.FC<ButtonProps> = ({
   type = 'button',
   ariaLabel,
 }) => {
-  const baseStyles =
-    'font-semibold rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'
-
-  const variantStyles = {
-    primary: 'bg-primary hover:bg-primary-dark text-white disabled:hover:bg-primary',
-    secondary:
-      'bg-secondary hover:bg-secondary-dark text-white disabled:hover:bg-secondary',
-    danger: 'bg-danger hover:bg-red-600 text-white disabled:hover:bg-danger',
-  }
-
-  const sizeStyles = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-4 py-2 text-base',
-    lg: 'px-6 py-3 text-lg',
-  }
-
   return (
-    <button
+    <FlowbiteButton
       type={type}
-      className={cn(baseStyles, variantStyles[variant], sizeStyles[size], className)}
+      color={variantMap[variant]}
+      size={sizeMap[size]}
       onClick={onClick}
       disabled={disabled}
+      className={className}
       aria-label={ariaLabel}
     >
       {children}
-    </button>
+    </FlowbiteButton>
   )
 }
