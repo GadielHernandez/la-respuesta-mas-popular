@@ -156,7 +156,7 @@ export default function ButtonDemoPage() {
                   <Button variant="primary" size={size}>
                     {size === 'sm' ? 'Pequeño' : size === 'md' ? 'Mediano' : 'Grande'}
                   </Button>
-                  <span className="font-mono text-xs text-[#4a5a7a]">size="{size}"</span>
+                  <span className="font-mono text-xs text-[#4a5a7a]">size=&quot;{size}&quot;</span>
                 </div>
               ))}
             </div>
@@ -177,7 +177,7 @@ export default function ButtonDemoPage() {
                     Deshabilitado
                   </Button>
                   <span className="font-mono text-xs text-[#4a5a7a]">
-                    variant="{variant}" disabled
+                    variant=&quot;{variant}&quot; disabled
                   </span>
                 </div>
               ))}
