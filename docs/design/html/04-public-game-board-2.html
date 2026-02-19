@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Public Game Board - La Respuesta más Popular</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#dba61f",
+                        "background-light": "#f8f7f6",
+                        "background-dark": "#121212",
+                        "neutral-gold": "#463d25",
+                        "deep-charcoal": "#1a1a1a"
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body {
+            font-family: 'Lexend', sans-serif;
+            overflow: hidden;
+        }
+        .gold-glow {
+            text-shadow: 0 0 20px rgba(219, 166, 31, 0.6);
+        }
+        .active-team-glow {
+            box-shadow: 0 0 40px rgba(219, 166, 31, 0.25), inset 0 0 20px rgba(219, 166, 31, 0.1);
+            border: 2px solid rgba(219, 166, 31, 0.6);
+        }
+        .red-glow {
+            text-shadow: 0 0 25px rgba(239, 68, 68, 0.8);
+        }
+        .board-gradient {
+            background: linear-gradient(180deg, #2a251a 0%, #1a1a1a 100%);
+        }
+        .spotlight {
+            background: radial-gradient(circle at 50% -20%, rgba(219, 166, 31, 0.15) 0%, transparent 70%);
+        }
+        .slot-flip {
+            perspective: 1000px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(219, 166, 31, 0.1);
+        }
+        .pot-glow {
+            filter: drop-shadow(0 0 15px rgba(219, 166, 31, 0.5));
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-white min-h-screen flex flex-col items-center p-0 m-0 select-none">
+<div class="fixed inset-0 spotlight pointer-events-none"></div>
+<div class="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
+<header class="relative z-20 w-full pt-12 flex flex-col items-center">
+<div class="mb-6 px-6 py-1 border border-primary/40 rounded-full bg-primary/5 backdrop-blur-sm">
+<span class="text-primary text-sm font-bold tracking-[0.4em] uppercase">Ronda 1</span>
+</div>
+<h1 class="text-primary text-4xl font-semibold tracking-tight text-center max-w-4xl gold-glow">
+            Menciona algo que siempre llevas a la playa
+        </h1>
+</header>
+<main class="relative z-10 w-full max-w-[1920px] flex-1 flex items-center justify-between px-16 gap-4">
+<aside class="flex flex-col items-center justify-center w-64 h-full transition-all duration-500">
+<div class="flex flex-col items-center p-8 rounded-3xl active-team-glow bg-primary/5">
+<h2 class="text-primary text-lg font-bold tracking-[0.15em] uppercase mb-2">Team Alpha</h2>
+<div class="relative">
+<span class="text-7xl font-black leading-none gold-glow">150</span>
+</div>
+<div class="flex gap-1.5 mt-6">
+<div class="size-3 rounded-full bg-primary"></div>
+<div class="size-3 rounded-full bg-primary"></div>
+<div class="size-3 rounded-full bg-primary/20 border border-primary/30"></div>
+</div>
+</div>
+<div class="mt-4 flex flex-col items-center">
+<span class="text-[10px] text-primary font-bold tracking-widest uppercase">Turno Actual</span>
+<span class="material-symbols-outlined text-primary text-xl animate-bounce mt-1">expand_more</span>
+</div>
+</aside>
+<section class="flex-1 flex flex-col items-center justify-center">
+<div class="mb-8 flex flex-col items-center">
+<span class="text-primary/60 text-xs font-bold tracking-[0.3em] uppercase mb-1">Puntos Acumulados</span>
+<div class="glass-panel px-10 py-3 rounded-xl border-primary/30 pot-glow">
+<span class="text-5xl font-black text-primary leading-none">64</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-5 w-full max-w-4xl p-6 rounded-2xl board-gradient border border-neutral-gold/30 shadow-2xl relative">
+<div class="slot-flip h-20 relative overflow-hidden">
+<div class="absolute inset-0 border border-primary/30 bg-gradient-to-br from-neutral-gold/40 to-black/80 flex items-center justify-center shadow-inner rounded-lg">
+<span class="text-primary text-3xl font-bold italic opacity-20">1</span>
+</div>
+</div>
+<div class="slot-flip h-20 relative overflow-hidden">
+<div class="absolute inset-0 border border-primary/30 bg-gradient-to-br from-neutral-gold/40 to-black/80 flex items-center justify-center shadow-inner rounded-lg">
+<span class="text-primary text-3xl font-bold italic opacity-20">2</span>
+</div>
+</div>
+<div class="slot-flip h-20 relative overflow-hidden">
+<div class="absolute inset-0 border border-primary/30 bg-gradient-to-br from-neutral-gold/40 to-black/80 flex items-center justify-center shadow-inner rounded-lg">
+<span class="text-primary text-3xl font-bold italic opacity-20">3</span>
+</div>
+</div>
+<div class="slot-flip h-20 relative overflow-hidden">
+<div class="absolute inset-0 border border-primary/30 bg-gradient-to-br from-neutral-gold/40 to-black/80 flex items-center justify-center shadow-inner rounded-lg">
+<span class="text-primary text-3xl font-bold italic opacity-20">4</span>
+</div>
+</div>
+<div class="slot-flip h-20 relative overflow-hidden">
+<div class="absolute inset-0 border border-primary/30 bg-gradient-to-br from-neutral-gold/40 to-black/80 flex items-center justify-center shadow-inner rounded-lg">
+<span class="text-primary text-3xl font-bold italic opacity-20">5</span>
+</div>
+</div>
+<div class="slot-flip h-20 relative overflow-hidden">
+<div class="absolute inset-0 border border-primary/30 bg-gradient-to-br from-neutral-gold/40 to-black/80 flex items-center justify-center shadow-inner rounded-lg">
+<span class="text-primary text-3xl font-bold italic opacity-20">6</span>
+</div>
+</div>
+<div class="slot-flip h-20 relative overflow-hidden">
+<div class="absolute inset-0 border border-primary/30 bg-gradient-to-br from-neutral-gold/40 to-black/80 flex items-center justify-center shadow-inner rounded-lg">
+<span class="text-primary text-3xl font-bold italic opacity-20">7</span>
+</div>
+</div>
+<div class="slot-flip h-20 relative overflow-hidden">
+<div class="absolute inset-0 border border-primary/30 bg-gradient-to-br from-neutral-gold/40 to-black/80 flex items-center justify-center shadow-inner rounded-lg">
+<span class="text-primary text-3xl font-bold italic opacity-20">8</span>
+</div>
+</div>
+</div>
+<div class="mt-12 flex flex-col items-center space-y-2">
+<div class="glass-panel px-8 py-4 rounded-xl flex items-center justify-center space-x-10 shadow-xl">
+<span class="material-symbols-outlined text-[70px] text-white/5 leading-none">close</span>
+<span class="material-symbols-outlined text-[70px] text-white/5 leading-none">close</span>
+<span class="material-symbols-outlined text-[70px] text-white/5 leading-none">close</span>
+</div>
+<p class="text-white/20 text-[10px] font-bold tracking-widest uppercase">Strikes</p>
+</div>
+</section>
+<aside class="flex flex-col items-center justify-center w-64 h-full opacity-40 transition-all duration-500">
+<div class="flex flex-col items-center p-8 rounded-3xl border border-white/5 bg-white/5">
+<h2 class="text-white/60 text-lg font-bold tracking-[0.15em] uppercase mb-2">Team Beta</h2>
+<div class="relative">
+<span class="text-7xl font-black leading-none text-white/60">85</span>
+</div>
+<div class="flex gap-1.5 mt-6">
+<div class="size-3 rounded-full bg-white/10 border border-white/20"></div>
+<div class="size-3 rounded-full bg-white/10 border border-white/20"></div>
+<div class="size-3 rounded-full bg-white/10 border border-white/20"></div>
+</div>
+</div>
+</aside>
+</main>
+<div class="fixed top-0 left-0 w-32 h-32 border-t-2 border-l-2 border-primary/20 pointer-events-none ml-6 mt-6"></div>
+<div class="fixed top-0 right-0 w-32 h-32 border-t-2 border-r-2 border-primary/20 pointer-events-none mr-6 mt-6"></div>
+<div class="fixed bottom-0 left-0 w-32 h-32 border-b-2 border-l-2 border-primary/20 pointer-events-none ml-6 mb-6"></div>
+<div class="fixed bottom-0 right-0 w-32 h-32 border-b-2 border-r-2 border-primary/20 pointer-events-none mr-6 mb-6"></div>
+<div class="hidden">
+<img data-alt="Abstract golden spotlight patterns on dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJ0pIJgUIUYMitt4U0MRYOgtVmbb37n4R6hx3109nKGCCIwipHEkqFRm_fxpCZmwsA7_RB54RHhc62goxvMxIBwcfSsg2A2yexVBjTwQ2gXfSWA6NvXqWAJU0P7SdouwfirarbS3Baapx8HBa-eZqZIgtM9plFSN3IEEc3PHeRzUO0G1S5kNOpBcJkqW5swefRYxnuNin6QbZ57YCM2utpKjQ_VVbVvnFCeAFJf0RYW3NCLebF447tz3fkXvUTdhD8AU4l5n44JPU"/>
+<img data-alt="Metallic brushed gold texture for scoreboard numbers" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgWraNjEXPX0h8D5GgTXxhbwGKEpUQa1YsTRz2uSfVLXriJxrMDUmnFtYFpjR53hZSvOpEoj0nIUryfRzMTsWlNchJc2bHlnHIHQ_EciR8Q7lJrHF66g31jEyrfqBVpK_qONxg99HjmJGMb5VR2HxMybcdeIROK9otEjPqeOPiQjc1VBJifBI7qRLm-uZJzc2ca0B8NUlmOuW_tjr4vhq-SgEs09DvGW7GiYtubn1cnXWuqKRSKt5TfXXSO2Pul8k4cELySmFLZkU"/>
+</div>
+
+</body></html>

@@ -1,13 +1,19 @@
 import type { Metadata } from 'next'
-import { Inter, Poppins } from 'next/font/google'
+import { Lexend, Poppins } from 'next/font/google'
+import { ThemeModeScript } from 'flowbite-react'
+
+import { Providers } from './providers'
 import './globals.css'
 
-const inter = Inter({
+// Lexend: fuente principal (Stitch design guide)
+const lexend = Lexend({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-lexend',
   display: 'swap',
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
 })
 
+// Poppins: fallback display (compatibilidad)
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
@@ -26,8 +32,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es">
-      <body className={`${inter.variable} ${poppins.variable} antialiased`}>{children}</body>
+    <html lang="es" className="dark" suppressHydrationWarning>
+      <head>
+        <ThemeModeScript />
+      </head>
+      <body className={`${lexend.variable} ${poppins.variable} antialiased`}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   )
 }

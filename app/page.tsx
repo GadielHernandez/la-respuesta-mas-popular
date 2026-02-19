@@ -1,83 +1,100 @@
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/Button'
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
-      <main className="flex w-full max-w-4xl flex-col items-center gap-8 p-8">
+    <div className="bg-game flex min-h-screen items-center justify-center p-8">
+      <main className="flex w-full max-w-4xl flex-col items-center gap-12">
         {/* Header */}
         <div className="text-center">
-          <h1 className="font-display mb-2 text-4xl font-bold">La Respuesta más Popular</h1>
-          <p className="font-sans text-gray-600">Tailwind CSS Configuration Test</p>
+          <h1 className="font-display text-glow-gold mb-3 text-5xl font-extrabold text-white">
+            La Respuesta más Popular
+          </h1>
+          <p className="text-lg text-[#b8bcc8]">Design System Preview</p>
         </div>
 
-        {/* Custom Colors Demo */}
+        {/* Color Palette */}
         <section className="w-full">
-          <h2 className="font-display mb-4 text-2xl font-semibold">Custom Colors</h2>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {/* Primary Colors */}
-            <div className="space-y-2">
-              <h3 className="text-sm font-semibold">Primary (Blue)</h3>
-              <div className="bg-primary-light rounded-lg p-4 text-gray-900">primary-light</div>
-              <div className="bg-primary rounded-lg p-4 text-white">primary</div>
-              <div className="bg-primary-dark rounded-lg p-4 text-white">primary-dark</div>
+          <h2 className="font-display mb-4 text-xl font-bold text-white">Color Palette</h2>
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+            <div className="card-gold flex flex-col gap-2 p-4">
+              <div className="h-10 w-full rounded-lg bg-[#fdb42d]" />
+              <span className="text-xs font-semibold text-[#b8bcc8]">Gold Primary</span>
+              <span className="font-mono text-xs text-[#4a5a7a]">#fdb42d</span>
             </div>
-
-            {/* Secondary Colors */}
-            <div className="space-y-2">
-              <h3 className="text-sm font-semibold">Secondary (Green)</h3>
-              <div className="bg-secondary-light rounded-lg p-4 text-gray-900">secondary-light</div>
-              <div className="bg-secondary rounded-lg p-4 text-white">secondary</div>
-              <div className="bg-secondary-dark rounded-lg p-4 text-white">secondary-dark</div>
+            <div className="card-gold flex flex-col gap-2 p-4">
+              <div className="h-10 w-full rounded-lg bg-[#4ecdc4]" />
+              <span className="text-xs font-semibold text-[#b8bcc8]">Teal Secondary</span>
+              <span className="font-mono text-xs text-[#4a5a7a]">#4ecdc4</span>
             </div>
-
-            {/* Status Colors */}
-            <div className="space-y-2">
-              <h3 className="text-sm font-semibold">Status Colors</h3>
-              <div className="bg-danger rounded-lg p-4 text-white">danger</div>
-              <div className="bg-warning rounded-lg p-4 text-white">warning</div>
+            <div className="card-gold flex flex-col gap-2 p-4">
+              <div className="h-10 w-full rounded-lg bg-[#1b2134]" />
+              <span className="text-xs font-semibold text-[#b8bcc8]">Game BG</span>
+              <span className="font-mono text-xs text-[#4a5a7a]">#1b2134</span>
+            </div>
+            <div className="card-gold flex flex-col gap-2 p-4">
+              <div className="h-10 w-full rounded-lg bg-[#232b42]" />
+              <span className="text-xs font-semibold text-[#b8bcc8]">Card BG</span>
+              <span className="font-mono text-xs text-[#4a5a7a]">#232b42</span>
             </div>
           </div>
         </section>
 
-        {/* cn() Function Demo */}
+        {/* Button Variants */}
         <section className="w-full">
-          <h2 className="font-display mb-4 text-2xl font-semibold">cn() Function Test</h2>
-          <div className="space-y-4">
-            <div className={cn('rounded-lg p-4', 'bg-primary text-white', 'font-semibold')}>
-              This uses cn() to merge classes
-            </div>
-            <div className={cn('bg-primary rounded-lg p-4', 'bg-secondary text-white')}>
-              cn() resolves conflicts: bg-secondary overrides bg-primary
-            </div>
+          <h2 className="font-display mb-4 text-xl font-bold text-white">Buttons</h2>
+          <div className="card-gold flex flex-wrap gap-4 p-6">
+            <Button variant="primary" size="lg">
+              Primary (Gold)
+            </Button>
+            <Button variant="outline" size="lg">
+              Secondary (Teal)
+            </Button>
+            <Button variant="danger" size="lg">
+              Danger
+            </Button>
+            <Button variant="primary" size="sm">
+              Small
+            </Button>
+            <Button variant="primary" disabled>
+              Disabled
+            </Button>
           </div>
         </section>
 
-        {/* Font Demo */}
+        {/* Typography */}
         <section className="w-full">
-          <h2 className="font-display mb-4 text-2xl font-semibold">Custom Fonts</h2>
-          <div className="space-y-4">
-            <div className="rounded-lg bg-white p-4 shadow">
-              <p className="font-sans text-lg">
-                This text uses <strong>Inter</strong> (font-sans) - the default body font
-              </p>
-            </div>
-            <div className="rounded-lg bg-white p-4 shadow">
-              <p className="font-display text-lg font-semibold">
-                This text uses <strong>Poppins</strong> (font-display) - for headings
-              </p>
-            </div>
+          <h2 className="font-display mb-4 text-xl font-bold text-white">Typography</h2>
+          <div className="card-gold space-y-4 p-6">
+            <p className="font-display text-4xl font-extrabold text-white">
+              Poppins — Display Font
+            </p>
+            <p className="font-sans text-lg text-[#b8bcc8]">
+              Nunito — Body Font. Amigable, redondeada y legible en cualquier tamaño.
+            </p>
+            <p className="font-sans text-sm text-[#8891a5]">
+              Texto secundario — gris medio para descripciones y metadata.
+            </p>
           </div>
         </section>
 
-        {/* Success Message */}
-        <div className="bg-secondary-light border-secondary w-full rounded-lg border-2 p-6 text-center">
-          <p className="text-secondary-dark text-lg font-semibold">
-            ✅ Tailwind CSS is configured correctly!
-          </p>
-          <p className="mt-2 text-sm text-gray-700">
-            All custom colors, fonts, and utilities are working as expected.
-          </p>
-        </div>
+        {/* Custom Utilities */}
+        <section className="w-full">
+          <h2 className="font-display mb-4 text-xl font-bold text-white">Custom Utilities</h2>
+          <div className="grid gap-4 md:grid-cols-3">
+            <div className="card-gold glow-gold p-6 text-center">
+              <p className="font-semibold text-[#fdb42d]">.glow-gold</p>
+              <p className="mt-1 text-sm text-[#b8bcc8]">Gold box-shadow glow</p>
+            </div>
+            <div className="card-gold p-6 text-center">
+              <p className="text-glow-gold font-extrabold text-[#fdb42d]">.text-glow-gold</p>
+              <p className="mt-1 text-sm text-[#b8bcc8]">Text shadow dorado</p>
+            </div>
+            <div className="card-gold glow-gold-sm p-6 text-center">
+              <p className="font-semibold text-[#fdb42d]">.glow-gold-sm</p>
+              <p className="mt-1 text-sm text-[#b8bcc8]">Subtle gold glow</p>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   )
