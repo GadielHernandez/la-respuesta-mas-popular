@@ -3,26 +3,34 @@
 import { Button as FlowbiteButton } from 'flowbite-react'
 import type { ComponentProps } from 'react'
 
+import { cn } from '@/lib/utils'
+
 type FlowbiteButtonProps = ComponentProps<typeof FlowbiteButton>
 
+// Variantes semánticas del proyecto → colores del tema Flowbite Stitch
+type ButtonVariant = 'primary' | 'outline' | 'danger' | 'ghost'
+type ButtonSize = 'sm' | 'md' | 'lg'
+
 interface ButtonProps {
-  variant?: 'primary' | 'secondary' | 'danger'
-  size?: 'sm' | 'md' | 'lg'
+  variant?: ButtonVariant
+  size?: ButtonSize
   children: React.ReactNode
   onClick?: () => void
   disabled?: boolean
   className?: string
   type?: 'button' | 'submit' | 'reset'
   ariaLabel?: string
+  fullSized?: boolean
 }
 
-const variantMap: Record<NonNullable<ButtonProps['variant']>, FlowbiteButtonProps['color']> = {
-  primary: 'yellow',
-  secondary: 'teal',
-  danger: 'failure',
+const variantToColor: Record<ButtonVariant, FlowbiteButtonProps['color']> = {
+  primary: 'primary',
+  outline: 'outline',
+  danger: 'danger',
+  ghost: 'ghost',
 }
 
-const sizeMap: Record<NonNullable<ButtonProps['size']>, FlowbiteButtonProps['size']> = {
+const sizeToFlowbite: Record<ButtonSize, FlowbiteButtonProps['size']> = {
   sm: 'sm',
   md: 'md',
   lg: 'lg',
@@ -37,16 +45,18 @@ export const Button: React.FC<ButtonProps> = ({
   className = '',
   type = 'button',
   ariaLabel,
+  fullSized = false,
 }) => {
   return (
     <FlowbiteButton
       type={type}
-      color={variantMap[variant]}
-      size={sizeMap[size]}
+      color={variantToColor[variant]}
+      size={sizeToFlowbite[size]}
       onClick={onClick}
       disabled={disabled}
-      className={className}
+      fullSized={fullSized}
       aria-label={ariaLabel}
+      className={cn(className)}
     >
       {children}
     </FlowbiteButton>

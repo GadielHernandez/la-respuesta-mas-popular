@@ -1,13 +1,16 @@
 'use client'
 
 import { Label, TextInput, HelperText } from 'flowbite-react'
+import type { ComponentProps } from 'react'
 
 import { cn } from '@/lib/utils'
+
+type TextInputColor = 'gray' | 'info' | 'failure' | 'warning' | 'success'
 
 interface InputProps {
   label?: string
   placeholder?: string
-  type?: 'text' | 'email' | 'password' | 'number' | 'search'
+  type?: ComponentProps<typeof TextInput>['type']
   value?: string
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   error?: string
@@ -17,6 +20,7 @@ interface InputProps {
   name?: string
   id?: string
   className?: string
+  sizing?: 'sm' | 'md' | 'lg'
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -32,17 +36,17 @@ export const Input: React.FC<InputProps> = ({
   name,
   id,
   className = '',
+  sizing = 'md',
 }) => {
   const inputId = id ?? name ?? label?.toLowerCase().replace(/\s+/g, '-')
+  const color: TextInputColor = error ? 'failure' : 'gray'
 
   return (
     <div className={cn('flex flex-col gap-1.5', className)}>
       {label && (
         <Label htmlFor={inputId}>
-          <span className="text-sm font-semibold text-[#b8bcc8]">
-            {label}
-            {required && <span className="ml-1 text-[#fdb42d]">*</span>}
-          </span>
+          {label}
+          {required && <span className="ml-1 text-[#dba61f]">*</span>}
         </Label>
       )}
 
@@ -55,13 +59,12 @@ export const Input: React.FC<InputProps> = ({
         onChange={onChange}
         disabled={disabled}
         required={required}
-        color={error ? 'failure' : 'gray'}
+        color={color}
+        sizing={sizing}
       />
 
       {(error || helperText) && (
-        <HelperText color={error ? 'failure' : 'gray'}>
-          {error ?? helperText}
-        </HelperText>
+        <HelperText color={error ? 'failure' : 'gray'}>{error ?? helperText}</HelperText>
       )}
     </div>
   )
