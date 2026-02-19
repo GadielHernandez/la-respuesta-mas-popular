@@ -61,7 +61,7 @@ export default function DemoPage() {
               </p>
               <div className="flex flex-wrap gap-3">
                 <Button variant="primary">Jugar ahora</Button>
-                <Button variant="secondary">Ver historial</Button>
+                <Button variant="outline">Ver historial</Button>
                 <Button variant="danger">Eliminar</Button>
               </div>
             </div>
@@ -89,7 +89,7 @@ export default function DemoPage() {
                 <Button variant="primary" disabled>
                   Deshabilitado
                 </Button>
-                <Button variant="secondary" disabled>
+                <Button variant="outline" disabled>
                   Deshabilitado
                 </Button>
                 <Button variant="danger" disabled>
@@ -209,7 +209,7 @@ export default function DemoPage() {
                 <Button variant="primary" onClick={() => setModalOpen(false)}>
                   Confirmar
                 </Button>
-                <Button variant="secondary" onClick={() => setModalOpen(false)}>
+                <Button variant="outline" onClick={() => setModalOpen(false)}>
                   Cancelar
                 </Button>
               </div>
@@ -236,7 +236,7 @@ export default function DemoPage() {
                 <Button variant="danger" onClick={() => setConfirmModalOpen(false)}>
                   Sí, eliminar
                 </Button>
-                <Button variant="secondary" onClick={() => setConfirmModalOpen(false)}>
+                <Button variant="outline" onClick={() => setConfirmModalOpen(false)}>
                   Cancelar
                 </Button>
               </div>

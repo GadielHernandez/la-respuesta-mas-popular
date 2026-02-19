@@ -46,7 +46,7 @@ export default function Home() {
             <Button variant="primary" size="lg">
               Primary (Gold)
             </Button>
-            <Button variant="secondary" size="lg">
+            <Button variant="outline" size="lg">
               Secondary (Teal)
             </Button>
             <Button variant="danger" size="lg">

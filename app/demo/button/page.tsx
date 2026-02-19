@@ -117,11 +117,11 @@ export default function ButtonDemoPage() {
                 </span>
                 <ClickBadge count={counts.secondary} />
               </div>
-              <Button variant="secondary" onClick={() => inc('secondary')}>
+              <Button variant="outline" onClick={() => inc('secondary')}>
                 Ver historial
               </Button>
               <CodeSnippet
-                code={`<Button variant="secondary">\n  Ver historial\n</Button>`}
+                code={`<Button variant="outline">\n  Ver historial\n</Button>`}
               />
             </div>
 
@@ -171,7 +171,7 @@ export default function ButtonDemoPage() {
 
           <div className="card-gold p-8">
             <div className="flex flex-wrap gap-6">
-              {(['primary', 'secondary', 'danger'] as const).map((variant) => (
+              {(['primary', 'outline', 'danger'] as const).map((variant) => (
                 <div key={variant} className="flex flex-col items-center gap-3">
                   <Button variant={variant} disabled>
                     Deshabilitado
@@ -200,7 +200,7 @@ export default function ButtonDemoPage() {
               <Button type="submit" variant="primary">
                 Guardar
               </Button>
-              <Button type="reset" variant="secondary">
+              <Button type="reset" variant="outline">
                 Restablecer
               </Button>
               <Button type="button" variant="danger">
@@ -227,7 +227,7 @@ export default function ButtonDemoPage() {
               >
                 1
               </Button>
-              <Button variant="secondary" ariaLabel="Ir a la siguiente pregunta del juego">
+              <Button variant="outline" ariaLabel="Ir a la siguiente pregunta del juego">
                 →
               </Button>
             </div>
