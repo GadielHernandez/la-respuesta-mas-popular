@@ -46,3 +46,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Claude Code (local settings, not shared)
+.claude/settings.local.json
+
+# MCP local config (machine-specific)
+.mcp.json
+
+# Backup files
+*.bak
