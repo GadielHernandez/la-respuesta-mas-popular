@@ -102,6 +102,7 @@
   --color-danger: var(--danger);
   --color-danger-strike: var(--danger-strike);
   --color-warning: var(--warning);
+  --color-success: var(--success);
 
   /* Fondos de juego (Stitch warm-dark) */
   --color-game-bg: var(--bg-base);
