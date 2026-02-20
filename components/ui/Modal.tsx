@@ -32,7 +32,7 @@ function SplitTitle({ title }: { title: string }) {
       {rest.length > 0 && (
         <>
           {' '}
-          <span className="italic text-[#dba61f]">{rest.join(' ')}</span>
+          <span className="italic text-primary">{rest.join(' ')}</span>
         </>
       )}
     </>

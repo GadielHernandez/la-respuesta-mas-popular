@@ -21,8 +21,8 @@ interface CardProps {
 
 const variantClass: Record<NonNullable<CardProps['variant']>, string> = {
   default: '',
-  gold: 'hover:border-[#dba61f] hover:shadow-[0_0_15px_rgba(219,166,31,0.1)]',
-  selected: '!border-l-4 !border-l-[#dba61f]',
+  gold: 'hover:border-primary hover:shadow-[0_0_15px_rgba(219,166,31,0.1)]',
+  selected: '!border-l-4 !border-l-primary',
 }
 
 export const Card: React.FC<CardProps> = ({
@@ -50,7 +50,7 @@ export const Card: React.FC<CardProps> = ({
         <h5 className="mb-2 text-sm font-black uppercase tracking-widest text-white">{title}</h5>
       )}
       {children}
-      {footer && <div className="mt-4 border-t border-[#383429] pt-4">{footer}</div>}
+      {footer && <div className="mt-4 border-t border-warm-border pt-4">{footer}</div>}
     </FlowbiteCard>
   )
 }

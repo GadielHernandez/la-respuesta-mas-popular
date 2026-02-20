@@ -46,7 +46,7 @@ export const Input: React.FC<InputProps> = ({
       {label && (
         <Label htmlFor={inputId}>
           {label}
-          {required && <span className="ml-1 text-[#dba61f]">*</span>}
+          {required && <span className="ml-1 text-primary">*</span>}
         </Label>
       )}
 
