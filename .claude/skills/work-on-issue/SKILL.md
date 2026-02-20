@@ -68,7 +68,63 @@ Follow this workflow precisely:
 
 5. If tests fail, fix them before proceeding
 
-## STEP 5: Commit Changes
+## STEP 5: Quality Check (BEFORE committing)
+
+**This step is mandatory. Never skip it.**
+
+### 5.1 TypeScript
+```bash
+npx tsc --noEmit
+```
+Fix all errors before continuing. Do NOT commit with TypeScript errors.
+
+### 5.2 Linting
+```bash
+npm run lint
+```
+Fix any errors. Pre-existing warnings are acceptable.
+
+### 5.3 Run the local environment if needed
+If the changes involve UI, routing, or runtime behavior that cannot be verified statically:
+```bash
+npm run dev
+```
+Open the browser and manually verify:
+- The changed pages/components render without errors
+- No console errors or warnings in the browser DevTools
+- Interactive elements (buttons, modals, forms, navigation) work as expected
+- No visible layout breaks or missing styles
+
+**When to run `npm run dev`:** Always for UI changes, new pages, layout modifications, or any change that affects what the user sees. Skip only for pure logic/utility changes with no visual output.
+
+### 5.4 UI/Frontend issues — apply relevant skills
+
+If the issue involves UI components, pages, or design:
+
+- **`/frontend-design`** — Verify the implementation follows the project's design system (Stitch warm-dark palette, Flowbite-first rule, typography, spacing, interactions). Check against `docs/STYLE_GUIDE.md` and the reference screens in `docs/design/`.
+- **`/nextjs-best-practices`** — Verify Server vs Client component boundaries, data fetching patterns, and routing conventions are correct.
+
+Ask yourself:
+- [ ] Are all colors from the Stitch token palette (`#DBA61F`, `#121212`, `#1A1814`, `#26231C`, etc.)?
+- [ ] Are Flowbite components used instead of native HTML where an equivalent exists?
+- [ ] Is `'use client'` only added when strictly necessary (hooks, event handlers)?
+- [ ] Does the component match the Stitch reference screens in `docs/design/screenshots/`?
+- [ ] Is typography correct? (Lexend, `font-black uppercase tracking-widest` for labels, `italic` for brand)
+- [ ] Are hover/focus/active states implemented per STYLE_GUIDE?
+- [ ] Is the component accessible? (aria-labels, keyboard navigation, min 44×44px touch targets)
+- [ ] Is it responsive? (mobile-first, test at sm/md/lg breakpoints)
+
+### 5.5 No regressions
+Review `git diff --staged` to confirm:
+- No unintended deletions
+- No debug code (`console.log`, `TODO`, hardcoded test values)
+- No secrets or env variables committed
+
+If any check fails — **fix it before moving to STEP 6**.
+
+---
+
+## STEP 6: Commit Changes
 
 1. Stage relevant files (prefer specific files over `git add .`):
 
@@ -100,14 +156,14 @@ Follow this workflow precisely:
 
    Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`
 
-## STEP 6: Push Branch
+## STEP 7: Push Branch
 
 1. Push the branch to remote:
    ```bash
    git push -u origin <branch-name>
    ```
 
-## STEP 7: Create Pull Request
+## STEP 9: Create Pull Request
 
 1. Create PR using gh CLI with detailed description:
 
@@ -142,7 +198,7 @@ Follow this workflow precisely:
 
 2. Get the PR URL from the output
 
-## STEP 8: Report to User
+## STEP 10: Report to User
 
 Provide a summary to the user:
 
@@ -180,9 +236,12 @@ npm run dev
 5. **NEVER skip tests** if they exist - fix failing tests before creating PR
 6. **NEVER create PRs for incomplete work** - finish the full implementation first
 7. **NEVER over-engineer** - only implement what the issue requires
-8. **ALWAYS reference the issue number** in commits and PR
-9. **ALWAYS follow the conventions in CLAUDE.md**
-10. **ALWAYS ask for clarification** if the issue is unclear
+8. **NEVER commit with TypeScript errors or lint errors** - STEP 5 quality check is mandatory
+9. **ALWAYS reference the issue number** in commits and PR
+10. **ALWAYS follow the conventions in CLAUDE.md**
+11. **ALWAYS run `npm run dev` to verify UI changes** before committing
+12. **ALWAYS apply `/frontend-design` and `/nextjs-best-practices`** for UI issues before committing
+13. **ALWAYS ask for clarification** if the issue is unclear
 
 ---
 

@@ -435,6 +435,51 @@ export const stitchTheme = createTheme({
   /* ─────────────────────────────────────────────
      TOOLTIP — Tooltips de información contextual
   ───────────────────────────────────────────── */
+  /* ─────────────────────────────────────────────
+     NAVBAR — Header de navegación principal
+  ───────────────────────────────────────────── */
+  navbar: {
+    root: {
+      // bg-game-board sobreescribe bg-white; dark:bg-game-board sobreescribe dark:bg-gray-800
+      // Ambos resueltos por deepMergeStrings+twMerge de Flowbite
+      base: 'bg-game-board dark:bg-game-board',
+      rounded: { on: 'rounded', off: '' },
+      bordered: { on: 'border border-warm-border-light', off: '' },
+      inner: {
+        base: 'mx-auto flex max-w-7xl flex-wrap items-center justify-between px-6 py-4',
+        fluid: { on: '', off: 'container' },
+      },
+    },
+    brand: {
+      base: 'flex items-center',
+    },
+    collapse: {
+      base: 'w-full md:block md:w-auto',
+      list: 'mt-3 flex flex-col gap-1 pb-3 md:mt-0 md:flex-row md:items-center md:gap-1 md:pb-0',
+      hidden: { on: 'hidden', off: '' },
+    },
+    link: {
+      // Ghost pill — patrón Stitch: border warm, hover gold border + primary text
+      base: 'flex items-center gap-1.5 rounded-xl border border-warm-border-light bg-game-panel/50 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider transition-all duration-200',
+      active: {
+        on: 'border-primary/50 text-primary',
+        off: 'text-gray-400 hover:border-primary/40 hover:text-primary',
+      },
+      disabled: {
+        on: 'cursor-not-allowed opacity-50',
+        off: '',
+      },
+    },
+    toggle: {
+      base: 'inline-flex items-center rounded-xl border border-warm-border-light p-2 text-gray-500 transition-colors hover:border-primary/40 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/30',
+      icon: 'h-5 w-5 shrink-0',
+      title: 'sr-only',
+    },
+  },
+
+  /* ─────────────────────────────────────────────
+     TOOLTIP — Tooltips de información contextual
+  ───────────────────────────────────────────── */
   tooltip: {
     target: 'w-fit',
     animation: 'transition-opacity',

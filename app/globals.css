@@ -1,3 +1,7 @@
+/* Material Symbols Outlined — iconografía del proyecto (STYLE_GUIDE) */
+/* Debe ir antes de @import 'tailwindcss' por la especificación CSS */
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
 /* Import Tailwind CSS */
 @import 'tailwindcss';
 
@@ -105,6 +109,7 @@
 
   /* Fondos de juego (Stitch warm-dark) */
   --color-game-bg: var(--bg-base);
+  --color-game-board: var(--bg-base);
   --color-game-config: var(--bg-config);
   --color-game-moderator: var(--bg-moderator);
   --color-game-panel: var(--bg-panel);
