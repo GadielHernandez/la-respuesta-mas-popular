@@ -219,6 +219,26 @@ h6 {
   animation: questionFade 0.35s ease-out;
 }
 
+/* Animación al incrementar score de equipo */
+@keyframes scorePopup {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.25);
+  }
+  70% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-score-popup {
+  animation: scorePopup 0.4s ease-out;
+}
+
 /* Flip reveal para slots del tablero público */
 @keyframes slotReveal {
   0% {
