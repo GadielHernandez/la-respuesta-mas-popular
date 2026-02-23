@@ -2,8 +2,6 @@ import type { Metadata } from 'next'
 import { Lexend, Poppins } from 'next/font/google'
 import { ThemeModeScript } from 'flowbite-react'
 
-import { Footer } from '@/components/layout/Footer'
-import { Header } from '@/components/layout/Header'
 import { Providers } from './providers'
 import './globals.css'
 
@@ -39,15 +37,7 @@ export default function RootLayout({
         <ThemeModeScript />
       </head>
       <body className={`${lexend.variable} ${poppins.variable} antialiased`}>
-        <Providers>
-          {/* Nota: las pantallas de juego (board, moderator) usarán su propio
-              layout en app/(game)/layout.tsx sin Header/Footer */}
-          <div className="flex min-h-screen flex-col">
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   )
