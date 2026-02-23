@@ -17,8 +17,9 @@
  *   dispatch({ type: 'REVEAL_ANSWER', payload: 0 })
  */
 
-import { createContext, useContext, useReducer } from 'react'
+import { createContext, useContext, useEffect, useReducer, useRef } from 'react'
 
+import { GAME_CHANNEL_NAME, type GameChannelMessage } from '@/lib/game/broadcastChannel'
 import { gameEngine } from '@/lib/game/gameEngine'
 import type { GameAction, GameState } from '@/types/game.types'
 
@@ -107,6 +108,23 @@ const GameContext = createContext<GameContextType | undefined>(undefined)
  */
 export function GameProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(gameReducer, initialState)
+  const channelRef = useRef<BroadcastChannel | null>(null)
+
+  // Open channel once on mount, close on unmount
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    channelRef.current = new BroadcastChannel(GAME_CHANNEL_NAME)
+    return () => {
+      channelRef.current?.close()
+      channelRef.current = null
+    }
+  }, [])
+
+  // Broadcast full state on every change
+  useEffect(() => {
+    const message: GameChannelMessage = { type: 'STATE_UPDATE', state }
+    channelRef.current?.postMessage(message)
+  }, [state])
 
   return <GameContext.Provider value={{ state, dispatch }}>{children}</GameContext.Provider>
 }
