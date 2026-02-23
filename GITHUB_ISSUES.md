@@ -644,159 +644,149 @@ export const scoring = {
 
 ---
 
-### Issue #16: Crear hook useGameState con todas las acciones del juego
+### Issue #16: Refactorizar layout con Route Groups y crear páginas skeleton del juego
 
-**Labels:** `feature`, `hooks`, `P1: High`
+**Labels:** `feature`, `routing`, `P0: Critical`
 **Milestone:** Phase 2: Game Logic
 **Estimación:** 3-4 horas
 
 **Descripción:**
-Crear custom hook que encapsula toda la lógica de interacción con el game state, facilitando su uso en componentes.
+El layout raíz agrega Header+Footer a todas las rutas. Las pantallas de juego deben ser fullscreen sin navegación. Usar Route Groups de Next.js App Router para aislar layouts.
+
+> Nota: La lógica de sistema de strikes (título original) está cubierta por `lib/game/gameEngine.ts` (PR #90).
 
 **Tareas:**
 
-- [ ] Crear `hooks/useGameState.ts`
-- [ ] Exportar funciones fáciles de usar para componentes
-- [ ] Implementar `revealAnswer(index)`
-- [ ] Implementar `addStrike()`
-- [ ] Implementar `nextQuestion()`
-- [ ] Implementar `attemptSteal(index)`
-- [ ] Implementar `resetGame()`
-- [ ] Agregar computed values (totalQuestions, currentQuestion, isGameOver)
-- [ ] Tipar correctamente return value
+- [x] Modificar `app/layout.tsx` — eliminar Header/Footer, dejar solo `<Providers>{children}</Providers>`
+- [x] Crear `app/(main)/layout.tsx` — shell con Header + main + Footer
+- [x] Mover `app/page.tsx` → `app/(main)/page.tsx` (URL `/` se preserva)
+- [x] Mover `app/demo/` → `app/(main)/demo/` (URLs `/demo/*` se preservan)
+- [x] Crear `app/(game)/play/layout.tsx` — fullscreen, envuelve con `<GameProvider>`
+- [x] Crear `app/(game)/play/page.tsx` — setup de partida, usa `useGame()`
+- [x] Crear `app/(game)/play/board/page.tsx` — tablero público, usa `useGameBoard()`, muestra "Esperando..." si `state === null`
+- [x] Crear `app/(game)/play/control/page.tsx` — panel del moderador, usa `useGame()` + dispatch
 
 **Criterios de Aceptación:**
 
-- Hook funciona correctamente en componentes
-- API intuitiva y fácil de usar
-- TypeScript inference funciona
-- Memoización correcta de callbacks
+- `/` y `/demo` siguen mostrando Header y Footer
+- `/play`, `/play/board`, `/play/control` son fullscreen sin Header/Footer
+- `npx tsc --noEmit` sin errores
+- Sin regresiones en rutas existentes
 
-**API del hook:**
+**Archivos creados/modificados:**
 
-```typescript
-const {
-  gameState,
-  currentQuestion,
-  isGameOver,
-  actions: { revealAnswer, addStrike, nextQuestion, attemptSteal, resetGame },
-} = useGameState()
-```
-
-**Archivos a crear:**
-
-- `hooks/useGameState.ts`
+- `app/layout.tsx` (modificado)
+- `app/(main)/layout.tsx` (creado)
+- `app/(main)/page.tsx` (movido)
+- `app/(main)/demo/` (movido)
+- `app/(game)/play/layout.tsx` (creado)
+- `app/(game)/play/page.tsx` (creado)
+- `app/(game)/play/board/page.tsx` (creado)
+- `app/(game)/play/control/page.tsx` (creado)
 
 **Dependencias:**
 
-- Issue #14 (GameContext)
+- Issue #17 (BroadcastChannel)
 
 ---
 
-### Issue #17: Implementar validaciones y reglas del juego
+### Issue #17: Implementar BroadcastChannel para sincronización two-screen
 
-**Labels:** `feature`, `validation`, `P1: High`
+**Labels:** `feature`, `game-logic`, `P0: Critical`
 **Milestone:** Phase 2: Game Logic
 **Estimación:** 2-3 horas
 
 **Descripción:**
-Agregar validaciones para asegurar que el juego sigue las reglas correctamente.
+El juego corre en un solo dispositivo (laptop + proyector). Sincronizar estado entre el panel del moderador (`/play/control`) y el tablero público (`/play/board`) usando BroadcastChannel API (nativa del browser, same-origin, sin servidor).
+
+> Nota: La lógica de sistema de puntuación (título original) está cubierta por `lib/game/gameEngine.ts` (PR #90).
 
 **Tareas:**
 
-- [ ] Crear `lib/game/validation.ts`
-- [ ] Validar que no se revelen respuestas ya reveladas
-- [ ] Validar que no se exceda el límite de strikes
-- [ ] Validar que solo el equipo activo puede jugar
-- [ ] Validar transiciones de fase del juego
-- [ ] Validar que hay preguntas disponibles antes de iniciar
-- [ ] Agregar mensajes de error descriptivos
+- [x] Crear `lib/game/broadcastChannel.ts` — constante `GAME_CHANNEL_NAME` y tipo `GameChannelMessage`
+- [x] Modificar `contexts/GameContext.tsx` — agregar `useRef<BroadcastChannel>` + dos `useEffect` (ciclo de vida del canal y broadcast por cambio de estado)
+- [x] Crear `hooks/useGameBoard.ts` — escucha BC, retorna `GameState | null`, nunca expone dispatch
 
 **Criterios de Aceptación:**
 
-- Todas las acciones inválidas son bloqueadas
-- Mensajes de error claros y útiles
-- No es posible romper el estado del juego con acciones inválidas
+- `GameProvider` emite `STATE_UPDATE` tras cada dispatch
+- `useGameBoard` retorna `null` hasta el primer mensaje → board muestra "Esperando panel de control..."
+- Abrir `/play/control` y `/play/board` en dos tabs: cambios en control se reflejan en board en tiempo real
+- `npx tsc --noEmit` sin errores
 
-**Validaciones:**
+**Archivos creados/modificados:**
 
-```typescript
-export const validation = {
-  canRevealAnswer(state: GameState, answerIndex: number): boolean
-  canAddStrike(state: GameState): boolean
-  canSwitchTeam(state: GameState): boolean
-  canAttemptSteal(state: GameState): boolean
-  canNextQuestion(state: GameState): boolean
-  validateGameSetup(config: GameConfig): ValidationResult
-}
-```
-
-**Archivos a crear:**
-
-- `lib/game/validation.ts`
+- `lib/game/broadcastChannel.ts` (creado)
+- `contexts/GameContext.tsx` (modificado — añade broadcast)
+- `hooks/useGameBoard.ts` (creado)
 
 **Dependencias:**
 
-- Issue #12 (tipos)
-- Issue #13 (gameEngine)
+- Issue #14 (GameContext)
+- Issue #13 (tipos)
 
 ---
 
 ## FASE 3: Game UI Components
 
-### Issue #18: Crear componente GameBoard (tablero principal)
+### Issue #18: Crear componentes GameBoard (tablero principal)
 
 **Labels:** `feature`, `ui`, `game-component`, `P0: Critical`
 **Milestone:** Phase 3: Game Interface
 **Estimación:** 5-6 horas
 
 **Descripción:**
-Crear el componente principal que contiene todo el tablero del juego y orquesta los demás componentes.
+Crear los componentes del tablero del juego. En la arquitectura two-screen hay **dos vistas** del tablero:
+
+- `GameBoardDisplay` — tablero público (read-only), usado en `/play/board` con datos de `useGameBoard()`
+- `GameControlPanel` — panel del moderador, usado en `/play/control` con `useGame()` + dispatch
 
 **Tareas:**
 
-- [ ] Crear `components/game/GameBoard.tsx`
-- [ ] Diseñar layout del tablero (pregunta arriba, respuestas en grid, scores a los lados)
-- [ ] Integrar QuestionDisplay, AnswerCard, TeamScore, StrikeIndicator
-- [ ] Conectar con GameContext usando useGame hook
-- [ ] Implementar lógica de revelado de respuestas
-- [ ] Agregar controles de juego (siguiente pregunta, reset)
-- [ ] Hacer responsive para tablet/desktop
+- [ ] Crear `components/game/GameBoardDisplay.tsx` (read-only, sin dispatch)
+  - Diseñar layout del tablero (pregunta arriba, respuestas en grid, scores a los lados)
+  - Integrar QuestionDisplay, AnswerCard, TeamScore, StrikeIndicator
+  - Props: `state: GameState` (recibe el estado, no lo consume directamente del contexto)
+  - Hacer responsive para proyector (1080p landscape)
+- [ ] Crear `components/game/GameControlPanel.tsx` (fuente de verdad, con dispatch)
+  - Conectar con `useGame()` hook
+  - Integrar GameControls para las acciones del moderador
+  - Mostrar estado actual del juego en formato compacto
+- [ ] Actualizar `app/(game)/play/board/page.tsx` para usar `GameBoardDisplay`
+- [ ] Actualizar `app/(game)/play/control/page.tsx` para usar `GameControlPanel`
 
 **Criterios de Aceptación:**
 
-- Tablero muestra todos los elementos del juego
-- Layout claro y organizado
-- Responsive en diferentes tamaños de pantalla
-- Integración correcta con game state
+- Tablero público muestra todos los elementos del juego (read-only)
+- Panel de control permite todas las acciones del moderador
+- Layout claro y organizado en ambas vistas
 - Transiciones suaves entre estados
 
-**Layout sugerido:**
+**Layout tablero público (`/play/board`):**
 
 ```
 +----------------------------------+
 |        Equipo 1    |    Equipo 2 |
 |        Score       |       Score |
 +----------------------------------+
-|                                  |
 |       Pregunta actual            |
-|                                  |
 +----------------------------------+
 |  [Resp1] [Resp2] [Resp3]        |
 |  [Resp4] [Resp5] [Resp6]        |
 +----------------------------------+
 |     Strikes: X X X               |
-|  [Siguiente Pregunta]            |
 +----------------------------------+
 ```
 
 **Archivos a crear:**
 
-- `components/game/GameBoard.tsx`
+- `components/game/GameBoardDisplay.tsx`
+- `components/game/GameControlPanel.tsx`
 
 **Dependencias:**
 
-- Issue #16 (useGameState)
+- Issue #16 (route groups, páginas /play/board y /play/control)
+- Issue #17 (BroadcastChannel, useGameBoard)
 - Issues #19-23 (sub-componentes)
 
 ---
@@ -808,7 +798,9 @@ Crear el componente principal que contiene todo el tablero del juego y orquesta 
 **Estimación:** 2 horas
 
 **Descripción:**
-Componente que muestra la pregunta actual del juego de forma destacada.
+Componente que muestra la pregunta actual del juego de forma destacada. Es un componente **puro y reutilizable** en ambas pantallas del juego (`/play/board` y `/play/control`).
+
+> **Contexto Two-Screen:** Este componente no accede a ningún contexto directamente — recibe todo por props. Así puede usarse tanto en el tablero público (datos de `useGameBoard()`) como en el panel del moderador (datos de `useGame()`).
 
 **Tareas:**
 
@@ -818,6 +810,7 @@ Componente que muestra la pregunta actual del juego de forma destacada.
 - [ ] Agregar animación de entrada cuando cambia pregunta
 - [ ] Responsive (texto se ajusta al tamaño de pantalla)
 - [ ] Props: `question`, `roundNumber`, `multiplier`
+- [ ] Sin acceso directo a contexto (solo props)
 
 **Criterios de Aceptación:**
 
@@ -825,6 +818,7 @@ Componente que muestra la pregunta actual del juego de forma destacada.
 - Información adicional (ronda, multiplicador) clara
 - Animación suave al cambiar pregunta
 - Responsive en todos los tamaños
+- Funciona igual en board y control
 
 **Props interface:**
 
@@ -844,6 +838,7 @@ interface QuestionDisplayProps {
 **Dependencias:**
 
 - Issue #12 (tipos)
+- Issue #16 (páginas /play/board y /play/control donde se usa)
 
 ---
 
@@ -854,7 +849,9 @@ interface QuestionDisplayProps {
 **Estimación:** 4-5 horas
 
 **Descripción:**
-Componente para cada respuesta que puede estar oculta o revelada, con animación de flip.
+Componente para cada respuesta que puede estar oculta o revelada, con animación de flip. Soporta modo interactivo (moderador) y modo read-only (tablero público).
+
+> **Contexto Two-Screen:** En `/play/board` las cards son puramente visuales (`interactive={false}`) — no tienen onClick ni hotkeys. En `/play/control` son interactivas y el moderador puede revelarlas con click o teclado.
 
 **Tareas:**
 
@@ -862,15 +859,17 @@ Componente para cada respuesta que puede estar oculta o revelada, con animación
 - [ ] Implementar estado oculto (mostrar solo número)
 - [ ] Implementar estado revelado (mostrar texto y puntos)
 - [ ] Agregar animación de "flip" al revelar
-- [ ] Hacer clickeable para revelar (si juego en fase correcta)
-- [ ] Agregar soporte para hotkeys (número de teclado)
+- [ ] Prop `interactive` (default `true`): cuando `false`, deshabilitar click y hotkeys
+- [ ] Hacer clickeable para revelar (solo si `interactive={true}`)
+- [ ] Agregar soporte para hotkeys (número de teclado, solo en control)
 - [ ] Diseñar estilos atractivos (tipo Family Feud)
 
 **Criterios de Aceptación:**
 
 - Cards se ven profesionales
 - Animación de reveal es fluida y clara
-- Click y hotkeys funcionan correctamente
+- Click y hotkeys funcionan en modo interactivo
+- En modo `interactive={false}` no responde a inputs del usuario
 - Estado oculto/revelado visualmente obvio
 
 **Estados del card:**
@@ -887,6 +886,7 @@ interface AnswerCardProps {
   orderIndex: number
   onReveal: () => void
   disabled?: boolean
+  interactive?: boolean  // false en /play/board
 }
 ```
 
@@ -897,6 +897,7 @@ interface AnswerCardProps {
 **Dependencias:**
 
 - Issue #12 (tipos)
+- Issue #16 (diferencia board vs control)
 
 ---
 
@@ -1003,6 +1004,8 @@ interface StrikeIndicatorProps {
 **Descripción:**
 Componente de timer que cuenta regresivamente y puede usarse opcionalmente durante el juego.
 
+> **Contexto Two-Screen:** El Timer es **fuente de verdad en `/play/control`**. Los ticks se emiten automáticamente via BroadcastChannel (a través de `GameContext`) al tablero público. El board muestra el tiempo recibido — nunca corre su propio timer independiente.
+
 **Tareas:**
 
 - [ ] Crear `components/game/Timer.tsx`
@@ -1010,16 +1013,17 @@ Componente de timer que cuenta regresivamente y puede usarse opcionalmente duran
 - [ ] Mostrar tiempo en formato MM:SS
 - [ ] Cambiar color cuando queda poco tiempo (últimos 10 segundos)
 - [ ] Callback cuando el tiempo se acaba
-- [ ] Controles: start, pause, reset
-- [ ] Agregar sonido/alerta cuando expira (opcional)
+- [ ] Controles: start, pause, reset (solo en `/play/control`)
+- [ ] Prop `readonly` para modo display puro (en `/play/board`)
+- [ ] Agregar sonido/alerta cuando expira (opcional, solo en control)
 
 **Criterios de Aceptación:**
 
-- Timer cuenta correctamente
-- Visual clara y legible
+- Timer cuenta correctamente en el control
+- Board refleja el tiempo del control via BC (sin desync)
 - Callback de onExpire funciona
-- Puede pausarse y resumirse
-- Color/estilo cambia en últimos segundos
+- Puede pausarse y resumirse desde el control
+- Color/estilo cambia en últimos segundos en ambas pantallas
 
 **Props interface:**
 
@@ -1029,6 +1033,7 @@ interface TimerProps {
   isActive: boolean
   onExpire: () => void
   onTick?: (remaining: number) => void
+  readonly?: boolean  // true en /play/board
 }
 ```
 
@@ -1038,7 +1043,7 @@ interface TimerProps {
 
 **Dependencias:**
 
-- Ninguna (standalone component)
+- Issue #17 (BroadcastChannel — ticks llegan al board via estado)
 
 ---
 
@@ -1051,14 +1056,17 @@ interface TimerProps {
 **Descripción:**
 Componente con botones de control del juego (siguiente pregunta, cambiar turno, reset, etc.).
 
+> **Contexto Two-Screen:** `GameControls` es **exclusivo de `/play/control`**. No aparece en el tablero público (`/play/board`). Todas las acciones despachan al `GameContext` → el estado se emite via BroadcastChannel → el board se actualiza automáticamente.
+
 **Tareas:**
 
 - [ ] Crear `components/game/GameControls.tsx`
 - [ ] Botón "Siguiente Pregunta" (disabled si ronda no terminó)
-- [ ] Botón "Cambiar Turno Manualmente" (admin)
+- [ ] Botón "Cambiar Turno Manualmente" (moderador)
 - [ ] Botón "Reiniciar Juego" con confirmación
 - [ ] Botón "Pausar/Reanudar" (si hay timer)
-- [ ] Conectar con useGameState actions
+- [ ] Botón "Agregar Strike" manual
+- [ ] Conectar con `useGame().dispatch` (nunca con `useGameBoard`)
 - [ ] Agregar tooltips explicativos
 
 **Criterios de Aceptación:**
@@ -1066,7 +1074,7 @@ Componente con botones de control del juego (siguiente pregunta, cambiar turno, 
 - Botones funcionan correctamente
 - Estados disabled cuando no aplican
 - Confirmaciones para acciones destructivas
-- Layout claro y organizado
+- Solo renderiza en `/play/control`
 
 **Controles principales:**
 
@@ -1095,7 +1103,8 @@ interface GameControlsProps {
 
 **Dependencias:**
 
-- Issue #16 (useGameState)
+- Issue #16 (ruta /play/control donde vive)
+- Issue #17 (dispatch → BC → board se actualiza)
 - Issue #7 (Button component)
 
 ---
@@ -1268,38 +1277,40 @@ setValue(newValue)
 **Descripción:**
 Integrar localStorage adapter con GameContext para auto-guardar y restaurar estado del juego.
 
+> **Contexto Two-Screen:** Solo el `GameContext` (en `/play/control`) escribe en localStorage. El tablero público (`/play/board`) es read-only y nunca persiste datos. Al recargar `/play/control`, el moderador puede continuar la partida; el board sigue recibiendo el estado via BroadcastChannel normalmente.
+
 **Tareas:**
 
-- [ ] Modificar GameContext para usar localStorage
-- [ ] Auto-guardar estado cuando cambia (debounced)
-- [ ] Cargar estado al iniciar si existe partida guardada
+- [ ] Modificar `contexts/GameContext.tsx` para auto-guardar en localStorage (debounced)
+- [ ] Cargar estado al iniciar si existe partida guardada (solo en `/play/control`)
 - [ ] Mostrar prompt para continuar partida guardada
 - [ ] Implementar "Nuevo Juego" que limpia localStorage
-- [ ] Agregar indicator de "auto-save" en UI
+- [ ] Agregar indicador de "auto-save" en UI del control
 
 **Criterios de Aceptación:**
 
-- Estado se guarda automáticamente durante el juego
-- Al recargar página, se puede continuar partida
+- Estado se guarda automáticamente durante el juego (desde control)
+- Al recargar `/play/control`, se puede continuar partida
 - Usuario puede elegir continuar o iniciar nuevo juego
 - No hay pérdida de progreso
+- `/play/board` no tiene lógica de persistencia
 
 **Flow:**
 
-1. Usuario inicia juego → estado se guarda
-2. Usuario recarga página → se detecta partida guardada
-3. Mostrar modal: "¿Continuar partida anterior?"
-4. Si acepta → cargar estado guardado
-5. Si rechaza → iniciar juego nuevo
+1. Moderador abre `/play/control` → se detecta partida guardada (si existe)
+2. Mostrar modal: "¿Continuar partida anterior?"
+3. Si acepta → cargar estado guardado → BC emite al board automáticamente
+4. Si rechaza → iniciar juego nuevo
 
 **Archivos a modificar:**
 
 - `contexts/GameContext.tsx`
-- `app/(game)/play/page.tsx`
+- `app/(game)/play/control/page.tsx`
 
 **Dependencias:**
 
 - Issue #14 (GameContext)
+- Issue #17 (BC emite estado restaurado al board)
 - Issue #26 (localStorage adapter)
 
 ---
@@ -1311,37 +1322,41 @@ Integrar localStorage adapter con GameContext para auto-guardar y restaurar esta
 **Estimación:** 3-4 horas
 
 **Descripción:**
-Implementar flujo completo de juego sin autenticación usando solo localStorage.
+Implementar flujo completo de juego sin autenticación usando solo localStorage. Con la arquitectura two-screen, el flujo es: setup (`/play`) → moderador en `/play/control` + audiencia en `/play/board`.
+
+> **Contexto Two-Screen:** El flujo sin login usa las rutas creadas en issue #16. La persistencia de datos es responsabilidad de `/play/control` (issue #28). El board se sincroniza via BroadcastChannel automáticamente.
 
 **Tareas:**
 
-- [ ] Crear página `app/(game)/play/page.tsx`
-- [ ] Cargar set de preguntas demo por defecto
-- [ ] Renderizar GameBoard con estado conectado
+- [ ] Completar `app/(game)/play/page.tsx` — configurar partida y redirigir a `/play/control`
+- [ ] Cargar set de preguntas demo por defecto en el setup
 - [ ] Implementar "Guardar set personalizado" en localStorage
-- [ ] Crear página para ver historial local (sin DB)
+- [ ] Crear página para ver historial local (sin DB): `app/(game)/history-local/page.tsx`
 - [ ] Agregar opción de exportar/importar datos (JSON)
+- [ ] Instrucciones en setup: "Abre /play/board en el proyector"
 
 **Criterios de Aceptación:**
 
 - Juego funciona completamente sin login
+- Flujo: `/play` (setup) → `/play/control` (moderador) + `/play/board` (proyector)
 - Preguntas demo cargadas por defecto
 - Historial se guarda y visualiza correctamente
 - Usuario puede crear sets personalizados que persisten
 
-**Páginas a crear:**
+**Páginas a crear/completar:**
 
-- `app/(game)/play/page.tsx` (juego principal)
+- `app/(game)/play/page.tsx` (setup, ya existe como skeleton)
 - `app/(game)/history-local/page.tsx` (historial localStorage)
 
 **Archivos a crear:**
 
-- `app/(game)/play/page.tsx`
 - `app/(game)/history-local/page.tsx`
 
 **Dependencias:**
 
-- Issue #18 (GameBoard)
+- Issue #16 (rutas /play, /play/control, /play/board ya creadas)
+- Issue #17 (BC sync)
+- Issue #18 (GameBoard components)
 - Issue #25 (demo questions)
 - Issue #26 (localStorage adapter)
 - Issue #28 (save/load state)
@@ -1355,36 +1370,42 @@ Implementar flujo completo de juego sin autenticación usando solo localStorage.
 **Estimación:** 3-4 horas
 
 **Descripción:**
-Testing exhaustivo del modo sin login para asegurar que todo funciona correctamente.
+Testing exhaustivo del modo sin login para asegurar que todo funciona correctamente, incluyendo la sincronización two-screen via BroadcastChannel.
+
+> **Contexto Two-Screen:** Agregar escenarios multi-tab: abrir `/play/control` y `/play/board` simultáneamente y verificar sincronización en tiempo real.
 
 **Tareas:**
 
 - [ ] Crear checklist de testing completo
-- [ ] Probar flujo completo: setup → juego → finalizar
-- [ ] Probar guardar/cargar estado
+- [ ] Probar flujo completo: setup (`/play`) → control+board → finalizar
+- [ ] Probar sincronización BC: acciones en control se reflejan en board inmediatamente
+- [ ] Probar guardar/cargar estado (solo desde `/play/control`)
+- [ ] Probar board sin control abierto (debe mostrar "Esperando...")
+- [ ] Probar reabrir control con partida guardada: board debe sincronizarse
 - [ ] Probar en diferentes navegadores (Chrome, Firefox, Safari)
 - [ ] Probar con localStorage vacío, lleno, corrupto
-- [ ] Probar límites (muchas preguntas, largo historial)
 - [ ] Documentar bugs encontrados
 - [ ] Crear issues para bugs críticos
 
 **Criterios de Aceptación:**
 
 - Todos los flujos principales funcionan
+- Sincronización BC en tiempo real sin delay perceptible
+- Board muestra "Esperando panel de control..." cuando control no está abierto
 - No hay bugs críticos
-- Experiencia de usuario es fluida
 - Documentación de issues encontrados
 
 **Escenarios de testing:**
 
-1. Primera vez (localStorage vacío)
-2. Juego completo inicio a fin
-3. Pausar y continuar partida
+1. Primera vez (localStorage vacío): setup → control → board
+2. Juego completo inicio a fin (dos tabs simultáneas)
+3. Pausar y continuar partida (recargar control → board se resincroniza)
 4. Múltiples partidas seguidas
 5. Crear y usar set personalizado
 6. Ver historial de partidas
 7. Exportar/importar datos
-8. Edge cases (cerrar tab, network offline)
+8. **Multi-tab:** Cerrar y reabrir tab del control (board debe volver a "Esperando...")
+9. Edge cases: cerrar board tab, reabrir, recibir estado
 
 **Archivos a crear:**
 
@@ -1392,6 +1413,8 @@ Testing exhaustivo del modo sin login para asegurar que todo funciona correctame
 
 **Dependencias:**
 
+- Issue #16 (rutas /play, /play/control, /play/board)
+- Issue #17 (BroadcastChannel sync)
 - Issues #25-29 (todas las features de localStorage)
 
 ---
@@ -2327,22 +2350,26 @@ Modal o página que muestra preview de un set completo antes de usarlo en una pa
 **Descripción:**
 Implementar lógica para guardar partidas completadas con todos los detalles en Supabase.
 
+> **Contexto Two-Screen:** El guardado ocurre desde `GameContext` en `/play/control` al detectar fase `finished`. Antes de guardar, el estado `finished` ya fue emitido via BroadcastChannel al board (que lo muestra automáticamente). El guardado es transparente para el board.
+
 **Tareas:**
 
-- [ ] Modificar GameContext para detectar cuando juego termina
+- [ ] Modificar `GameContext` para detectar cuando juego termina (`phase === 'finished'`)
+- [ ] Emitir estado `finished` via BroadcastChannel (ya ocurre automáticamente por el issue #17)
 - [ ] Construir objeto GameHistory completo
 - [ ] Guardar en Supabase usando queries del Issue #39
 - [ ] Guardar también game_rounds (detalle por ronda)
 - [ ] Calcular y guardar estadísticas (duración, winner)
 - [ ] Manejar errores de guardado
-- [ ] Mostrar confirmación al usuario
+- [ ] Mostrar confirmación al usuario (en `/play/control`)
 
 **Criterios de Aceptación:**
 
 - Partidas se guardan automáticamente al terminar
+- El board refleja el estado `finished` antes de que empiece el guardado
 - Datos completos (equipos, scores, rondas)
 - No se pierde información
-- Usuario recibe confirmación
+- Moderador recibe confirmación en su panel
 
 **Datos a guardar:**
 
@@ -2368,6 +2395,7 @@ interface GameHistory {
 
 **Dependencias:**
 
+- Issue #17 (BC — estado finished emitido al board antes del guardado)
 - Issue #39 (queries)
 - Issue #41 (storage abstraction)
 
@@ -2606,39 +2634,46 @@ Agregar gráficos visuales para estadísticas usando librería como Recharts.
 **Descripción:**
 Integrar Timer component completamente en el flujo del juego con lógica de expiración.
 
+> **Contexto Two-Screen:** El timer corre **solo en `/play/control`**. Los ticks se emiten via BroadcastChannel automáticamente (el tiempo restante debe estar en `GameState`). El board muestra el tiempo recibido como display puro — nunca corre su propio countdown independiente.
+
 **Tareas:**
 
-- [ ] Conectar Timer con GameContext
+- [ ] Agregar campo `timerRemaining: number | null` a `GameState` en `types/game.types.ts`
+- [ ] Conectar Timer con `GameContext` en `/play/control`
+- [ ] En cada tick del timer: `dispatch({ type: 'TICK_TIMER' })` para actualizar `timerRemaining` en estado → BC lo propaga al board
+- [ ] Al expirar: `dispatch({ type: 'ADD_STRIKE' })` automáticamente
 - [ ] Configurar duración desde setup del juego
-- [ ] Pausar/reanudar timer funciona
-- [ ] Al expirar: agregar strike automáticamente
 - [ ] Opción de desactivar timer en setup
-- [ ] Sonido/alerta al expirar (opcional)
-- [ ] Visual feedback cuando está por expirar (últimos 10 seg)
+- [ ] En `/play/board`: `Timer` con `readonly={true}`, mostrando `state.timerRemaining`
+- [ ] Sonido/alerta al expirar (solo en control, opcional)
+- [ ] Visual feedback cuando está por expirar (últimos 10 seg, en ambas pantallas)
 
 **Criterios de Aceptación:**
 
-- Timer funciona en partida real
-- Expiración causa strike automáticamente
+- Timer corre en `/play/control`, board lo muestra sincronizado
+- Expiración causa strike automáticamente (dispatch desde control)
 - Se puede habilitar/deshabilitar desde setup
-- UX clara, no confunde
+- Sin desync entre control y board
 
 **Comportamiento:**
 
-1. Timer inicia cuando se revela pregunta
-2. Si expira sin respuestas: +1 strike
-3. Timer se resetea en cada nueva pregunta
-4. Se puede pausar manualmente
+1. Timer inicia cuando se revela pregunta (desde control)
+2. Cada tick actualiza `GameState.timerRemaining` → BC sincroniza al board
+3. Si expira: +1 strike via dispatch
+4. Timer se resetea en cada nueva pregunta
 
 **Archivos a modificar:**
 
+- `types/game.types.ts` (agregar timerRemaining)
+- `lib/game/gameEngine.ts` (acción TICK_TIMER)
 - `contexts/GameContext.tsx`
-- `components/game/GameBoard.tsx`
-- `app/(game)/setup/page.tsx`
+- `app/(game)/play/control/page.tsx`
+- `app/(game)/play/board/page.tsx`
 
 **Dependencias:**
 
-- Issue #23 (Timer component)
+- Issue #17 (BroadcastChannel — ticks propagan via estado)
+- Issue #23 (Timer component con prop readonly)
 - Issue #14 (GameContext)
 
 ---
@@ -2652,19 +2687,21 @@ Integrar Timer component completamente en el flujo del juego con lógica de expi
 **Descripción:**
 Implementar completamente la lógica de multiplicadores que incrementan puntos en rondas finales.
 
+> **Contexto Two-Screen:** La lógica de multiplicadores vive en `/play/control` (cálculo y aplicación en `GameEngine`). El `multiplier` ya está en `GameState` y se propaga via BroadcastChannel al board, donde `QuestionDisplay` lo muestra como dato recibido.
+
 **Tareas:**
 
-- [ ] Conectar scoring con multiplicadores
-- [ ] Mostrar multiplicador actual en UI (x1, x2, x3)
+- [ ] Conectar scoring con multiplicadores en `GameEngine`
+- [ ] Mostrar multiplicador actual en `QuestionDisplay` (x1, x2, x3) — en ambas pantallas via estado BC
 - [ ] Aplicar multiplicador al calcular puntos de ronda
-- [ ] Destacar visualmente rondas con multiplicador
-- [ ] Configurar qué rondas tienen multiplicador desde setup
+- [ ] Destacar visualmente rondas con multiplicador (en ambas pantallas)
+- [ ] Configurar qué rondas tienen multiplicador desde setup (`/play`)
 - [ ] Probar cálculos exhaustivamente
 
 **Criterios de Aceptación:**
 
-- Multiplicadores aplican correctamente
-- UI muestra multiplicador claramente
+- Multiplicadores aplican correctamente (lógica en GameEngine)
+- Ambas pantallas muestran el mismo multiplicador (via BC)
 - Puntos se calculan correctamente con multiplicadores
 - No hay bugs en scoring
 
@@ -2681,6 +2718,7 @@ Implementar completamente la lógica de multiplicadores que incrementan puntos e
 
 **Dependencias:**
 
+- Issue #17 (BC — multiplier en GameState llega al board automáticamente)
 - Issue #15 (scoring)
 - Issue #19 (QuestionDisplay)
 
@@ -2695,38 +2733,44 @@ Implementar completamente la lógica de multiplicadores que incrementan puntos e
 **Descripción:**
 Implementar ronda especial de desempate cuando hay empate al final del juego.
 
+> **Contexto Two-Screen:** El desempate es iniciado por el moderador desde `/play/control`. La fase `tiebreaker` se emite via BroadcastChannel al board, que muestra la pregunta extra y el resultado automáticamente.
+
 **Tareas:**
 
-- [ ] Detectar empate al finalizar todas las rondas
-- [ ] Mostrar modal "¡Desempate!"
+- [ ] Detectar empate al finalizar todas las rondas (en `GameEngine`)
+- [ ] Agregar fase `tiebreaker` a `GamePhase` en `types/game.types.ts`
+- [ ] Mostrar modal "¡Desempate!" en `/play/control`
 - [ ] Seleccionar pregunta extra automáticamente
-- [ ] Primera respuesta correcta gana todo
-- [ ] Mostrar ganador después de desempate
+- [ ] Primera respuesta correcta gana todo (dispatch desde control)
+- [ ] El board recibe la fase `tiebreaker` via BC y muestra el estado emocionante
+- [ ] Mostrar ganador después de desempate en ambas pantallas
 - [ ] Opción de desactivar desempate en setup
 
 **Criterios de Aceptación:**
 
 - Desempate se activa correctamente en empate
-- Lógica de "primera respuesta gana" funciona
-- UI clara y emocionante
+- Lógica de "primera respuesta gana" funciona desde control
+- Board muestra la ronda de desempate automáticamente (via BC)
 - Se puede desactivar desde configuración
 
 **Flow de desempate:**
 
-1. Game termina en empate
-2. Modal: "¡Desempate! Primera respuesta correcta gana"
-3. Se muestra pregunta extra
-4. Primer equipo en acertar gana la partida
+1. Game termina en empate → `GameEngine` detecta y transiciona a fase `tiebreaker`
+2. BC emite el estado `tiebreaker` al board
+3. Control muestra modal de acción; board muestra pregunta de desempate
+4. Moderador revela respuestas; primer equipo en acertar gana
 5. Se actualiza winner y se guarda partida
 
 **Archivos a modificar:**
 
 - `contexts/GameContext.tsx`
 - `lib/game/gameEngine.ts`
-- `app/(game)/setup/page.tsx`
+- `types/game.types.ts` (fase tiebreaker)
+- `app/(game)/play/page.tsx` (setup)
 
 **Dependencias:**
 
+- Issue #17 (BC — fase tiebreaker llega al board automáticamente)
 - Issue #13 (gameEngine)
 - Issue #14 (GameContext)
 
@@ -2741,37 +2785,42 @@ Implementar ronda especial de desempate cuando hay empate al final del juego.
 **Descripción:**
 Agregar funcionalidad para pausar y reanudar partida en progreso.
 
+> **Contexto Two-Screen:** La pausa es **comandada desde `/play/control`**. Al pausar, el estado cambia a fase `paused` → BC emite al board → board muestra overlay de pausa automáticamente. El moderador puede reanudar desde su panel.
+
 **Tareas:**
 
-- [ ] Botón "Pausar" en GameControls
-- [ ] Modal de pausa con opciones: Reanudar, Salir
-- [ ] Pausar timer si está activo
-- [ ] Guardar estado al pausar
-- [ ] Overlay sobre tablero cuando está pausado
-- [ ] Prevenir acciones del juego mientras pausado
+- [ ] Agregar fase `paused` a `GamePhase` en `types/game.types.ts`
+- [ ] Botón "Pausar/Reanudar" en `GameControls` (solo en `/play/control`)
+- [ ] `dispatch({ type: 'PAUSE_GAME' })` → BC emite fase `paused` al board
+- [ ] Board: cuando `state.phase === 'paused'`, mostrar overlay sobre tablero
+- [ ] Control: modal/banner indicando "Juego pausado — Presiona Reanudar"
+- [ ] Pausar timer si está activo (detener ticks)
+- [ ] Guardar estado al pausar en localStorage
 
 **Criterios de Aceptación:**
 
-- Pausa bloquea todas las acciones del juego
-- Reanudar continúa exactamente donde quedó
+- Pausa desde control bloquea el board (overlay) automáticamente via BC
+- Reanudar desde control quita el overlay del board
 - Timer se pausa/reanuda correctamente
-- UX clara, no confunde
+- UX clara en ambas pantallas
 
-**Modal de pausa:**
+**Comportamiento two-screen:**
 
-- Mensaje: "Juego pausado"
-- Botón "Reanudar"
-- Botón "Salir" (con confirmación)
-- Mostrar tiempo transcurrido
+- Control pausa → `phase: 'paused'` → BC → board muestra overlay
+- Control reanuda → `phase: 'playing'` → BC → board quita overlay
 
 **Archivos a modificar:**
 
+- `types/game.types.ts` (fase paused)
+- `lib/game/gameEngine.ts` (acción PAUSE_GAME, RESUME_GAME)
 - `contexts/GameContext.tsx`
 - `components/game/GameControls.tsx`
+- `app/(game)/play/board/page.tsx` (overlay de pausa)
 - Crear `components/game/PauseModal.tsx`
 
 **Dependencias:**
 
+- Issue #17 (BC — fase paused/playing se propaga al board)
 - Issue #24 (GameControls)
 
 ---
@@ -2828,26 +2877,29 @@ Expandir página de setup con opciones avanzadas configurables.
 **Estimación:** 2-3 horas
 
 **Descripción:**
-Implementar atajos de teclado para revelar respuestas rápidamente (presionar número 1-8).
+Implementar atajos de teclado para que el moderador revele respuestas y controle el juego rápidamente.
+
+> **Contexto Two-Screen:** Los hotkeys son **exclusivos de `/play/control`**. El tablero público (`/play/board`) no tiene event listeners de teclado — es una pantalla de proyector, no de interacción. Los resultados de los hotkeys se propagan via BroadcastChannel normalmente.
 
 **Tareas:**
 
-- [ ] Agregar event listener de teclado en GameBoard
-- [ ] Mapear teclas 1-8 a respuestas
+- [ ] Agregar event listener de teclado en `GameControlPanel` (solo en `/play/control`)
+- [ ] Mapear teclas 1-8 a revelar respuestas (dispatch → BC → board)
 - [ ] Tecla 'X' o 'S' para agregar strike
 - [ ] Tecla 'N' o '→' para siguiente pregunta
-- [ ] Tecla 'P' para pausar
+- [ ] Tecla 'P' para pausar/reanudar
 - [ ] Mostrar ayuda de hotkeys (modal con '?' o 'H')
-- [ ] Prevenir hotkeys cuando hay modals abiertos
+- [ ] Prevenir hotkeys cuando hay modals abiertos en el control
 
 **Criterios de Aceptación:**
 
-- Hotkeys funcionan correctamente
-- No interfieren con inputs de texto
+- Hotkeys funcionan en `/play/control`
+- No existe listener de teclado en `/play/board`
+- No interfieren con inputs de texto en el control
 - Ayuda de hotkeys accesible y clara
-- Mejora velocidad de juego significativamente
+- Mejora velocidad del moderador significativamente
 
-**Hotkeys principales:**
+**Hotkeys principales (en /play/control):**
 
 - `1-8`: Revelar respuesta correspondiente
 - `Space` o `X`: Agregar strike
@@ -2858,12 +2910,13 @@ Implementar atajos de teclado para revelar respuestas rápidamente (presionar n�
 
 **Archivos a modificar:**
 
-- `components/game/GameBoard.tsx`
+- `components/game/GameControlPanel.tsx`
 - Crear `components/game/HotkeysHelp.tsx`
 
 **Dependencias:**
 
-- Issue #18 (GameBoard)
+- Issue #16 (ruta /play/control donde viven los hotkeys)
+- Issue #18 (GameControlPanel)
 
 ---
 
@@ -2876,38 +2929,43 @@ Implementar atajos de teclado para revelar respuestas rápidamente (presionar n�
 **Estimación:** 6-8 horas
 
 **Descripción:**
-Testing completo de toda la aplicación, todos los flujos y casos de uso.
+Testing completo de toda la aplicación, todos los flujos y casos de uso, incluyendo sincronización two-screen.
+
+> **Contexto Two-Screen:** Agregar checklist de sincronización multi-tab: control + board en tabs separadas. Probar también el caso de BroadcastChannel desconectado.
 
 **Tareas:**
 
 - [ ] Crear checklist completo de testing
-- [ ] Probar flujo sin login (localStorage)
+- [ ] Probar flujo sin login: setup (`/play`) → control+board (dos tabs) → finalizar
 - [ ] Probar flujo con login (Supabase)
 - [ ] Probar CRUD de preguntas completo
-- [ ] Probar juego completo con todas las features
+- [ ] Probar juego completo con todas las features en modo two-screen
+- [ ] Probar sync: acciones en control visibles en board < 100ms
 - [ ] Probar historial y estadísticas
+- [ ] Probar hotkeys (solo en control, no en board)
 - [ ] Probar en múltiples navegadores
-- [ ] Probar en diferentes dispositivos
 - [ ] Documentar todos los bugs encontrados
 - [ ] Crear issues para bugs críticos
 
 **Criterios de Aceptación:**
 
-- Todos los flujos principales probados
+- Todos los flujos principales probados en modo two-screen
+- Sync BC verificada en tiempo real
+- Board sin listeners de teclado/click en respuestas
 - Documentación de bugs completa
-- Priorización de bugs (críticos vs menores)
-- Plan de corrección establecido
 
 **Flujos a probar:**
 
-1. Landing → Setup → Juego → Finalizar (sin login)
-2. Register → Dashboard → Crear preguntas → Jugar
+1. Landing → Setup → Control+Board (dos tabs) → Finalizar (sin login)
+2. Register → Dashboard → Crear preguntas → Jugar two-screen
 3. Login → Ver historial → Ver detalle partida
 4. Importar/Exportar sets de preguntas
 5. Todas las configuraciones del juego
-6. Hotkeys y atajos de teclado
-7. Responsive en todos los tamaños
-8. Performance (loading times, query speed)
+6. Hotkeys en control → board refleja cambios
+7. **BC sync:** abrir control, abrir board, verificar estado inicial en board
+8. **BC desconectado:** cerrar control → board debe mostrar "Esperando..." si se recarga
+9. Responsive: control en laptop, board en pantalla grande (1080p)
+10. Performance (loading times, BC latency)
 
 **Archivos a crear:**
 
@@ -2916,6 +2974,8 @@ Testing completo de toda la aplicación, todos los flujos y casos de uso.
 
 **Dependencias:**
 
+- Issue #16 (rutas two-screen)
+- Issue #17 (BroadcastChannel)
 - Todos los issues anteriores completos
 
 ---
@@ -3007,6 +3067,8 @@ Optimizar performance de la aplicación para mejorar tiempos de carga y experien
 **Descripción:**
 Mejorar manejo de errores en toda la aplicación con mensajes claros y recovery strategies.
 
+> **Contexto Two-Screen:** Agregar manejo específico para pérdida de BroadcastChannel. Si el board pierde conexión (el control se cierra o recarga), debe mostrar "Conexión perdida con el panel de control" en lugar de congelarse.
+
 **Tareas:**
 
 - [ ] Crear componente ErrorBoundary
@@ -3015,12 +3077,14 @@ Mejorar manejo de errores en toda la aplicación con mensajes claros y recovery 
 - [ ] Agregar retry logic en queries fallidas
 - [ ] Implementar fallbacks para errores
 - [ ] Logging de errores (console.error con contexto)
+- [ ] **BC error handling:** en `useGameBoard`, detectar si han pasado N segundos sin mensajes → mostrar banner "Sin señal del panel de control"
 - [ ] Mensajes de error user-friendly
 
 **Criterios de Aceptación:**
 
 - App no crashea con errores no manejados
 - Errores se muestran claramente al usuario
+- Board muestra "Sin señal del panel de control" si BC se interrumpe
 - Retry logic funciona donde aplique
 - Logs ayudan a debugging
 
@@ -3030,12 +3094,18 @@ Mejorar manejo de errores en toda la aplicación con mensajes claros y recovery 
 2. Supabase errors (auth, permissions, queries)
 3. Validation errors (formularios)
 4. 404 (recursos no encontrados)
-5. Unexpected errors (catch-all)
+5. **BC timeout** — board sin mensajes por >5 segundos → "Conexión perdida"
+6. Unexpected errors (catch-all)
 
-**Archivos a crear:**
+**Archivos a crear/modificar:**
 
 - `components/ErrorBoundary.tsx`
 - `lib/utils/errorHandling.ts`
+- `hooks/useGameBoard.ts` (timeout detection)
+
+**Dependencias:**
+
+- Issue #17 (BroadcastChannel)
 
 **Dependencias:**
 
@@ -3052,6 +3122,8 @@ Mejorar manejo de errores en toda la aplicación con mensajes claros y recovery 
 **Descripción:**
 Implementar loading states y skeleton screens para mejorar UX durante cargas.
 
+> **Contexto Two-Screen:** El board (`/play/board`) muestra "Esperando panel de control..." cuando `useGameBoard()` retorna `null` (estado inicial antes del primer mensaje BC). Este estado es el loading state principal del board.
+
 **Tareas:**
 
 - [ ] Crear componentes Skeleton para cada tipo de contenido
@@ -3061,10 +3133,13 @@ Implementar loading states y skeleton screens para mejorar UX durante cargas.
 - [ ] Skeleton para historial
 - [ ] Skeleton para dashboard stats
 - [ ] Shimmer effect para skeletons
+- [ ] **Board loading:** mejorar la pantalla "Esperando panel de control..." con un skeleton del tablero y animación de espera
+- [ ] **Control loading:** spinner mientras se carga el set de preguntas desde localStorage/Supabase
 
 **Criterios de Aceptación:**
 
 - Todas las cargas muestran feedback visual
+- Board muestra loading atractivo mientras espera el primer mensaje BC
 - Skeletons match el layout real
 - UX se siente más fluida
 - No hay pantallas blancas durante carga
@@ -3074,7 +3149,7 @@ Implementar loading states y skeleton screens para mejorar UX durante cargas.
 - QuestionSetSkeleton (cards de sets)
 - GameHistorySkeleton (tabla/cards de historial)
 - StatsSkeleton (cards de stats)
-- GameBoardSkeleton (tablero de juego)
+- GameBoardSkeleton (tablero de juego — usado en `/play/board` estado null)
 
 **Archivos a crear:**
 
@@ -3083,7 +3158,7 @@ Implementar loading states y skeleton screens para mejorar UX durante cargas.
 
 **Dependencias:**
 
-- Ninguna (mejora de UX)
+- Issue #17 (BroadcastChannel — el null state del board es el trigger)
 
 ---
 
