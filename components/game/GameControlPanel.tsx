@@ -259,6 +259,12 @@ export function GameControlPanel(): React.ReactElement {
             Engine: Activo
           </span>
           <span>Fase: {state.phase}</span>
+          {state.phase !== 'setup' && (
+            <span className="flex items-center gap-1 text-green-500/60">
+              <span className="material-symbols-outlined text-[10px] leading-none">save</span>
+              Auto-guardado
+            </span>
+          )}
         </div>
         <span className="text-primary font-bold">La Respuesta más Popular</span>
       </footer>
