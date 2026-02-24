@@ -5,6 +5,8 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { Modal } from '@/components/ui/Modal'
 
+import { GameButton } from '@/components/game/GameButton'
+
 export interface GameControlsProps {
   /** Avanzar a la siguiente pregunta */
   onNextQuestion: () => void
@@ -54,58 +56,51 @@ export function GameControls({
       <div className={`flex flex-col gap-3 ${className}`}>
 
         {/* ── Strike ──────────────────────────────────────────────────────── */}
-        <button
-          type="button"
+        <GameButton
+          variant="action-danger"
+          icon="close"
           onClick={onAddStrike}
           disabled={!canAddStrike}
-          aria-label="Agregar strike al equipo activo"
+          ariaLabel="Agregar strike al equipo activo"
           title={canAddStrike ? 'Agregar strike' : 'Solo disponible en fase de juego'}
-          className="w-full h-14 bg-danger-strike text-white rounded-xl font-black text-base flex items-center justify-center gap-2 hover:brightness-110 active:scale-95 transition-all disabled:opacity-40 disabled:pointer-events-none group"
         >
-          <span className="material-symbols-outlined text-xl font-black group-active:scale-125 transition-transform">
-            close
-          </span>
           STRIKE
-        </button>
+        </GameButton>
 
         {/* ── Siguiente pregunta ───────────────────────────────────────────── */}
-        <button
-          type="button"
+        <GameButton
+          variant="action-gold"
+          icon="arrow_forward"
+          iconPosition="right"
           onClick={onNextQuestion}
           disabled={!canNextQuestion}
-          aria-label="Avanzar a la siguiente pregunta"
+          ariaLabel="Avanzar a la siguiente pregunta"
           title={canNextQuestion ? 'Siguiente pregunta' : 'No disponible en fase de configuración'}
-          className="w-full h-14 bg-primary text-game-board rounded-xl font-black text-sm flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(219,166,31,0.4)] transition-all disabled:opacity-40 disabled:pointer-events-none group"
         >
           SIGUIENTE PREGUNTA
-          <span className="material-symbols-outlined font-black group-hover:translate-x-1 transition-transform">
-            arrow_forward
-          </span>
-        </button>
+        </GameButton>
 
         {/* ── Cambiar turno ────────────────────────────────────────────────── */}
-        <button
-          type="button"
+        <GameButton
+          variant="utility"
+          icon="swap_horiz"
           onClick={onSwitchTeam}
-          aria-label="Cambiar turno al equipo contrario"
+          ariaLabel="Cambiar turno al equipo contrario"
           title="Transferir posesión al equipo contrario"
-          className="w-full py-2.5 bg-game-card border border-warm-border rounded-lg text-xs font-bold text-gray-400 hover:text-white hover:bg-warm-border transition-all flex items-center justify-center gap-2"
         >
-          <span className="material-symbols-outlined text-sm">swap_horiz</span>
           CAMBIAR TURNO
-        </button>
+        </GameButton>
 
         {/* ── Reiniciar juego ──────────────────────────────────────────────── */}
-        <button
-          type="button"
+        <GameButton
+          variant="utility-danger"
+          icon="restart_alt"
           onClick={() => setShowResetConfirm(true)}
-          aria-label="Reiniciar juego completo"
+          ariaLabel="Reiniciar juego completo"
           title="Reiniciar el juego desde el principio"
-          className="w-full py-2.5 bg-transparent border border-warm-border rounded-lg text-xs font-bold text-gray-500 hover:text-danger-strike hover:border-danger-strike/50 transition-all flex items-center justify-center gap-2"
         >
-          <span className="material-symbols-outlined text-sm">restart_alt</span>
           REINICIAR JUEGO
-        </button>
+        </GameButton>
       </div>
 
       {/* ── Modal de confirmación de reset ──────────────────────────────────── */}
