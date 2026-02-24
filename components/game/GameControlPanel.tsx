@@ -3,6 +3,7 @@
 import { useGame } from '@/contexts/GameContext'
 
 import { AnswerCard } from '@/components/game/AnswerCard'
+import { GameControls } from '@/components/game/GameControls'
 import { QuestionDisplay } from '@/components/game/QuestionDisplay'
 import { StrikeIndicator } from '@/components/game/StrikeIndicator'
 import { TeamScore } from '@/components/game/TeamScore'
@@ -50,6 +51,10 @@ export function GameControlPanel(): React.ReactElement {
 
   const handleStealFail = (): void => {
     dispatch({ type: 'ATTEMPT_STEAL', payload: -1 })
+  }
+
+  const handleResetGame = (): void => {
+    dispatch({ type: 'RESET_GAME' })
   }
 
   const isSetupOrFinished = state.phase === 'setup' || state.phase === 'finished'
@@ -219,63 +224,26 @@ export function GameControlPanel(): React.ReactElement {
           )}
         </section>
 
-        {/* ── Columna derecha — strikes + acciones ────────────────────────── */}
+        {/* ── Columna derecha — strikes + controles ───────────────────────── */}
         <section className="w-1/4 flex flex-col gap-6">
 
-          {/* Strikes + botón STRIKE */}
+          {/* Marcador de strikes */}
           <div className="bg-game-card border border-warm-border rounded-2xl p-6 flex flex-col items-center">
             <StrikeIndicator strikes={state.strikes} displayMode="control" />
-
-            {/* Botón STRIKE circular */}
-            <button
-              type="button"
-              onClick={handleAddStrike}
-              disabled={state.phase !== 'playing'}
-              aria-label="Agregar strike"
-              className="mt-8 w-full aspect-square max-w-[180px] bg-danger-strike text-white rounded-full flex flex-col items-center justify-center gap-1 border-[10px] border-game-board shadow-2xl hover:brightness-110 active:scale-95 transition-all disabled:opacity-40 disabled:pointer-events-none group"
-            >
-              <span className="material-symbols-outlined text-7xl font-black group-active:scale-125 transition-transform">
-                close
-              </span>
-              <span className="text-sm font-black uppercase tracking-tighter">STRIKE</span>
-            </button>
-
-            {/* Reset strikes / cambiar turno */}
-            <div className="w-full mt-6">
-              <button
-                type="button"
-                onClick={handleSwitchTeam}
-                disabled={isSetupOrFinished}
-                className="w-full py-2 bg-game-card border border-warm-border rounded-lg text-[10px] font-bold text-gray-400 hover:text-white hover:bg-warm-border transition-all flex items-center justify-center gap-2 disabled:opacity-40 disabled:pointer-events-none"
-              >
-                <span className="material-symbols-outlined text-sm">refresh</span>
-                RESET TURNO
-              </button>
-            </div>
           </div>
 
-          {/* Secuencia de juego */}
-          <div className="bg-primary/5 border border-primary/20 p-6 rounded-2xl mt-auto space-y-4">
-            <h4 className="text-center text-[10px] font-bold text-primary uppercase tracking-[0.2em]">
-              Secuencia de Juego
-            </h4>
-            <div className="space-y-3">
-              <button
-                type="button"
-                onClick={handleNextQuestion}
-                disabled={state.phase === 'setup'}
-                className="w-full h-16 bg-primary text-game-board rounded-xl font-black text-lg hover:shadow-[0_0_20px_rgba(219,166,31,0.4)] transition-all flex items-center justify-center gap-3 group px-4 disabled:opacity-40 disabled:pointer-events-none"
-              >
-                <span className="leading-tight">SIGUIENTE PREGUNTA</span>
-                <span className="material-symbols-outlined font-black group-hover:translate-x-1 transition-transform">
-                  arrow_forward
-                </span>
-              </button>
-            </div>
-          </div>
+          {/* Botones de acción — GameControls */}
+          <GameControls
+            onNextQuestion={handleNextQuestion}
+            onAddStrike={handleAddStrike}
+            onSwitchTeam={handleSwitchTeam}
+            onResetGame={handleResetGame}
+            canNextQuestion={!isSetupOrFinished}
+            canAddStrike={state.phase === 'playing'}
+          />
 
           {/* Estado de conexión */}
-          <div className="flex items-center justify-center gap-3 py-2 px-4 bg-game-card/30 rounded-full border border-warm-border/50">
+          <div className="mt-auto flex items-center justify-center gap-3 py-2 px-4 bg-game-card/30 rounded-full border border-warm-border/50">
             <div className="size-2 rounded-full bg-green-500 animate-pulse" />
             <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
               Tablero conectado
