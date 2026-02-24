@@ -3,6 +3,7 @@
 import { useGame } from '@/contexts/GameContext'
 
 import { AnswerCard } from '@/components/game/AnswerCard'
+import { GameButton } from '@/components/game/GameButton'
 import { GameControls } from '@/components/game/GameControls'
 import { QuestionDisplay } from '@/components/game/QuestionDisplay'
 import { StrikeIndicator } from '@/components/game/StrikeIndicator'
@@ -145,15 +146,15 @@ export function GameControlPanel(): React.ReactElement {
           />
 
           {/* Cambiar turno manual */}
-          <button
-            type="button"
+          <GameButton
+            variant="utility"
+            icon="swap_horiz"
             onClick={handleSwitchTeam}
             disabled={isSetupOrFinished}
-            className="w-full py-2 bg-game-card border border-warm-border rounded-lg text-[10px] font-bold text-gray-400 hover:text-white hover:bg-warm-border transition-all flex items-center justify-center gap-2 disabled:opacity-40 disabled:pointer-events-none"
+            ariaLabel="Cambiar turno al equipo contrario"
           >
-            <span className="material-symbols-outlined text-sm">swap_horiz</span>
             CAMBIAR TURNO
-          </button>
+          </GameButton>
 
           {/* Fase de robo */}
           <div className="mt-auto border-t border-warm-border pt-4">
@@ -164,24 +165,22 @@ export function GameControlPanel(): React.ReactElement {
               className={`bg-game-card/30 border border-dashed border-warm-border rounded-xl p-3 space-y-2 transition-opacity duration-300
                 ${state.phase !== 'stealing' ? 'opacity-40 pointer-events-none' : ''}`}
             >
-              <button
-                type="button"
+              <GameButton
+                variant="steal-gold"
+                icon="swap_horiz"
                 onClick={handleStealSuccess}
-                aria-label="Robo exitoso"
-                className="w-full py-3 bg-game-card border border-primary/20 text-primary rounded-lg font-black text-xs flex items-center justify-center gap-2 hover:bg-primary hover:text-game-board transition-all"
+                ariaLabel="Robo exitoso"
               >
-                <span className="material-symbols-outlined text-sm">swap_horiz</span>
                 ROBO EXITOSO
-              </button>
-              <button
-                type="button"
+              </GameButton>
+              <GameButton
+                variant="steal-danger"
+                icon="close"
                 onClick={handleStealFail}
-                aria-label="Robo fallido"
-                className="w-full py-3 bg-game-card border border-danger-strike/20 text-danger-strike rounded-lg font-black text-xs flex items-center justify-center gap-2 hover:bg-danger-strike hover:text-white transition-all"
+                ariaLabel="Robo fallido"
               >
-                <span className="material-symbols-outlined text-sm">close</span>
                 ROBO FALLIDO
-              </button>
+              </GameButton>
             </div>
           </div>
         </section>
