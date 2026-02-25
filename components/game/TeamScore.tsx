@@ -9,6 +9,8 @@ export interface TeamScoreProps {
    * `control` → fila compacta del panel de moderador.
    */
   displayMode?: 'board' | 'control'
+  /** Solo en `control`: indica que este equipo es el que intenta robar en la fase de robo */
+  isStealing?: boolean
   className?: string
 }
 
@@ -28,6 +30,7 @@ export function TeamScore({
   isActive,
   variant,
   displayMode = 'board',
+  isStealing = false,
   className = '',
 }: TeamScoreProps): React.ReactElement {
   // En control mode, team2 usa azul (no hay token, es estándar Tailwind)
@@ -85,7 +88,9 @@ export function TeamScore({
       className={`relative bg-game-card border rounded-xl p-4 transition-all duration-500
         ${isActive
           ? 'border-2 border-primary possession-glow'
-          : 'border border-warm-border opacity-70 hover:opacity-100'
+          : isStealing
+            ? 'border-2 border-danger-strike/70 shadow-[0_0_16px_rgba(188,44,44,0.25)]'
+            : 'border border-warm-border opacity-70 hover:opacity-100'
         }
         ${className}`}
     >
@@ -94,6 +99,14 @@ export function TeamScore({
         <div className="absolute -top-2 -right-2 bg-primary text-game-board text-[10px] font-black px-2 py-0.5 rounded-full shadow-lg flex items-center gap-1">
           <span className="material-symbols-outlined text-[10px]">stars</span>
           POSESIÓN
+        </div>
+      )}
+
+      {/* Badge de robo */}
+      {isStealing && (
+        <div className="absolute -top-2 -right-2 bg-danger-strike text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow-lg flex items-center gap-1">
+          <span className="material-symbols-outlined text-[10px]">swap_horiz</span>
+          ROBANDO
         </div>
       )}
 

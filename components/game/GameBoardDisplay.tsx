@@ -29,6 +29,8 @@ function noop(): void {}
 export function GameBoardDisplay({ state }: GameBoardDisplayProps): React.ReactElement {
   const currentQuestion = state.questions[state.currentQuestionIndex]
 
+  const stealingTeamName = state.activeTeam === 'team1' ? state.team2.name : state.team1.name
+
   if (state.phase === 'setup' || !currentQuestion) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-game-board">
@@ -124,6 +126,26 @@ export function GameBoardDisplay({ state }: GameBoardDisplayProps): React.ReactE
           />
         </aside>
       </main>
+
+      {/* Banner de fase de robo */}
+      {state.phase === 'stealing' && (
+        <div
+          className="fixed bottom-0 left-0 w-full z-30 flex items-center justify-center gap-4 py-4 bg-danger-strike/15 border-t-2 border-danger-strike/60 backdrop-blur-sm animate-overlay-in"
+          role="status"
+          aria-live="polite"
+        >
+          <span className="material-symbols-outlined text-danger-strike text-2xl" aria-hidden="true">
+            swap_horiz
+          </span>
+          <p className="text-sm font-black uppercase tracking-[0.25em] text-danger-strike">
+            Fase de Robo
+          </p>
+          <span className="text-warm-border-subtle">·</span>
+          <p className="text-sm font-black uppercase tracking-[0.25em] text-white">
+            {stealingTeamName}
+          </p>
+        </div>
+      )}
     </div>
   )
 }

@@ -16,9 +16,10 @@ export type Team = 'team1' | 'team2'
  * - `setup`    → configuración antes de iniciar
  * - `playing`  → equipo activo respondiendo
  * - `stealing` → equipo contrario intenta robar puntos
+ * - `scored`   → robo resuelto; se pueden revelar respuestas restantes sin puntuar
  * - `finished` → ronda o juego terminado
  */
-export type GamePhase = 'setup' | 'playing' | 'stealing' | 'finished'
+export type GamePhase = 'setup' | 'playing' | 'stealing' | 'scored' | 'finished'
 
 // ─── Interfaces de datos ────────────────────────────────────────────────────
 

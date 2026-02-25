@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+
 import { useGame } from '@/contexts/GameContext'
 
 import { AnswerCard } from '@/components/game/AnswerCard'
@@ -27,7 +29,13 @@ export function GameControlPanel(): React.ReactElement {
   // ─── Handlers ──────────────────────────────────────────────────────────────
 
   const handleRevealAnswer = (idx: number): void => {
-    dispatch({ type: 'REVEAL_ANSWER', payload: idx })
+    if (state.phase === 'stealing') {
+      // En fase de robo, revelar una respuesta = intento de robo con esa respuesta
+      dispatch({ type: 'ATTEMPT_STEAL', payload: idx })
+    } else {
+      // En 'playing' suma puntos; en 'scored' solo revela sin sumar
+      dispatch({ type: 'REVEAL_ANSWER', payload: idx })
+    }
   }
 
   const handleAddStrike = (): void => {
@@ -60,8 +68,75 @@ export function GameControlPanel(): React.ReactElement {
 
   const isSetupOrFinished = state.phase === 'setup' || state.phase === 'finished'
 
+  // Equipo que roba: el contrario del que tiene posesión activa
+  const stealingTeamName = state.activeTeam === 'team1' ? state.team2.name : state.team1.name
+
+  // Overlay dramático — se muestra una vez por pregunta al entrar en fase 'stealing'.
+  // Almacenamos el índice de pregunta en que fue descartado, en lugar de un bool que requiere useEffect.
+  const [overlayDismissedAt, setOverlayDismissedAt] = useState<number | null>(null)
+  const showStrikeOverlay =
+    state.phase === 'stealing' && overlayDismissedAt !== state.currentQuestionIndex
+
   return (
     <div className="min-h-screen bg-game-moderator flex flex-col overflow-hidden">
+
+      {/* ── Overlay 3 Strikes ───────────────────────────────────────────────── */}
+      {showStrikeOverlay && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center animate-overlay-in"
+          role="alertdialog"
+          aria-modal="true"
+          aria-label="3 strikes — turno de robo"
+        >
+          {/* Backdrop — clic para descartar */}
+          <div
+            className="absolute inset-0 bg-black/85 backdrop-blur-md"
+            onClick={() => setOverlayDismissedAt(state.currentQuestionIndex)}
+          />
+
+          {/* Panel central */}
+          <div className="relative z-10 flex flex-col items-center gap-6 bg-game-card border border-danger-strike/40 rounded-3xl px-16 py-12 shadow-[0_0_100px_rgba(188,44,44,0.35)]">
+
+            {/* Tres X animadas con stagger */}
+            <div className="flex gap-6" aria-hidden="true">
+              {[0, 1, 2].map(i => (
+                <span
+                  key={i}
+                  style={{ animationDelay: `${i * 0.12}s` }}
+                  className="material-symbols-outlined text-[80px] leading-none text-glow-red animate-strike-in"
+                >
+                  close
+                </span>
+              ))}
+            </div>
+
+            {/* Título */}
+            <h2 className="text-5xl font-black uppercase italic tracking-widest text-danger-strike">
+              ¡3 Strikes!
+            </h2>
+
+            {/* Equipo que roba */}
+            <div className="flex flex-col items-center gap-1 text-center">
+              <p className="text-[11px] text-gray-500 font-bold uppercase tracking-[0.2em]">
+                Turno de robo para
+              </p>
+              <p className="text-2xl font-black uppercase tracking-wider text-white">
+                {stealingTeamName}
+              </p>
+            </div>
+
+            {/* CTA */}
+            <button
+              type="button"
+              onClick={() => setOverlayDismissedAt(state.currentQuestionIndex)}
+              className="mt-2 px-10 py-3 rounded-xl bg-game-board border border-warm-border text-sm font-black uppercase tracking-widest text-gray-300 hover:text-white hover:border-primary/50 transition-colors"
+              aria-label="Continuar al turno de robo"
+            >
+              Continuar al Robo →
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* ── Sticky header ──────────────────────────────────────────────────── */}
       <header className="flex items-center justify-between border-b border-warm-border px-6 py-2 bg-game-card/50 backdrop-blur-md sticky top-0 z-50">
@@ -133,6 +208,7 @@ export function GameControlPanel(): React.ReactElement {
             teamName={state.team1.name}
             score={state.team1.score}
             isActive={state.activeTeam === 'team1'}
+            isStealing={state.phase === 'stealing' && state.activeTeam !== 'team1'}
             variant="team1"
             displayMode="control"
           />
@@ -141,6 +217,7 @@ export function GameControlPanel(): React.ReactElement {
             teamName={state.team2.name}
             score={state.team2.score}
             isActive={state.activeTeam === 'team2'}
+            isStealing={state.phase === 'stealing' && state.activeTeam !== 'team2'}
             variant="team2"
             displayMode="control"
           />
@@ -162,8 +239,11 @@ export function GameControlPanel(): React.ReactElement {
               Fase de Robo
             </p>
             <div
-              className={`bg-game-card/30 border border-dashed border-warm-border rounded-xl p-3 space-y-2 transition-opacity duration-300
-                ${state.phase !== 'stealing' ? 'opacity-40 pointer-events-none' : ''}`}
+              className={`rounded-xl p-3 space-y-2 transition-all duration-300
+                ${state.phase === 'stealing'
+                  ? 'bg-danger-strike/10 border border-danger-strike/50 shadow-[0_0_20px_rgba(188,44,44,0.2)]'
+                  : 'bg-game-card/30 border border-dashed border-warm-border opacity-40 pointer-events-none'
+                }`}
             >
               <GameButton
                 variant="steal-gold"

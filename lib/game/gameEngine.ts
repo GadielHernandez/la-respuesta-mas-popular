@@ -96,7 +96,7 @@ export const gameEngine = {
    *   devuelve el estado sin cambios.
    */
   revealAnswer(state: GameState, answerIndex: number): GameState {
-    if (state.phase !== 'playing') return state
+    if (state.phase !== 'playing' && state.phase !== 'scored') return state
     if (state.revealedAnswers.includes(answerIndex)) return state
 
     const currentQuestion = state.questions[state.currentQuestionIndex]
@@ -108,7 +108,8 @@ export const gameEngine = {
     return {
       ...state,
       revealedAnswers: [...state.revealedAnswers, answerIndex],
-      roundPoints: state.roundPoints + answer.points,
+      // En fase 'scored' los puntos ya fueron asignados — no sumar más al acumulado
+      roundPoints: state.phase === 'playing' ? state.roundPoints + answer.points : state.roundPoints,
     }
   },
 
@@ -176,7 +177,12 @@ export const gameEngine = {
     // El ganador: si acertó → equipo contrario; si falló → equipo activo original
     const winner: Team = isCorrect ? opponent(state.activeTeam) : state.activeTeam
 
-    return advanceQuestion(awardPoints(stateWithReveal, winner))
+    // Asignar puntos y pasar a 'scored': el moderador puede revelar respuestas
+    // restantes (sin puntuar más) antes de avanzar con NEXT_QUESTION.
+    return {
+      ...awardPoints(stateWithReveal, winner),
+      phase: 'scored',
+    }
   },
 
   /**
@@ -188,6 +194,8 @@ export const gameEngine = {
    * - Si era la última pregunta, la fase pasa a `finished`.
    */
   nextQuestion(state: GameState): GameState {
+    // En 'scored' los puntos ya fueron asignados (vía attemptSteal) — solo avanzar
+    if (state.phase === 'scored') return advanceQuestion(state)
     return advanceQuestion(awardPoints(state, state.activeTeam))
   },
 
