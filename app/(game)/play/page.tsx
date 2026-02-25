@@ -32,6 +32,7 @@ export default function PlaySetupPage(): React.ReactElement {
   const [team2Name, setTeam2Name] = useState('Equipo 2')
   const [totalRounds, setTotalRounds] = useState(5)
   const [selectedSetId, setSelectedSetId] = useState(DEMO_QUESTION_SET.id)
+  const [boardBlocked, setBoardBlocked] = useState(false)
 
   const selectedSet = allSets.find(s => s.id === selectedSetId) ?? DEMO_QUESTION_SET
   const maxRounds = selectedSet.questions.length
@@ -44,6 +45,15 @@ export default function PlaySetupPage(): React.ReactElement {
       questions: selectedSet.questions,
     }
     dispatch({ type: 'RESET_GAME', payload: config })
+
+    // Abrir el tablero público en nueva pestaña para el proyector.
+    // window.open retorna null si el browser bloquea el popup.
+    const boardWindow = window.open('/play/board', '_blank')
+    if (boardWindow === null) {
+      setBoardBlocked(true)
+      return
+    }
+
     router.push('/play/control')
   }
 
@@ -247,8 +257,7 @@ export default function PlaySetupPage(): React.ReactElement {
                 </li>
                 <li className="flex gap-2 text-[11px] text-gray-400">
                   <span className="shrink-0 size-4 rounded-full bg-primary/20 text-primary font-black text-[10px] flex items-center justify-center">2</span>
-                  En el proyector o TV, abre:
-                  <code className="font-mono text-primary bg-game-card px-1 rounded text-[10px] ml-1">/play/board</code>
+                  El <span className="font-bold text-white mx-1">Tablero</span> se abre automáticamente — muévelo al proyector
                 </li>
                 <li className="flex gap-2 text-[11px] text-gray-400">
                   <span className="shrink-0 size-4 rounded-full bg-primary/20 text-primary font-black text-[10px] flex items-center justify-center">3</span>
@@ -271,15 +280,45 @@ export default function PlaySetupPage(): React.ReactElement {
               </p>
             </div>
 
-            <button
-              type="button"
-              onClick={handleLaunch}
-              className="w-full h-16 rounded-2xl bg-primary text-game-board font-black text-lg uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(219,166,31,0.3)]"
-              aria-label="Lanzar juego"
-            >
-              <span className="material-symbols-outlined text-2xl">rocket_launch</span>
-              Lanzar Juego
-            </button>
+            {/* Aviso cuando el browser bloquea el popup del tablero */}
+            {boardBlocked && (
+              <div className="bg-warning/10 border border-warning/40 rounded-xl p-4 flex flex-col gap-2">
+                <p className="text-[11px] font-black uppercase tracking-widest text-warning flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-base">warning</span>
+                  Popup bloqueado por el navegador
+                </p>
+                <p className="text-[11px] text-gray-400">
+                  Abre el tablero manualmente en el proyector:
+                </p>
+                <a
+                  href="/play/board"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-primary text-xs underline underline-offset-2 hover:text-primary-light transition-colors"
+                >
+                  /play/board
+                </a>
+                <button
+                  type="button"
+                  onClick={() => router.push('/play/control')}
+                  className="mt-1 w-full py-2 rounded-lg bg-game-board border border-warm-border text-xs font-bold uppercase tracking-widest text-gray-300 hover:text-white hover:border-primary/50 transition-colors"
+                >
+                  Continuar al Panel de Control →
+                </button>
+              </div>
+            )}
+
+            {!boardBlocked && (
+              <button
+                type="button"
+                onClick={handleLaunch}
+                className="w-full h-16 rounded-2xl bg-primary text-game-board font-black text-lg uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(219,166,31,0.3)]"
+                aria-label="Lanzar juego"
+              >
+                <span className="material-symbols-outlined text-2xl">rocket_launch</span>
+                Lanzar Juego
+              </button>
+            )}
           </div>
         </section>
       </main>
