@@ -19,6 +19,7 @@ interface InputProps {
   required?: boolean
   name?: string
   id?: string
+  autoComplete?: string
   className?: string
   sizing?: 'sm' | 'md' | 'lg'
 }
@@ -35,6 +36,7 @@ export const Input: React.FC<InputProps> = ({
   required = false,
   name,
   id,
+  autoComplete,
   className = '',
   sizing = 'md',
 }) => {
@@ -59,6 +61,7 @@ export const Input: React.FC<InputProps> = ({
         onChange={onChange}
         disabled={disabled}
         required={required}
+        autoComplete={autoComplete}
         color={color}
         sizing={sizing}
       />
