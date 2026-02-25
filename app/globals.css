@@ -1,6 +1,4 @@
-/* Material Symbols Outlined — iconografía del proyecto (STYLE_GUIDE) */
-/* Debe ir antes de @import 'tailwindcss' por la especificación CSS */
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+/* Material Symbols Outlined — cargado via <link> en app/layout.tsx (no @import; ignorado por Tailwind v4) */
 
 /* Import Tailwind CSS */
 @import 'tailwindcss';
