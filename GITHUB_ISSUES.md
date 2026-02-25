@@ -3677,13 +3677,165 @@ Agregar soporte para múltiples idiomas (Español, Inglés).
 
 ---
 
+---
+
+### Issue #79: Abrir tablero automáticamente al lanzar el juego
+
+**Labels:** `enhancement`, `game-flow`, `P1: Critical`
+**Milestone:** Phase 6: Game Flow
+**Estimación:** 1-2 horas
+
+**Descripción:**
+Cuando el moderador hace clic en "Lanzar Juego" en `/play`, el tablero público (`/play/board`) debe abrirse automáticamente en una nueva ventana/pestaña del navegador. Actualmente, la instrucción manual del paso 2 ("En el proyector o TV, abre /play/board") es innecesariamente manual para el escenario de mismo dispositivo con múltiples pantallas.
+
+**Comportamiento actual:**
+- Clic en "Lanzar Juego" → navega a `/play/control` en la misma pestaña
+- El moderador debe abrir `/play/board` manualmente en el proyector
+
+**Comportamiento esperado:**
+- Clic en "Lanzar Juego" → abre `/play/board` en nueva ventana (`window.open`) + navega a `/play/control`
+- El tablero queda disponible inmediatamente para mover al proyector
+
+**Tareas:**
+
+- [ ] Modificar `handleLaunch` en `app/(game)/play/page.tsx` para llamar `window.open('/play/board', '_blank')` antes del `router.push`
+- [ ] Actualizar texto de instrucciones en la sección "Display Setup" (paso 2): indicar que el tablero se abre automáticamente
+- [ ] Manejar el caso donde el navegador bloquea popups (mostrar aviso al usuario)
+
+**Criterios de Aceptación:**
+
+- Al lanzar el juego, `/play/board` se abre automáticamente en nueva pestaña
+- El moderador llega a `/play/control` en la pestaña original
+- Si el browser bloquea el popup, el usuario ve un mensaje claro con la URL para abrir manualmente
+- Las instrucciones de "Display Setup" están actualizadas
+
+**Archivos a modificar:**
+
+- `app/(game)/play/page.tsx` — función `handleLaunch`
+
+**Dependencias:**
+
+- Issue #19 (GameBoardDisplay + GameControlPanel — completado)
+- Issue #30 (conectar UI localStorage — completado)
+
+> **Contexto Two-Screen:** El BroadcastChannel solo funciona entre ventanas del mismo origen en el mismo dispositivo. Abrir `/play/board` via `window.open` garantiza que ambas ventanas estén en el mismo contexto y la sincronización funcione sin configuración adicional.
+
+---
+
+### Issue #80: Notificación dramática de strikes y transición a fase de robo
+
+**Labels:** `enhancement`, `game-flow`, `ux`, `P1: Critical`
+**Milestone:** Phase 6: Game Flow
+**Estimación:** 3-5 horas
+
+**Descripción:**
+Implementar una notificación visual dramática cuando se acumulan 3 strikes, y mejorar la transición explícita a la fase de "stealing" (robo) donde el equipo contrario tiene la oportunidad de robar los puntos acumulados de la ronda.
+
+**Comportamiento actual:**
+- Los strikes se muestran en `StrikeIndicator` pero la transición a la fase de robo no tiene feedback visual dramático
+- El moderador debe inferir que la fase cambió a `stealing` por el estado del panel
+
+**Comportamiento esperado:**
+- Al añadir el tercer strike: animación/overlay de "3 Strikes" en `GameControlPanel`
+- Notificación clara de que el turno pasa al equipo contrario para "robar"
+- En la fase `stealing`, el panel muestra claramente qué equipo está robando y los controles correctos
+- Si el equipo que roba acierta → suma los puntos al marcador, avanza ronda
+- Si el equipo que roba falla → los puntos se pierden (o se asignan al equipo original, según reglas)
+
+**Tareas:**
+
+- [ ] Agregar estado de notificación en `GameContext` o localmente en `GameControlPanel`
+- [ ] Crear componente `StrikeOverlay` (overlay modal) para la notificación de 3 strikes
+- [ ] Actualizar `GameControlPanel` para mostrar controles específicos de fase `stealing`
+- [ ] Actualizar `GameBoardDisplay` para reflejar visualmente la fase de robo en el tablero público
+- [ ] Revisar lógica de `gameEngine.ts` para asegurar transición correcta `playing` → `stealing`
+- [ ] Documentar las reglas de puntuación en fase de robo (¿puntos perdidos o al equipo que robó?)
+
+**Criterios de Aceptación:**
+
+- 3 strikes muestran feedback dramático e inconfundible
+- La fase `stealing` es visualmente distinguible de `playing`
+- El moderador tiene control claro sobre la resolución del robo (acierto/fallo)
+- El tablero público (board) también refleja la fase de robo
+- Sin cambios en la API del GameContext reducer
+
+**Archivos a modificar:**
+
+- `components/game/GameControlPanel.tsx`
+- `components/game/GameBoardDisplay.tsx`
+- `lib/game/gameEngine.ts` (si hay ajustes de lógica)
+- `contexts/GameContext.tsx` (si se agregan acciones)
+
+**Dependencias:**
+
+- Issue #19 (GameBoardDisplay + GameControlPanel — completado)
+- Issue #30 (conectar UI localStorage — completado)
+
+> **Contexto Two-Screen:** La notificación de strikes debe emitirse via BroadcastChannel para que el tablero público (`/play/board`) también reaccione visualmente.
+
+---
+
+### Issue #81: Mecánica de posesión inicial de ronda (face-off)
+
+**Labels:** `enhancement`, `game-mechanics`, `P2: Medium`
+**Milestone:** Phase 6: Game Flow
+**Estimación:** 4-6 horas
+
+**Descripción:**
+Implementar la mecánica de "posesión inicial" al comenzar cada ronda: el moderador determina qué equipo intenta responder primero. En el juego clásico esto se decide mediante un "face-off" donde un jugador de cada equipo compite por la respuesta más popular, pero en esta implementación el moderador lo asigna manualmente (sin fase de face-off automática en MVP).
+
+**Comportamiento actual:**
+- Cada ronda comienza directamente con `team1` como `activeTeam` (hardcodeado en el engine)
+- No hay manera de asignar posesión al inicio de la ronda
+
+**Comportamiento esperado:**
+- Al iniciar una nueva ronda (o al inicio del juego), el panel de control muestra una pantalla/overlay de "Face-Off" o "¿Quién controla?"
+- El moderador hace clic en el equipo que ganó el face-off → ese equipo recibe la posesión
+- El estado `activeTeam` se actualiza correctamente antes de comenzar a revelar respuestas
+- El tablero público muestra qué equipo tiene la posesión
+
+**Tareas:**
+
+- [ ] Agregar fase `face-off` a `GamePhase` en `types/game.types.ts`
+- [ ] Actualizar `gameEngine.ts`: nueva acción `START_ROUND` que pone fase en `face-off`
+- [ ] Actualizar `GameContext` reducer: manejar acción `ASSIGN_POSSESSION` con payload `team: Team`
+- [ ] Actualizar `GameControlPanel`: mostrar UI de face-off (dos botones grandes, uno por equipo) en fase `face-off`
+- [ ] Actualizar `GameBoardDisplay`: mostrar "Face-Off" en el tablero público durante esa fase
+- [ ] Verificar que el historial de partidas (`GameResult`) registre correctamente las posesiones
+
+**Criterios de Aceptación:**
+
+- El moderador puede asignar posesión al inicio de cada ronda
+- La posesión se refleja en `activeTeam` antes de la primera respuesta
+- El tablero público muestra la fase de face-off claramente
+- Las transiciones `face-off` → `playing` → `stealing` → (siguiente ronda) son coherentes
+- `GamePhase` tiene el valor `face-off` bien tipado
+
+**Archivos a modificar:**
+
+- `types/game.types.ts` — agregar `'face-off'` a `GamePhase`
+- `lib/game/gameEngine.ts` — nueva acción `START_ROUND`
+- `contexts/GameContext.tsx` — nueva acción `ASSIGN_POSSESSION`
+- `components/game/GameControlPanel.tsx` — UI de face-off
+- `components/game/GameBoardDisplay.tsx` — display de face-off
+
+**Dependencias:**
+
+- Issue #19 (GameBoardDisplay + GameControlPanel — completado)
+- Issue #30 (conectar UI localStorage — completado)
+- Issue #80 (strike notification — recomendado completar antes)
+
+> **Contexto Two-Screen:** La fase `face-off` debe propagarse via BroadcastChannel para que el tablero público también muestre la pantalla de face-off antes de comenzar a revelar respuestas.
+
+---
+
 **FIN DE ISSUES**
 
 ---
 
 ## Resumen
 
-**Total de issues:** 78
+**Total de issues:** 81
 **Fases:** 11
 **Estimación total:** ~200-250 horas de desarrollo
 
