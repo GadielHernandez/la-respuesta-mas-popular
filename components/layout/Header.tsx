@@ -1,12 +1,27 @@
 'use client'
 
+import { useState } from 'react'
 import { Navbar, NavbarBrand, NavbarToggle } from 'flowbite-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
-import { Button } from '@/components/ui/Button'
+import { useAuth } from '@/contexts/AuthContext'
+import { localStorageAdapter } from '@/lib/storage/localStorage'
 import { Navigation } from './Navigation'
 
-export function Header() {
+export function Header(): React.ReactElement {
+  const router = useRouter()
+  const { user, isLoading, isAuthenticated, signOut } = useAuth()
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
+
+  const handleLogout = async (): Promise<void> => {
+    setIsLoggingOut(true)
+    // Limpiar partida en curso — no quedan datos de sesión activa
+    localStorageAdapter.clearCurrentGame()
+    await signOut()
+    router.push('/')
+  }
+
   return (
     <header className="border-b border-warm-border-light">
       <Navbar fluid>
@@ -28,11 +43,49 @@ export function Header() {
         </NavbarBrand>
 
         <div className="flex items-center gap-2 md:order-2">
-          {/* Auth placeholder — se reemplaza en issue #32-#34 */}
-          <Button variant="primary" size="sm">
-            <span className="material-symbols-outlined text-base leading-none">account_circle</span>
-            Iniciar Sesión
-          </Button>
+          {isLoading ? (
+            /* Skeleton mientras se verifica la sesión */
+            <div className="h-8 w-24 animate-pulse rounded-lg bg-warm-border" />
+          ) : isAuthenticated ? (
+            /* Usuario autenticado */
+            <div className="flex items-center gap-2">
+              <Link
+                href="/dashboard"
+                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-warm-border text-[11px] font-bold uppercase tracking-wider text-gray-400
+                  hover:border-primary/40 hover:text-primary transition-colors"
+              >
+                <span className="material-symbols-outlined text-sm leading-none">account_circle</span>
+                {user?.email?.split('@')[0]}
+              </Link>
+              <button
+                onClick={handleLogout}
+                disabled={isLoggingOut}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-warm-border text-[11px] font-bold uppercase tracking-wider text-gray-400
+                  hover:border-danger-strike/50 hover:text-danger-strike transition-colors
+                  disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Cerrar sesión"
+              >
+                {isLoggingOut ? (
+                  <span className="material-symbols-outlined text-sm leading-none animate-spin">
+                    progress_activity
+                  </span>
+                ) : (
+                  <span className="material-symbols-outlined text-sm leading-none">logout</span>
+                )}
+                <span className="hidden sm:inline">Salir</span>
+              </button>
+            </div>
+          ) : (
+            /* Sin sesión */
+            <Link
+              href="/login"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary text-game-board text-[11px] font-black uppercase tracking-wider
+                hover:brightness-110 active:scale-95 transition-all shadow-[0_0_20px_rgba(219,166,31,0.2)]"
+            >
+              <span className="material-symbols-outlined text-base leading-none">account_circle</span>
+              Iniciar Sesión
+            </Link>
+          )}
           <NavbarToggle />
         </div>
 
