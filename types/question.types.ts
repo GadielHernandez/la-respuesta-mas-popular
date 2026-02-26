@@ -27,6 +27,8 @@ export interface Question {
   text: string
   /** Lista de respuestas ordenadas por `orderIndex` */
   answers: Answer[]
+  /** Multiplicador de puntos para esta pregunta (default 1) */
+  multiplier?: number
 }
 
 // ─── Set de preguntas ────────────────────────────────────────────────────────
@@ -39,6 +41,8 @@ export interface QuestionSet {
   title: string
   /** Descripción opcional */
   description?: string
+  /** Si el set es visible para todos los usuarios */
+  isPublic: boolean
   /** Preguntas que contiene el set */
   questions: Question[]
   /** ID del usuario propietario (null si es demo/público) */
@@ -55,6 +59,7 @@ export interface QuestionSetSummary {
   id: string
   title: string
   description?: string
+  isPublic: boolean
   questionCount: number
   userId: string | null
   createdAt: string

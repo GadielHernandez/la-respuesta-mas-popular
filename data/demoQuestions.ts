@@ -15,6 +15,7 @@ export const DEMO_QUESTION_SET: QuestionSet = {
   id: 'demo-set-001',
   title: '100 Mexicanos Dijeron — Demo',
   description: 'Preguntas de demostración para jugar sin necesidad de crear cuenta',
+  isPublic: true,
   userId: null,
   createdAt: '2026-01-01T00:00:00.000Z',
   updatedAt: '2026-01-01T00:00:00.000Z',
