@@ -46,8 +46,13 @@ export function useStorage(): StorageAdapter {
 
     prevUserIdRef.current = currentUserId
 
-    // Primera ejecución: solo inicializa la ref, no migra
-    if (prevUserId === undefined) return
+    if (prevUserId === undefined) {
+      // Primera ejecución: si ya hay sesión activa, migrar datos locales pendientes
+      if (currentUserId && user) {
+        migrateLocalStorageToSupabase(currentUserId, adapter).catch(() => {})
+      }
+      return
+    }
 
     // Detectar login: usuario pasa de null a tener id
     if (!prevUserId && currentUserId && user) {
