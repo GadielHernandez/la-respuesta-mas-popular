@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react'
 
+import { questionValidation } from '@/lib/validation/questionValidation'
 import type { Answer, Question } from '@/types/question.types'
 
 // ─── Props ────────────────────────────────────────────────────────────────────
@@ -183,19 +184,27 @@ export function QuestionForm({
     const newErrors: typeof errors = {}
     const answerRowErrors: Record<number, string> = {}
 
+    // Validar texto de la pregunta
     if (!text.trim()) {
       newErrors.text = 'La pregunta no puede estar vacía'
     }
 
+    // Validar número de respuestas
     if (answers.length < 2) {
       newErrors.answers = 'Añade al menos 2 respuestas'
+    } else {
+      // Detectar respuestas duplicadas
+      const texts = answers.map(a => a.text.trim().toLowerCase()).filter(t => t.length > 0)
+      if (texts.length !== new Set(texts).size) {
+        newErrors.answers = 'Hay respuestas con texto duplicado'
+      }
     }
 
+    // Validar cada respuesta usando el módulo de validación
     answers.forEach((a, i) => {
-      if (!a.text.trim()) {
-        answerRowErrors[i] = 'El texto de la respuesta es obligatorio'
-      } else if (a.points <= 0) {
-        answerRowErrors[i] = 'Los puntos deben ser mayores a 0'
+      const result = questionValidation.validateAnswer(a)
+      if (!result.isValid) {
+        answerRowErrors[i] = result.errors[0]
       }
     })
 

@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react'
 
+import { questionValidation } from '@/lib/validation/questionValidation'
 import type { Answer, Question, QuestionSet } from '@/types/question.types'
 
 // ─── Tipos internos ───────────────────────────────────────────────────────────
@@ -357,19 +358,27 @@ export function QuestionSetEditor({
     questions.forEach((q, qi) => {
       const qErrors: Record<string, string> = {}
 
+      // Validar texto de la pregunta
       if (!q.text.trim()) {
         qErrors.text = 'La pregunta no puede estar vacía'
       }
 
+      // Validar número de respuestas
       if (q.answers.length < 2) {
         qErrors.answers = 'Cada pregunta debe tener al menos 2 respuestas'
+      } else {
+        // Detectar respuestas duplicadas
+        const texts = q.answers.map(a => a.text.trim().toLowerCase()).filter(t => t.length > 0)
+        if (texts.length !== new Set(texts).size) {
+          qErrors.answers = 'Hay respuestas con texto duplicado'
+        }
       }
 
+      // Validar cada respuesta usando el módulo de validación
       q.answers.forEach((a, ai) => {
-        if (!a.text.trim()) {
-          qErrors[`answer_${ai}`] = 'El texto de la respuesta es obligatorio'
-        } else if (a.points <= 0) {
-          qErrors[`answer_${ai}`] = 'Los puntos deben ser mayores a 0'
+        const result = questionValidation.validateAnswer(a)
+        if (!result.isValid) {
+          qErrors[`answer_${ai}`] = result.errors[0]
         }
       })
 
