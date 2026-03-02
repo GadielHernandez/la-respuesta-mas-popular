@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
 
 import { useAuth } from '@/contexts/AuthContext'
 import { useStorage } from '@/hooks/useStorage'
 import { Modal } from '@/components/ui/Modal'
+import { exportSetToJSON, parseImportedSet } from '@/lib/utils/importExport'
 import type { QuestionSet } from '@/types/question.types'
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -42,9 +43,10 @@ function EmptyState(): React.ReactElement {
 interface SetCardProps {
   set: QuestionSet
   onDelete: () => void
+  onExport: () => void
 }
 
-function SetCard({ set, onDelete }: SetCardProps): React.ReactElement {
+function SetCard({ set, onDelete, onExport }: SetCardProps): React.ReactElement {
   return (
     <div className="bg-game-card border border-warm-border rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center gap-4 hover:border-warm-border-subtle transition-colors">
 
@@ -97,6 +99,16 @@ function SetCard({ set, onDelete }: SetCardProps): React.ReactElement {
           <span className="hidden sm:inline">Editar</span>
         </Link>
 
+        {/* Exportar */}
+        <button
+          onClick={onExport}
+          className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-warm-border text-[11px] font-bold uppercase tracking-widest text-gray-400 hover:border-primary/40 hover:text-primary transition-colors"
+          aria-label={`Exportar ${set.title} como JSON`}
+        >
+          <span className="material-symbols-outlined text-sm leading-none">download</span>
+          <span className="hidden sm:inline">Exportar</span>
+        </button>
+
         {/* Eliminar */}
         <button
           onClick={onDelete}
@@ -120,8 +132,12 @@ export default function MyQuestionsPage(): React.ReactElement {
   const [sets, setSets] = useState<QuestionSet[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<QuestionSet | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [isImporting, setIsImporting] = useState(false)
+
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   // ── Cargar sets ──────────────────────────────────────────────────────────
 
@@ -160,6 +176,49 @@ export default function MyQuestionsPage(): React.ReactElement {
     }
   }
 
+  // ── Exportar set ─────────────────────────────────────────────────────────
+
+  const handleExport = (set: QuestionSet): void => {
+    exportSetToJSON(set)
+  }
+
+  // ── Importar set ─────────────────────────────────────────────────────────
+
+  const handleImportClick = (): void => {
+    setError(null)
+    setSuccessMessage(null)
+    fileInputRef.current?.click()
+  }
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Reset input para permitir importar el mismo archivo de nuevo
+    e.target.value = ''
+
+    if (!file.name.endsWith('.json')) {
+      setError('El archivo debe ser un .json')
+      return
+    }
+
+    setIsImporting(true)
+    setError(null)
+    setSuccessMessage(null)
+
+    try {
+      const text = await file.text()
+      const imported = parseImportedSet(text)
+      await storage.saveQuestionSet(imported, user?.id)
+      setSets(prev => [imported, ...prev])
+      setSuccessMessage(`"${imported.title}" importado correctamente`)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error al importar el archivo')
+    } finally {
+      setIsImporting(false)
+    }
+  }
+
   // ── Loading ──────────────────────────────────────────────────────────────
 
   if (authLoading || isLoading) {
@@ -178,6 +237,16 @@ export default function MyQuestionsPage(): React.ReactElement {
     <div className="min-h-screen bg-game-config">
       <div className="fixed inset-0 spotlight pointer-events-none opacity-20" />
 
+      {/* Input de archivo oculto para importar */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".json"
+        className="hidden"
+        aria-label="Seleccionar archivo JSON para importar"
+        onChange={handleFileChange}
+      />
+
       <div className="relative z-10 max-w-4xl mx-auto px-4 py-10">
 
         {/* ── Header ───────────────────────────────────────────────────────── */}
@@ -191,14 +260,32 @@ export default function MyQuestionsPage(): React.ReactElement {
             </h1>
           </div>
 
-          <Link
-            href="/my-questions/new"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary/10 border border-primary/30 text-xs font-black uppercase tracking-widest text-primary hover:bg-primary/20 hover:border-primary/60 hover:shadow-[0_0_20px_rgba(219,166,31,0.15)] transition-all shrink-0"
-          >
-            <span className="material-symbols-outlined text-sm leading-none">add</span>
-            <span className="hidden sm:inline">Nuevo Set</span>
-            <span className="sm:hidden">Nuevo</span>
-          </Link>
+          <div className="flex items-center gap-2 shrink-0">
+            {/* Importar */}
+            <button
+              onClick={handleImportClick}
+              disabled={isImporting}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-warm-border text-xs font-black uppercase tracking-widest text-gray-400 hover:border-primary/40 hover:text-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              aria-label="Importar set desde archivo JSON"
+            >
+              {isImporting ? (
+                <span className="material-symbols-outlined text-sm animate-spin leading-none">progress_activity</span>
+              ) : (
+                <span className="material-symbols-outlined text-sm leading-none">upload</span>
+              )}
+              <span className="hidden sm:inline">{isImporting ? 'Importando…' : 'Importar'}</span>
+            </button>
+
+            {/* Nuevo Set */}
+            <Link
+              href="/my-questions/new"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary/10 border border-primary/30 text-xs font-black uppercase tracking-widest text-primary hover:bg-primary/20 hover:border-primary/60 hover:shadow-[0_0_20px_rgba(219,166,31,0.15)] transition-all"
+            >
+              <span className="material-symbols-outlined text-sm leading-none">add</span>
+              <span className="hidden sm:inline">Nuevo Set</span>
+              <span className="sm:hidden">Nuevo</span>
+            </Link>
+          </div>
         </div>
 
         {/* ── Stats rápidas ─────────────────────────────────────────────────── */}
@@ -229,6 +316,14 @@ export default function MyQuestionsPage(): React.ReactElement {
           </div>
         )}
 
+        {/* ── Éxito ────────────────────────────────────────────────────────── */}
+        {successMessage && (
+          <div className="mb-6 flex items-center gap-3 px-4 py-3 rounded-xl border border-success/40 bg-success/10 text-sm text-green-400">
+            <span className="material-symbols-outlined text-base shrink-0">check_circle</span>
+            {successMessage}
+          </div>
+        )}
+
         {/* ── Error ────────────────────────────────────────────────────────── */}
         {error && (
           <div className="mb-6 flex items-center gap-3 px-4 py-3 rounded-xl border border-danger-strike/40 bg-danger-strike/10 text-sm text-red-400">
@@ -247,6 +342,7 @@ export default function MyQuestionsPage(): React.ReactElement {
                 key={set.id}
                 set={set}
                 onDelete={() => setDeleteTarget(set)}
+                onExport={() => handleExport(set)}
               />
             ))}
           </div>
