@@ -62,6 +62,8 @@ export interface GameState {
   multiplier: number
   /** Lista de preguntas de la partida */
   questions: Question[]
+  /** ID del set de preguntas usado (opcional para sets de demo) */
+  questionSetId?: string
 }
 
 /**
@@ -77,6 +79,8 @@ export interface GameConfig {
   totalRounds: number
   /** Preguntas que se jugarán */
   questions: Question[]
+  /** ID del set de preguntas seleccionado (opcional para sets de demo) */
+  questionSetId?: string
 }
 
 /** Resultado de una partida completada, listo para persistir */
@@ -87,8 +91,8 @@ export interface GameResult {
   winner: Team | 'draw'
   totalRounds: number
   completedAt: string
-  /** ID del set de preguntas usado */
-  questionSetId: string
+  /** ID del set de preguntas usado (opcional para sets de demo) */
+  questionSetId?: string
 }
 
 // ─── Acciones del reducer ───────────────────────────────────────────────────

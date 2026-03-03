@@ -85,6 +85,7 @@ export const gameEngine = {
       roundPoints: 0,
       multiplier: 1,
       questions: config.questions,
+      questionSetId: config.questionSetId,
     }
   },
 
