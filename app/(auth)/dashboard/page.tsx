@@ -143,7 +143,7 @@ export default function DashboardPage(): React.ReactElement {
             </span>
           </Link>
           <Link
-            href="/history-local"
+            href="/history"
             className="group bg-game-card border border-warm-border rounded-2xl p-5 flex flex-col items-center gap-3
               hover:border-primary/40 hover:bg-game-panel transition-all"
           >
