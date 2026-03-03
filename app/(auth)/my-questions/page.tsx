@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useAuth } from '@/contexts/AuthContext'
 import { useStorage } from '@/hooks/useStorage'
 import { Modal } from '@/components/ui/Modal'
+import { QuestionSetPreview } from '@/components/questions/QuestionSetPreview'
 import { exportSetToJSON, parseImportedSet } from '@/lib/utils/importExport'
 import type { QuestionSet } from '@/types/question.types'
 
@@ -44,9 +45,10 @@ interface SetCardProps {
   set: QuestionSet
   onDelete: () => void
   onExport: () => void
+  onPreview: () => void
 }
 
-function SetCard({ set, onDelete, onExport }: SetCardProps): React.ReactElement {
+function SetCard({ set, onDelete, onExport, onPreview }: SetCardProps): React.ReactElement {
   return (
     <div className="bg-game-card border border-warm-border rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center gap-4 hover:border-warm-border-subtle transition-colors">
 
@@ -79,6 +81,16 @@ function SetCard({ set, onDelete, onExport }: SetCardProps): React.ReactElement 
 
       {/* ── Acciones ──────────────────────────────────────────────────────── */}
       <div className="flex items-center gap-2 shrink-0">
+        {/* Preview */}
+        <button
+          onClick={onPreview}
+          className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-warm-border text-[11px] font-bold uppercase tracking-widest text-gray-400 hover:border-primary/40 hover:text-primary transition-colors"
+          aria-label={`Ver preview de ${set.title}`}
+        >
+          <span className="material-symbols-outlined text-sm leading-none">visibility</span>
+          <span className="hidden sm:inline">Ver</span>
+        </button>
+
         {/* Jugar con este set */}
         <Link
           href="/play"
@@ -136,6 +148,7 @@ export default function MyQuestionsPage(): React.ReactElement {
   const [deleteTarget, setDeleteTarget] = useState<QuestionSet | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
   const [isImporting, setIsImporting] = useState(false)
+  const [previewTarget, setPreviewTarget] = useState<QuestionSet | null>(null)
 
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -343,12 +356,53 @@ export default function MyQuestionsPage(): React.ReactElement {
                 set={set}
                 onDelete={() => setDeleteTarget(set)}
                 onExport={() => handleExport(set)}
+                onPreview={() => setPreviewTarget(set)}
               />
             ))}
           </div>
         )}
 
       </div>
+
+      {/* ── Modal de preview de set ──────────────────────────────────────────── */}
+      {previewTarget && (
+        <Modal
+          isOpen={previewTarget !== null}
+          onClose={() => setPreviewTarget(null)}
+          title={previewTarget.title}
+          size="lg"
+          footer={
+            <div className="flex items-center justify-between gap-3 w-full">
+              <button
+                onClick={() => setPreviewTarget(null)}
+                className="px-4 py-2 rounded-xl border border-warm-border text-xs font-bold uppercase tracking-widest text-gray-400 hover:border-gray-500 hover:text-white transition-colors"
+              >
+                Cerrar
+              </button>
+              <div className="flex items-center gap-2">
+                <Link
+                  href={`/my-questions/${previewTarget.id}/edit`}
+                  onClick={() => setPreviewTarget(null)}
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-warm-border text-xs font-bold uppercase tracking-widest text-gray-400 hover:border-primary/40 hover:text-primary transition-colors"
+                >
+                  <span className="material-symbols-outlined text-sm leading-none">edit</span>
+                  Editar
+                </Link>
+                <Link
+                  href="/play"
+                  onClick={() => setPreviewTarget(null)}
+                  className="flex items-center gap-1.5 px-5 py-2 rounded-xl bg-primary text-game-board text-xs font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-[0_0_20px_rgba(219,166,31,0.2)]"
+                >
+                  <span className="material-symbols-outlined text-sm leading-none">play_circle</span>
+                  Jugar con este set
+                </Link>
+              </div>
+            </div>
+          }
+        >
+          <QuestionSetPreview set={previewTarget} />
+        </Modal>
+      )}
 
       {/* ── Modal de confirmación de eliminación ─────────────────────────────── */}
       <Modal
