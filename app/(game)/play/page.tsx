@@ -43,6 +43,7 @@ export default function PlaySetupPage(): React.ReactElement {
       team2Name: team2Name.trim() || 'Equipo 2',
       totalRounds: Math.min(totalRounds, maxRounds),
       questions: selectedSet.questions,
+      questionSetId: selectedSetId,
     }
     dispatch({ type: 'RESET_GAME', payload: config })
 

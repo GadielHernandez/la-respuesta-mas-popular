@@ -28,7 +28,9 @@ import { createContext, useCallback, useContext, useEffect, useReducer, useRef, 
 import { GAME_CHANNEL_NAME, type GameChannelMessage } from '@/lib/game/broadcastChannel'
 import { gameEngine } from '@/lib/game/gameEngine'
 import { localStorageAdapter } from '@/lib/storage/localStorage'
-import type { GameAction, GameState } from '@/types/game.types'
+import { getStorageAdapter } from '@/lib/storage/storageManager'
+import { useAuth } from '@/contexts/AuthContext'
+import type { GameAction, GameResult, GameState, Team } from '@/types/game.types'
 
 // ─── Estado inicial ──────────────────────────────────────────────────────────
 
@@ -100,6 +102,8 @@ interface GameContextType {
   hasSavedGame: boolean
   /** Restaura el estado completo desde localStorage y cierra el prompt */
   restoreSavedGame: () => void
+  /** Estado del guardado de la partida finalizada */
+  gameSaveState: 'idle' | 'saving' | 'saved' | 'error'
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined)
@@ -124,6 +128,17 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const [state, baseDispatch] = useReducer(gameReducer, initialState)
   const channelRef = useRef<BroadcastChannel | null>(null)
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // ── Auth ────────────────────────────────────────────────────────────────────
+  const { user } = useAuth()
+  // Ref to access current user inside async callbacks without stale closure
+  const userRef = useRef(user)
+  useEffect(() => { userRef.current = user }, [user])
+
+  // ── Game save state ─────────────────────────────────────────────────────────
+  const [gameSaveState, setGameSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
+  const startedAtRef = useRef<string | null>(null)
+  const savedGameIdRef = useRef<string | null>(null)
 
   // Partida guardada detectada al montar. Lazy initializer: lee localStorage
   // una sola vez en el cliente; retorna null en SSR para evitar mismatch.
@@ -169,15 +184,66 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     }
   }, [state])
 
+  // ── Persistencia en Supabase al finalizar ─────────────────────────────────
+
+  // Track game start time: record once (via ref only) when phase first leaves 'setup'
+  useEffect(() => {
+    if (state.phase === 'setup') {
+      startedAtRef.current = null
+    } else if (!startedAtRef.current) {
+      startedAtRef.current = new Date().toISOString()
+    }
+  }, [state.phase])
+
+  // Save completed game to storage (Supabase if authenticated, localStorage otherwise)
+  useEffect(() => {
+    if (state.phase !== 'finished') return
+    if (savedGameIdRef.current === state.id) return // already saved
+
+    savedGameIdRef.current = state.id
+
+    const completedAt = new Date().toISOString()
+    const winner: Team | 'draw' =
+      state.team1.score > state.team2.score ? 'team1'
+      : state.team2.score > state.team1.score ? 'team2'
+      : 'draw'
+
+    const result: GameResult = {
+      id: state.id,
+      team1: state.team1,
+      team2: state.team2,
+      winner,
+      totalRounds: state.totalRounds,
+      completedAt,
+      questionSetId: state.questionSetId,
+    }
+
+    const currentUser = userRef.current
+    const adapter = getStorageAdapter(currentUser)
+
+    Promise.resolve(adapter.saveGameHistory(result, currentUser?.id))
+      .then(() => {
+        localStorageAdapter.clearCurrentGame()
+        setGameSaveState('saved')
+      })
+      .catch(() => {
+        setGameSaveState('error')
+      })
+  }, [state.phase, state.id]) // eslint-disable-line react-hooks/exhaustive-deps
+
   // ── Dispatch envuelto ─────────────────────────────────────────────────────
 
   /**
-   * Dispatch que intercepta `RESET_GAME` sin payload para limpiar localStorage.
+   * Dispatch que intercepta `RESET_GAME` para limpiar localStorage y
+   * reiniciar el estado de guardado.
    */
   const dispatch: React.Dispatch<GameAction> = useCallback(
     (action) => {
-      if (action.type === 'RESET_GAME' && !action.payload) {
+      if (action.type === 'RESET_GAME') {
         localStorageAdapter.clearCurrentGame()
+        startedAtRef.current = null
+        savedGameIdRef.current = null
+        setGameSaveState('idle')
       }
       baseDispatch(action)
     },
@@ -195,7 +261,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   // ─────────────────────────────────────────────────────────────────────────
 
   return (
-    <GameContext.Provider value={{ state, dispatch, hasSavedGame, restoreSavedGame }}>
+    <GameContext.Provider value={{ state, dispatch, hasSavedGame, restoreSavedGame, gameSaveState }}>
       {children}
     </GameContext.Provider>
   )
